@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>优化器理论学习计划 — 殷润轩</title>
+<link rel="stylesheet" href="./katex/katex.min.css">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="./index.html">← 返回首页</a><h2>目录</h2><nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#优化器理论学习--阅读顺序总表"
+id="toc-优化器理论学习--阅读顺序总表">优化器理论学习 — 阅读顺序总表</a>
+<ul>
+<li><a href="#总表" id="toc-总表">总表</a></li>
+<li><a href="#兴趣支线深度学习理论不阻塞主线有余力再读"
+id="toc-兴趣支线深度学习理论不阻塞主线有余力再读">兴趣支线：深度学习理论（不阻塞主线，有余力再读）</a></li>
+<li><a href="#本地材料位置" id="toc-本地材料位置">本地材料位置</a></li>
+<li><a href="#需要先补的数学工具用不到就不用学"
+id="toc-需要先补的数学工具用不到就不用学">需要先补的数学工具（用不到就不用学）</a></li>
+<li><a href="#三条主干线索读的时候心里有数"
+id="toc-三条主干线索读的时候心里有数">三条主干线索（读的时候心里有数）</a></li>
+<li><a href="#跟踪对象" id="toc-跟踪对象">跟踪对象</a></li>
+</ul></li>
+</ul>
+</nav></nav>
+<main>
+<div class="masthead">
+    <h1>优化器理论学习计划</h1>
+    <div class="sub">从零开始 · 优化器理论 / Scaling Law / 深度学习理论</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 2026-09-21</div>
+  </div>
+<h1 id="优化器理论学习--阅读顺序总表">优化器理论学习 — 阅读顺序总表</h1>
+<blockquote>
+<p><strong>用法</strong>：从第 1 行往下读，不要跳。
+<strong>主线</strong>：OptimAI-Lab 课程 <a
+href="https://optimai-lab.github.io/LLM-OPT/">https://optimai-lab.github.io/LLM-OPT/</a>
+（你导师参与编写）
+<strong>本地材料</strong>：<code>processing/</code>（导师给）、<code>veryinterested/</code>（自己挑）
+<strong>制定日期</strong>：2026-09-20</p>
+</blockquote>
+<hr />
+<h2 id="总表">总表</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td>课程主页目录</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/">optimai-lab.github.io/LLM-OPT</a></td>
+<td>先知道这门课有哪四章、每章讲什么</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td>课程 Ch.1：1.1 优化简介 + 1.2 记号</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter1/intro_to_optimization.html">1.1</a>
+｜ <a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter1/notations.html">1.2</a></td>
+<td>全课程统一记号（参数 <span class="math">w</span>、损失
+<span class="math">\ell</span>、期望
+<span class="math">\mathbb{E}</span> 等），后面不查会卡</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td>课程 <strong>Ch.3 大语言模型导论</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter3/LLM.html">Ch.3</a></td>
+<td>⭐
+补深度学习空白：参数/权重矩阵、前向传播、反向传播、mini-batch、归一化层、训练损失</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td>课程 §2.1–2.4 经典优化理论</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter2/optimization.html">2.1–2.4</a></td>
+<td>可快速过（你修过最优化方法）：无约束优化、梯度方法、约束优化</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td>课程 §2.5 对偶、Lagrange 乘子、KKT</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter2/Duality.html">2.5</a></td>
+<td>⭐ <strong>这篇要认真看</strong>：KKT 与对偶是导师与 Mingyi Hong
+的数学语言；后面 R²VPO 用原始-对偶框架实现约束</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td>课程 <strong>§4.1 SGD</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/sgd.html">4.1</a></td>
+<td>随机梯度、收敛定理 4.1（光滑性下
+<span class="math">\eta_t\le 1/L</span>）、步长上界的来源</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td>Bottou, Curtis &amp; Nocedal — Optimization Methods for Large-Scale
+ML（第 1–3 节）</td>
+<td><a href="https://arxiv.org/abs/1606.04838">arXiv:1606.04838</a></td>
+<td>把"随机梯度"当数学对象处理：无偏性、方差、批大小；数学系口味的综述</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td>动手：PyTorch 训练循环 + batch size 实验</td>
+<td>自己写（课程 §4.2.1 有参考代码）</td>
+<td>亲手看到"方差随 batch size 下降"；<code>W = W - lr*grad</code> 与
+<code>optimizer.step()</code> 的关系</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td>Ruder — Overview of Gradient Descent Algorithms</td>
+<td><a href="https://arxiv.org/abs/1609.04747">arXiv:1609.04747</a></td>
+<td>当词典：SGD / 动量 / AdaGrad / RMSProp / Adam 各解决什么问题</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-1为什么神经网络训练不是经典优化问题">⛳ 检查点
+1｜为什么神经网络训练不是经典优化问题</h3>
+<blockquote>
+<p><strong>核心洞察 ①：两个"不干净"</strong>
+你课上学过的优化（凸、确定性、低维）在深度学习里<strong>三个前提全被破坏</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>前提</th>
+<th>经典优化</th>
+<th>神经网络训练</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>梯度可得</td>
+<td>精确梯度</td>
+<td><strong>随机梯度</strong>（mini-batch），无偏但有方差</td>
+</tr>
+<tr>
+<td>凸性</td>
+<td>凸/强凸 → 全局最优</td>
+<td><strong>高度非凸</strong>，且维度
+<span class="math">10^8\sim10^{12}</span></td>
+</tr>
+<tr>
+<td>规模</td>
+<td>小规模、可算 Hessian</td>
+<td>巨大，<strong>二阶信息不可直接使用</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>后面 85
+行里的所有优化器，都是在处理这三处破坏的后果。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：方差不是"噪声"，是"约束"</strong>
+随机梯度的方差直接决定了<strong>步长的上限</strong>：方差越大，步长必须越小，否则更新被噪声主导。
+反过来，减小方差的有效手段（增大
+batch、动量平滑）都能允许更大步长——这就是"动量≈更大
+batch"这个说法的实质。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：目标函数不同</strong>
+我们在训练集上最小化，真正关心的是<strong>泛化</strong>。所以"训练损失降到多少"不是目的。
+这门课后面所有的收敛性分析，都是在<strong>优化目标</strong>上做的——而优化好不等于泛化好（第
+25 行 Wilson 那篇主题）。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>为什么 mini-batch 梯度是无偏的？写出期望。</li>
+<li>方差随 batch size 怎么变？是 <span class="math">1/B</span> 还是
+<span class="math">1/\sqrt{B}</span>？</li>
+<li>非凸优化里"收敛"指什么？为什么不是收敛到全局最优？</li>
+<li>这门课为什么要先花一整章讲 LLM 结构，才回头讲优化？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="5" type="1">
+<li>用偏差-方差语言解释：为什么学习率太大会发散、太小会浪费？</li>
+<li>若把 batch size 扩大 4
+倍，为了保持相同的"噪声/信号比"，学习率大概该怎么调？（提示：与线性缩放规则有关，见第
+35 行）</li>
+<li>训练损失持续下降到接近 0，是否说明模型变好了？为什么？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>10</strong></td>
+<td>课程 <strong>§4.2.1 mini-batch 与动量</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>动量的本质：梯度 EMA 是"更大 batch 的估计"；SGD-M 更新式</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>11</strong></td>
+<td>Sutskever et al. — On the Importance of Initialization and
+Momentum</td>
+<td><a href="https://www.cs.toronto.edu/~fritz/absps/momentum.pdf">ICML
+2013</a></td>
+<td>动量为什么有效的经典实证＋理论；Nesterov 与经典动量的区别</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>12</strong></td>
+<td>Nesterov — A Method of Solving a Convex Programming Problem with
+Rate O(1/k²)（1983）</td>
+<td><a href="https://doi.org/10.30757/ALGCM.v13i02.06">DOI</a></td>
+<td>加速梯度的源头结果，凸优化里的地位</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>13</strong></td>
+<td>可选：Why Momentum Really Works（Goh, Distill 2017）</td>
+<td><a
+href="https://distill.pub/2017/momentum/">distill.pub/2017/momentum</a>
+｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/当Batch%20Size增大时，学习率该如何随之变化.html">当
+Batch Size 增大时，学习率该如何随之变化</a></td>
+<td>交互式谱分析：在凸二次型上用特征分解推出动量的精确动力学。📌
+附带那篇讲 batch size 与 lr 的联动，<strong>与第 35
+行的线性缩放规则同题</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-2动量到底在做什么">⛳ 检查点
+2｜动量到底在做什么</h3>
+<blockquote>
+<p><strong>核心洞察 ①：动量 = 方差缩减，不是"加速"</strong> 梯度 EMA
+<span class="math display">\bar g^t=(1-\beta)\sum_{\tau=1}^{t}\beta^{t-\tau}g^\tau</span>
+用的是<strong>过去很多步的梯度</strong>，因此相当于一个<strong>大得多的
+batch</strong>
+的估计。前提是相邻几步的参数点足够近（步长不能太大），否则"平滑"的其实是不同位置的梯度，反而引入偏差。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：有效 batch size 的换算</strong> 若
+<span class="math">\beta=0.9</span>，EMA 的有效窗口约
+<span class="math">1/(1-\beta)=10</span> 步。所以在 batch size
+<span class="math">B</span> 下用动量，效果上接近用
+<span class="math">10B</span> 的
+batch——但<strong>显存开销不变</strong>。这就是课程说"<span class="math">B</span>
+可以显著小于 mini-batch SGD 的 <span class="math">B</span>"的含义。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：动量还能改善条件数</strong>
+在二次型上做谱分析可以看到：动量对<strong>不同曲率方向</strong>的收敛速度影响不同，能抑制"峡谷"方向的震荡。所以动量同时缓解两个问题——<strong>梯度噪声</strong>与<strong>病态条件数</strong>。经典结论是后者（Nesterov
+加速）在凸优化里更本质；而在深度学习里前者往往更实际。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出 SGD-M 的更新式，并说明 <span class="math">g^t</span> 与
+<span class="math">m^t</span> 的关系。</li>
+<li>为什么 EMA 能让梯度估计更准？这个论证依赖什么前提？</li>
+<li>Nesterov 与经典动量的区别在哪？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li><span class="math">\beta=0.99</span>
+时的有效窗口是多少步？这带来什么代价？</li>
+<li>动量同时能缓解"方差"和"病态条件数"——哪个是深度学习里的主要作用？为什么？</li>
+<li>如果相邻两步的参数点相差很远（学习率过大），动量的 EMA
+会带来什么后果？</li>
+<li><strong>动手</strong>：跑第 8 行的实验 A′（EMA vs
+原始梯度），解释为什么 EMA 曲线整体低于原始梯度曲线。</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>14</strong></td>
+<td>课程 <strong>§4.2.2 AdaGrad</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>累积历史梯度平方 → 逐元素缩放步长；为什么大梯度坐标要走慢</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>15</strong></td>
+<td>Duchi, Hazan &amp; Singer — AdaGrad 原始论文</td>
+<td><a href="https://jmlr.org/papers/v12/duchi11a.html">JMLR
+2011</a></td>
+<td>课程只给算法框，原始动机（稀疏梯度、regret 界）在这里</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>16</strong></td>
+<td>课程 <strong>§4.2.3 sign-SGD 与 RMSProp</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>⭐ 关键一跳：sign-SGD = 只留方向丢掉幅度，可写成
+<span class="math">g/\sqrt{g\odot g}</span>；RMSProp 用 EMA
+平滑分母</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>17</strong></td>
+<td>Hinton / Tieleman — RMSProp（CSC321 讲义 6e）</td>
+<td><a href="https://www.cs.toronto.edu/~tijmen/csc321/">CSC321
+课程页</a>（见 Lecture 6e；<a
+href="https://www.cs.toronto.edu/~tijmen/csc321/lecture_notes.shtml">讲义索引</a>）</td>
+<td>RMSProp 没有正式论文，这就是原始出处。⚠️ 原视频托管在 Coursera
+上，链接大概率已失效；建议读 6e 的讲义文字</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-3自适应方法的本质">⛳ 检查点
+3｜自适应方法的本质</h3>
+<blockquote>
+<p><strong>核心洞察 ①：自适应 = 按自己的历史量级归一化</strong>
+自适应方法做的事只有一件：<strong>用每个坐标自己的梯度历史，把它归一化到同一起跑线</strong>。大梯度的坐标走慢，小梯度的坐标走快。
+动机很直白：神经网络里不同参数的梯度量级能差<strong>几个数量级</strong>，共用一个步长时，小的几乎不动、大的来回震荡。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：AdaGrad 的累积项是个"特性"，也是"缺陷"</strong>
+<span class="math display">\sqrt{v^t}=\sqrt{\textstyle\sum_{s\le t}g^s\odot g^s}</span>
+分母单调递增 →
+步长单调递减到零。这对<strong>稀疏梯度</strong>是优点（稀有的特征被保留学习能力），对<strong>稠密持续</strong>的训练是缺点（训练还没完，步长就没了）。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：RMSProp 用 EMA 换取"不衰减"</strong> 把累加换成
+EMA：<span class="math">v^t=\beta v^{t-1}+(1-\beta)g^t\odot g^t</span>。步长不再必然衰减到零，但<strong>丢掉了长期记忆</strong>——很久以前的大梯度不再有影响。这是一次典型的"记忆长度"权衡。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出 AdaGrad 与 RMSProp 的更新式，指出唯一的形式差别。</li>
+<li>AdaGrad 的累积平方和为什么让步长衰减到零？</li>
+<li>为什么说自适应方法的动机是"参数尺度差异"？举一个具体的例子。</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>若每步梯度近似相同（如最小二乘），AdaGrad
+的有效步长约是多少？RMSProp 呢？</li>
+<li>稀疏梯度场景下，AdaGrad 的累积项为什么反而有用？</li>
+<li>把 <span class="math">\beta</span>
+调大或调小，分别对应"记忆更长/更短"——各自适合什么训练阶段？</li>
+<li><strong>面试题</strong>：为什么 Adam 要在分母加
+<span class="math">\epsilon</span>？只为了防除零吗？</li>
+<li><strong>延伸</strong>：如果不用逐元素缩放，而是对整个梯度向量做一次归一化，会得到什么？（提示：这就是第
+49 行 sign-SGD 与谱范数的区别）</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>18</strong></td>
+<td>课程 <strong>§4.2.4 Adam</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>⭐ 偏差修正
+<span class="math">\frac{m_t}{1-\beta_1^t}</span>、<span class="math">\frac{v_t}{1-\beta_2^t}</span>
+的完整推导；<strong>"Adam = sign-SGD 的双动量版本"</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>19</strong></td>
+<td>Kingma &amp; Ba — Adam</td>
+<td><a href="https://arxiv.org/abs/1412.6980">arXiv:1412.6980</a></td>
+<td>原论文：Algorithm 1 与 §2 偏差修正</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-4adam-的真正来历理解-adam-的钥匙">⛳ 检查点 4｜Adam
+的真正来历（理解 Adam 的钥匙）</h3>
+<blockquote>
+<p><strong>核心洞察 ①：一句话说清 Adam</strong> 从 sign-SGD 出发：
+<span class="math display">w^{t+1}=w^t-\eta\,\frac{g^t}{\sqrt{g^t\odot g^t}}</span>
+把<strong>分子换成梯度的一阶 EMA
+<span class="math">m_t</span></strong>、<strong>分母换成梯度平方的二阶
+EMA <span class="math">v_t</span></strong>，就得到了 Adam。</p>
+<p><strong>所以 Adam 不是"动量 + RMSProp 拼起来"，而是 sign-SGD 的双 EMA
+推广。</strong>
+这个视角比"两个方法合并"清楚得多——它解释了为什么分子分母<strong>必须同时平滑</strong>。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：为什么"必须"平滑分母</strong> sign-SGD 的
+<span class="math">g/\sqrt{g\odot g}</span>
+只保留了符号，丢掉了幅度信息，太极端：梯度量级大的坐标本应走得稍快，现在被压成一样。
+RMSProp 的做法是<strong>用 EMA
+平滑分母</strong>，让"相对量级"信息保留下来，同时不因单步噪声而剧烈跳动。所以分母的平滑不是为了好看，而是为了<strong>在保留方向信息与抑制噪声之间取平衡</strong>。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：偏差修正是"初始化"的补丁</strong>
+<span class="math">m^0=v^0=0</span> 导致前几步的 EMA
+被系统性低估（<span class="math">\mathbb{E}[m^t]=(1-\beta_1^t)g</span>）。除以
+<span class="math">1-\beta_1^t</span> 正是把这个因子除掉。
+<strong>注意</strong>：<span class="math">t</span> 越大这个修正越接近
+1，所以它只影响训练最初几百步——但没有它，warmup 阶段会被严重扭曲。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出 Adam 的完整更新式，标出
+<span class="math">m_t</span>、<span class="math">v_t</span>、<span class="math">\hat m_t</span>、<span class="math">\hat v_t</span>。</li>
+<li>从 sign-SGD 出发，把这个推导完整写一遍。</li>
+<li>为什么需要偏差修正？不修正会怎样？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>推一遍
+<span class="math">\mathbb{E}[m^t]=(1-\beta_1^t)\,g</span>（假设每步梯度是同一向量的无偏估计）。</li>
+<li><span class="math">\beta_1=0.9</span>、<span class="math">\beta_2=0.999</span>：两者的有效记忆窗口分别是多少步？为什么分母需要更长的记忆？</li>
+<li>如果把 <span class="math">\beta_2</span> 设成
+<span class="math">0.9</span>（与 <span class="math">\beta_1</span>
+相同），训练会有什么变化？</li>
+<li><strong>面试题</strong>：Adam 与 RMSProp +
+动量的区别到底是什么？（提示：差别在"动量作用在哪个量上"）</li>
+<li><strong>延伸</strong>：第 50 行会用"对角 Fisher 近似"再推出一次
+Adam——两种推导给出的算法完全一样吗？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>20</strong></td>
+<td>课程 <strong>§4.2.5 权重衰减与 AdamW</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>⭐ <strong>本课程最重要的一处工程洞察</strong>：L2 正则会让
+<span class="math">\lambda w^t</span> 混进 EMA 估计
+<span class="math">\hat{m},\hat{v}</span>，而它们本该只含梯度信息；AdamW
+把衰减挪到最后一步</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>21</strong></td>
+<td>Loshchilov &amp; Hutter — Decoupled Weight Decay（AdamW）</td>
+<td><a href="https://arxiv.org/abs/1711.05101">arXiv:1711.05101</a></td>
+<td>完整论证"L2 正则 + 自适应步长 ≠ 权重衰减"，§2 与 §4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-5面试高频adam--l2-与-adamw-的区别">⛳ 检查点
+5｜面试高频：Adam + L2 与 AdamW 的区别</h3>
+<blockquote>
+<p><strong>核心洞察 ①：L2 正则为什么在 Adam 里"坏掉"</strong> 在 Adam
+里加 L2 正则，<span class="math">\lambda w^t</span> 会进入梯度
+<span class="math">g^t</span>，于是它<strong>被
+<span class="math">\sqrt{\hat v^t}</span>
+除了一次</strong>——而不同参数的 <span class="math">\sqrt{\hat v}</span>
+量级差很多。结果等于<strong>给每个参数一个不同的、还随训练状态变化的衰减强度</strong>，这显然不是你想要的正则化。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：解耦是怎么做的</strong> AdamW
+把衰减挪到更新式的最后一项：
+<span class="math display">w^{t+1}=w^t-\eta_t\frac{\hat m^t}{\sqrt{\hat v^t}+\epsilon}-\eta_t\lambda w^t</span>
+这样它<strong>各向同性地</strong>作用于参数，与自适应缩放彻底解耦。注意衰减项也乘了
+<span class="math">\eta_t</span>，所以学习率调度会同时缩放"梯度项"与"衰减项"。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：这一条为什么重要</strong>
+它是"<strong>工程细节里藏着数学错误</strong>"的典型：Adam
+的论文原版就是这么写的，而且被广泛实现了很多年，直到有人认真对照才纠正。
+更重要的后果在<strong>第 42-44
+行</strong>：一旦权重衰减正确解耦，它就直接决定了"权重范数平衡点"，进而决定<strong>有效学习率</strong>——这正是
+Hyperball 那条线的起点。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>用公式说清"Adam + L2"与"AdamW"差在哪一项。</li>
+<li>为什么 L2 正则进入 EMA 后，<span class="math">\hat m</span> 与
+<span class="math">\hat v</span> 就不再是"纯梯度信息"了？</li>
+<li>AdamW 的衰减项为什么也乘了 <span class="math">\eta_t</span>？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>写出"Adam + L2"的完整更新式，标出
+<span class="math">\lambda w^t</span> 被
+<span class="math">\sqrt{\hat v}</span> 缩放的那一步。</li>
+<li>如果某个参数的梯度一直很小（<span class="math">\hat v\approx 0</span>），在"Adam
++ L2"下它受到的衰减会怎样？这是好事还是坏事？</li>
+<li><strong>面试题</strong>：AdamW
+是"更好的正则化"还是"更正确的正则化"？两者有区别吗？</li>
+<li><strong>动手</strong>：跑第 27
+行的对照实验，把两条曲线画在一张图上，解释差异出现的位置（早期还是后期？为什么？）。</li>
+<li><strong>延伸</strong>：如果不用 L2 而用 weight decay
+的另一种定义（直接乘 <span class="math">(1-\eta\lambda)</span>），与
+AdamW 的加法形式在什么条件下等价？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>22</strong></td>
+<td>课程 <strong>§4.2.6 Adam 的收敛性讨论</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/training_algorithms.html">4.2</a></td>
+<td>引 Reddi 定理：只要
+<span class="math">\beta_1\le\sqrt{\beta_2}</span>（含默认
+<span class="math">0.9/0.999</span>），就存在 Adam
+不收敛的随机凸问题</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>23</strong></td>
+<td>Reddi et al. — On the Convergence of Adam and Beyond</td>
+<td><a href="https://arxiv.org/abs/1904.09237">arXiv:1904.09237</a></td>
+<td>非收敛反例 → AMSGrad；理解"算法什么时候会坏"</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>24</strong></td>
+<td>Défossez et al. — A Simple Convergence Proof of Adam and
+Adagrad</td>
+<td><a href="https://arxiv.org/abs/2003.02395">arXiv:2003.02395</a></td>
+<td>不改更新规则也能证收敛；课程 4.2.6 引用的修补工作</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>25</strong></td>
+<td>Wilson et al. — The Marginal Value of Adaptive Gradient Methods</td>
+<td><a href="https://arxiv.org/abs/1705.08292">arXiv:1705.08292</a></td>
+<td>唱反调：自适应方法泛化不一定更好。读它是为了不迷信</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>26</strong></td>
+<td>动手：手写 SGD / 动量 / Adam / AdamW</td>
+<td>自己写</td>
+<td>与 <code>torch.optim</code> 数值对齐；打印
+<span class="math">v_t</span> 各层量级，看到"参数尺度差几个数量级"</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>27</strong></td>
+<td>动手：复现 "Adam + L2" vs "AdamW" 对照</td>
+<td>自己写</td>
+<td>亲眼看到解耦权重衰减的差异</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-6一个真实存在的矛盾">⛳ 检查点
+6｜一个真实存在的矛盾</h3>
+<blockquote>
+<p><strong>核心洞察 ①：矛盾本身</strong>
+<strong>默认超参（<span class="math">\beta_1=0.9,\beta_2=0.999</span>）下，Adam
+可能不收敛</strong>——Reddi
+等人的定理给出了具体的随机凸问题反例，条件恰好是
+<span class="math">\beta_1\le\sqrt{\beta_2}</span>。
+可是它遍地都在用、效果还很好。<strong>这个矛盾比定理更值得想。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：怎么理解这个矛盾</strong>
+三句话可以把矛盾化解掉：</p>
+<ol type="1">
+<li><strong>"不收敛"说的是最坏情况</strong>，而实践关心的从来不是最坏情况；</li>
+<li>反例是<strong>精心构造</strong>出来的，真实损失面不长那样；</li>
+<li>深度学习里我们<strong>本来也不追求精确收敛</strong>（非凸、有噪声、还早停），能在有限步内把损失降下来就行。</li>
+</ol>
+<p>所以正确的态度是：<strong>定理告诉你"算法在哪里会坏"，而不是"这个算法不能用"。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：读优化理论的通用分辨力</strong>
+遇到任何"某算法不收敛/有反例"的结论，先问三个问题： ①
+反例依赖什么条件？这些条件在真实训练里成立吗？ ②
+"收敛"的定义是什么？（凸？非凸？到稳定点？） ③
+结论是关于<strong>最坏情况</strong>还是<strong>平均/典型情况</strong>？
+这个分辨力在读完 Wilson 那篇（自适应方法泛化不一定更好）时同样要用。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>复述 Reddi 定理的条件与结论。</li>
+<li>默认超参 <span class="math">0.9/0.999</span> 满足那个条件吗？</li>
+<li>AMSGrad 是怎么修的？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>既然有反例，为什么大家还在用 Adam？给出三条理由。</li>
+<li>Wilson 那篇说自适应方法泛化不一定更好——这与上面几点冲突吗？</li>
+<li><strong>面试题</strong>：如果有人问你"Adam
+收敛吗"，你会怎么回答才既准确又不误导？</li>
+<li><strong>延伸</strong>：Défossez 那篇（第 24
+行）在<strong>不改更新规则</strong>的前提下证明了收敛——这意味着 Reddi
+的反例被推翻了吗？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>28</strong></td>
+<td><strong><code>processing/</code></strong> Zhang et al. — Evolution
+of Optimization Methods（2026 综述）</td>
+<td><code>processing/2604.12968v1.pdf</code></td>
+<td>只读<strong>目录 + 引言</strong>，建立优化器演化史全图；配套 <a
+href="https://github.com/APRIL-AIGC/Awesome-Optimizer">Awesome-Optimizer</a></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>29</strong></td>
+<td><strong><code>processing/</code></strong> Barakat &amp; Bianchi —
+Adam 的收敛与动力学</td>
+<td><code>processing/19m1263443.pdf</code></td>
+<td>把离散迭代<strong>连续化成 ODE</strong>，证明插值过程弱收敛到 ODE
+解；递减步长版本与条件中心极限定理。需现学 <strong>Łojasiewicz
+不等式</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>30</strong></td>
+<td><strong><code>processing/</code></strong> Chen, Na &amp; Kolar —
+<strong>Convergence Analysis of Accelerated SGD Under the Growth
+Condition</strong>（<em>Math. of OR</em> 49(4):2492–2526, 2024）</td>
+<td><code>processing/EBSCO-FullText-09_21_2026 (1).pdf</code></td>
+<td>⭐ <strong>强凸 +
+增长条件</strong>下四种加速方法的统一分析：Nesterov 加速（NAM）、robust
+momentum（RMM）、accelerated dual averaging（DAM+）、implicit
+DAM+。<strong>增长条件</strong>＝随机梯度方差由「随真实梯度增长的部分 +
+常数项」界定，比经典「有界方差」更贴近实际。结论：<strong>RMM/NAM/iDAM+
+只在乘性噪声较小时才有加速，DAM+ 在乘性噪声大时仍能加速</strong>；并提出
+tail-averaged 方案使 DAM+ 逼近理论下界。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-7一条可迁移的方法论">⛳ 检查点
+7｜一条可迁移的方法论</h3>
+<blockquote>
+<p><strong>核心洞察 ①：一条可迁移的方法论</strong>
+分析离散算法时，<strong>先把它写成连续时间的 ODE，分析 ODE
+的稳定性与收敛，再映射回离散</strong>。 这套"离散 → 连续 →
+回来"的套路你会反复见到：课程 §4.1 的 Adam 收敛、第 69 行 Peyré 的 Muon
+梯度流、第 42 行的球面动力学，用的都是同一招。<strong>它比"Adam
+收敛"这一个结论重要得多。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：为什么这么做有效</strong>
+离散迭代的严格分析很难（步长、噪声、非线性耦合在一起）。但取步长很小的极限，迭代就"抹平"成一条连续轨迹，可以动用<strong>动力系统</strong>的整套工具：平衡点、稳定性、Lyapunov
+函数、收敛速率。
+代价是引入<strong>逼近误差</strong>，所以论文还得证明"插值过程弱收敛到
+ODE 解"——这一步是整篇的技术核心。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：弱收敛与 Łojasiewicz</strong></p>
+<ul>
+<li><strong>弱收敛</strong>：不是逐点收敛，而是整个随机过程在分布意义下收敛到
+ODE 的解。随机算法分析里的标准语言。</li>
+<li><strong>Łojasiewicz
+不等式</strong>：非凸分析里的"准凸性"条件，用它可以把"收敛"升级为<strong>带速率的收敛</strong>。这是非凸优化里少数能给出速率的工具之一。</li>
+</ul>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>什么是 ODE 逼近法？为什么可以用它分析离散算法？</li>
+<li>"插值过程弱收敛到 ODE 解"是什么意思？"弱"指什么？</li>
+<li>Łojasiewicz 不等式在证明里起什么作用？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>课程 §4.1 用光滑性给出
+<span class="math">\eta_t\le 1/L</span>；Barakat &amp; Bianchi
+用稳定性条件——这两个条件的关系是什么？</li>
+<li>为什么常步长下只能证明"收敛到稳定点"，而递减步长能给出更强的结论？</li>
+<li>条件中心极限定理在这里回答什么问题？（提示：算法末期的波动分布）</li>
+<li><strong>动手</strong>：你手写的 Adam
+与论文里的算法是否数值完全一致？若不一致，差在哪一项？</li>
+<li><strong>延伸</strong>：这套方法能否用在 Muon 上？（提示：想想第 65
+行为什么要另建一套谱 Wasserstein 几何——因为 Muon
+的更新不是普通梯度流）</li>
+</ol>
+<hr />
+<h3 id="golf-检查点-8噪声有多大才谈得上加速">⛳ 检查点
+8｜噪声有多大，才谈得上"加速"</h3>
+<blockquote>
+<p><strong>核心洞察 ①：换一个更真实的噪声假设</strong>
+前面所有收敛分析（含第 29 行的 Adam
+ODE）大多假设<strong>有界方差</strong>：<span class="math">\mathbb{E}\lVert g-\nabla f\rVert^2\le\sigma^2</span>，一个与位置无关的常数。
+Chen–Na–Kolar 换成了<strong>增长条件</strong>：
+<span class="math display">\mathbb{E}\lVert g-\nabla f(x)\rVert^2\;\le\;M\lVert\nabla f(x)\rVert^2+\sigma^2</span>
+即方差 = <strong>随真实梯度增长的乘性部分</strong> +
+<strong>常数加性部分</strong>。
+<strong>这更贴近实际</strong>：在远离最优点的地方梯度大、噪声也大；接近最优点时噪声才降下来。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：结论——加速不是免费的</strong>
+论文统一分析了四种加速方法（NAM / RMM / DAM+ / iDAM+），结论有层次： |
+方法 | 乘性噪声小时 | 乘性噪声大时 | |---|---|---| | NAM（Nesterov
+加速）、RMM、iDAM+ | ✅ 有加速 | ❌ 加速消失 | |
+<strong>DAM+（加速对偶平均）</strong> | ✅ | <strong>✅
+仍有加速</strong> |</p>
+<p>也就是说：<strong>"加速方法比 SGD
+快"这个结论，依赖于噪声有多"乘性"。</strong>
+噪声结构一变，某些加速方法就退化了——而 DAM+ 更稳健。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：从"收敛到点"到"收敛到邻域"</strong> 在常数步长 +
+持续噪声下，算法<strong>不可能收敛到最优点本身</strong>，只能收敛到它的一个<strong>邻域</strong>（噪声地板）。这就是为什么论文讨论的是"以加速速率收敛到最优点的邻域"。
+论文进一步提出 <strong>tail-averaged（尾部平均）</strong> 方案，让 DAM+
+与 iDAM+ 逼近理论下界（差一个对数因子）。 <strong>这个"邻域 +
+尾部平均"的思路，和第 11 检查点里"EMA 梯度≈更大
+batch"是同一类技法</strong>：用平均换方差。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出增长条件的表达式。它与"有界方差"假设的区别在哪？</li>
+<li>为什么说增长条件比有界方差更贴近实际训练？</li>
+<li>论文分析了哪四种加速方法？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么"乘性噪声大"会让某些加速方法失去加速？</li>
+<li>DAM+ 为什么比 NAM/RMM 更稳健？直觉上它做对了什么？</li>
+<li>常数步长下为什么只能收敛到"邻域"？邻域大小由什么决定？</li>
+<li>tail-averaged 方案在做什么？为什么会改善速率？</li>
+<li><strong>面试题</strong>：如果有人说"用 Nesterov 加速就能比 SGD
+快"，你会追问什么？</li>
+<li><strong>延伸（重要）</strong>：把增长条件与第 6 检查点"Adam
+在最坏情况下不收敛"对照——<strong>这两种"理论结论与实践不符"的情形，成因一样吗？</strong></li>
+<li><strong>延伸</strong>：本检查点的"邻域"和第 42–44
+行的"有效学习率"都在描述"训练最后停在哪"。它们是对同一个现象的不同刻画吗？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>31</strong></td>
+<td>课程 <strong>§4.4.1 学习率调度</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/lr_mup.html">4.4</a></td>
+<td>四种调度的显式公式（linear / inverse-sqrt / cosine / WSD）＋
+可直接跑的绘图代码</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>32</strong></td>
+<td>课程 §4.4.1 中的 warmup 与 river-valley</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/lr_mup.html">4.4</a></td>
+<td>⭐ <strong>warmup 为什么必要</strong>：极早期模型接近随机初始化，大
+lr 会把参数剧烈拉向最初几个 batch；<strong>WSD
+的理论依据是"河谷"损失景观</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>33</strong></td>
+<td>Wen et al. — Understanding WSD: A River Valley Loss Landscape
+View（ICLR 2025）</td>
+<td><a
+href="https://openreview.net/forum?id=m51BgoqvbP">OpenReview</a></td>
+<td>river-valley 图景的原始论文；解释"为什么衰减要放后期"</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>34</strong></td>
+<td>Li et al. — Visualizing the Loss Landscape of Neural Nets</td>
+<td><a href="https://arxiv.org/abs/1712.09913">arXiv:1712.09913</a></td>
+<td>先看这篇的"峡谷/河谷"可视化，再读上篇理论</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>35</strong></td>
+<td>Goyal et al. — Accurate, Large Minibatch SGD（ImageNet in 1
+Hour）</td>
+<td><a href="https://arxiv.org/abs/1706.02677">arXiv:1706.02677</a></td>
+<td>warmup 的工程化起点；linear scaling rule</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>36</strong></td>
+<td>Bergsma et al. — Straight to Zero</td>
+<td><a href="https://arxiv.org/abs/2502.15938">arXiv:2502.15938</a></td>
+<td>"线性衰减到零"也在近优集合内；与下篇对照读</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>37</strong></td>
+<td>Dremov et al. — Training Dynamics of the Cooldown Stage in WSD</td>
+<td><a href="https://arxiv.org/abs/2508.01483">arXiv:2508.01483</a></td>
+<td>用 <strong>bias–variance
+权衡</strong>解释调度形状；结论：调度曲线具体形式的调优收益有上限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-9调度形状从哪来">⛳ 检查点 9｜调度形状从哪来</h3>
+<blockquote>
+<p><strong>核心洞察 ①：形状的来源</strong>
+最优调度是"<strong>峰值加衰减</strong>"，因为它对应<strong>偏差-方差权衡的最优解</strong>：</p>
+<ul>
+<li>训练前期：参数远离最优点，<strong>偏差主导</strong> →
+大步长快速下降；</li>
+<li>训练末期：参数已在目标附近，<strong>方差主导</strong> →
+小步长抑制随机梯度噪声的累积。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：为什么形状不唯一</strong> 使
+<span class="math">Bias+Variance</span>
+取最小的调度构成一个<strong>函数集合</strong>，不是某一条特定曲线。实证也支持：<code>sqrt</code>（<span class="math">1-\sqrt{x}</span>）与调参后的
+<code>lowered linear 0.7</code>
+表现相当，标准线性衰减到零也在近优集合内。
+<strong>推论（很实际）</strong>：调曲线具体形式的收益有上限。<strong>超参预算应优先给峰值
+lr 与 <span class="math">\beta_2</span></strong>——实证显示调
+<span class="math">\beta_2</span>
+带来的差异与精挑调度形状基本同量级。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：warmup 解决的是另一个问题</strong>
+衰减解决"末期太吵"，warmup
+解决"<strong>初期太野</strong>"：训练最开始模型接近随机初始化，此时若用大
+lr，参数会被最初几个 batch 剧烈拽走，掉进一个坏区域。
+所以完整形状是"<strong>升 → 稳 → 降</strong>"三段，WSD
+就是这个结构的显式版本。而
+river-valley（河谷）图景解释了为什么"稳"这一段是必要的——损失面是一条河谷，需要在谷里走一段才到该收窄的地方。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出 linear / inverse-sqrt / cosine / WSD 四种调度的公式。</li>
+<li>为什么训练最早期需要 warmup？</li>
+<li>用偏差-方差语言解释"峰值加衰减"为什么最优。</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>river-valley 图景说的是什么？它如何推出"衰减必须放在后期"？</li>
+<li>既然
+<code>sqrt</code>、<code>lowered linear</code>、线性到零都近优，超参搜索的预算该怎么分配？</li>
+<li>WSD 的"稳"阶段为什么不能省？直接用 cosine 有什么不同？</li>
+<li><strong>面试题</strong>：为什么大模型训练普遍用
+warmup，而小模型不一定需要？</li>
+<li><strong>延伸</strong>：第 36 行"直接线性衰减到零"与第 37 行的
+bias–variance 解释相容吗？为什么"衰减到零"不是必须的？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>38</strong></td>
+<td>课程 <strong>§4.4.2 μP 与超参迁移</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/lr_mup.html">4.4</a></td>
+<td>最优 lr 应依赖<strong>梯度矩阵的维度</strong>；为什么 1B 上调好的 lr
+不能直接用在 7B 上</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>39</strong></td>
+<td>Yang et al. — Tensor Programs V（μP）</td>
+<td><a href="https://arxiv.org/abs/2203.03466">arXiv:2203.03466</a></td>
+<td>零样本超参迁移的原始工作</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>40</strong></td>
+<td>Yang, Simon &amp; Bernstein — A Spectral Condition for Feature
+Learning</td>
+<td><a href="https://arxiv.org/abs/2310.17813">arXiv:2310.17813</a></td>
+<td>课程 4.4.2 主要依据的 μP 版本（谱条件）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>41</strong></td>
+<td>You et al. — LARS: Large Batch Training of CNNs</td>
+<td><a href="https://arxiv.org/abs/1708.03888">arXiv:1708.03888</a></td>
+<td>逐层自适应学习率——"维度决定 lr"的早期实践，μP 的前身思路</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>42</strong></td>
+<td>Wan et al. — Spherical Motion Dynamics</td>
+<td><a href="https://arxiv.org/abs/2006.08419">arXiv:2006.08419</a></td>
+<td>⭐ <strong>有效学习率表达式的动力学来源</strong>。含归一化层时
+<span class="math">\mathcal{L}(\rho W)=\mathcal{L}(W)</span>，真正推进训练的是角度
+<span class="math">\eta_t\lVert U_t\rVert/\lVert W_t\rVert</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>43</strong></td>
+<td>腾讯混元 — From LR to ELR</td>
+<td><a href="https://hy.tencent.com/research/elr">项目页</a> ⚠️ JS
+渲染，需浏览器打开</td>
+<td>⭐ 有效学习率 ELR 与角更新幅度
+AUS；权重范数增长构成"隐式学习率衰减"；用 ELR 拟合 scaling law 更稳</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>44</strong></td>
+<td>邹嘉轩 — Hyperball、effective lr 与峰值加衰减</td>
+<td><a
+href="https://jiaxuanzou0714.github.io/blog/2026/hyperball-implicit-lr-schedule/">博客</a></td>
+<td>⭐ 最佳导读：把上面几条串成一条逻辑链，并预告下一阶段</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>45</strong></td>
+<td>苏剑林 — <strong>滑动平均视角下的权重衰减和学习率</strong></td>
+<td><a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/滑动平均视角下的权重衰减和学习率.html">中文博客</a></td>
+<td>⭐ <strong>第 42–44 行那条线（有效学习率 / ELR /
+Hyperball）的初等版本</strong>。用 EMA 视角重新解释 weight decay 与 lr
+的关系——读完它再看混元 ELR 会顺很多</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>46</strong></td>
+<td>动手：记录名义 lr / 权重范数 / 有效 lr</td>
+<td>自己写</td>
+<td>亲眼看到名义 lr 与有效 lr 分道扬镳；三条峰值差 2.4
+倍的调度，角更新幅度却高度重合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-10本计划最关键的一问">⛳ 检查点
+10｜本计划最关键的一问</h3>
+<blockquote>
+<p><strong>核心洞察</strong>
+决定训练进展的真实物理量是<strong>有效学习率</strong>
+<span class="math display">\eta_t^\star=\eta_t\,\frac{\lVert U_t\rVert }{\lVert W_t\rVert }\approx\text{角更新幅度（AUS）}</span>
+而权重范数 $\lVert W_t\rVert $
+在训练中持续增长，在名义调度之上<strong>自动叠加了一层衰减</strong>。</p>
+</blockquote>
+<p><strong>必须能回答的一问</strong></p>
+<blockquote>
+<p><strong>"如果有效学习率才是真正决定训练进展的物理量，那么平时说'调
+lr'，到底在调什么？"</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ①：两个学习率</strong> | 量 | 谁在控制 | 作用 |
+|---|---|---| | <strong>名义</strong> <span class="math">\eta_t</span> |
+你显式设定的调度 | 只是间接手段 | | <strong>有效</strong>
+<span class="math">\eta_t^\star=\eta_t\frac{\lVert U_t\rVert }{\lVert W_t\rVert }</span>
+| 由权重范数<strong>自动</strong>调制 |
+<strong>真正推进训练的量</strong> |</p>
+<p>因为 $\lVert W_t\rVert $ 在训练中持续增长，比值 $\lVert U_t\rVert
+/\lVert W_t\rVert $ 在下降 →
+在名义调度之上<strong>自动叠加了一层衰减</strong>。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：这解释了三个反常现象</strong></p>
+<ol type="1">
+<li><strong>为什么不同调度效果差不多</strong>：三条峰值相差 2.4
+倍的名义调度，1000
+步后角更新幅度曲线<strong>高度重合</strong>——权重范数的增长把差异吸收平滑了。</li>
+<li><strong>为什么"调
+lr"常常没什么用</strong>：你调的是名义量，而真正起作用的是它乘上一个你控制不了的因子。</li>
+<li><strong>为什么 weight decay
+会影响学习率</strong>：衰减决定了权重范数的平衡点，也就决定了这个因子（第
+20-21 行埋的伏笔在这里合上）。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：还有一个"守恒量"</strong> 在 Hyperball 约束下
+<span class="math">\Delta\phi_t\approx\eta_t</span>，于是累积角位移
+<span class="math display">\sum_t\Delta\phi_t\approx\int_0^T\eta_t\,\mathrm{d}t</span>
+也就是<strong>学习率的时间积分 =
+权重向量转过的总角度</strong>。实证发现：不同任务的累积学习率相近时，最终损失也接近——这给了跨训练预算对齐的一个<strong>几何基准</strong>。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出有效学习率的定义式，并解释它与角更新幅度 AUS 的关系。</li>
+<li>为什么权重范数会在训练中持续增长？</li>
+<li>"隐式学习率衰减"具体指什么？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>三条峰值相差 2.4 倍的名义调度，为什么角更新幅度曲线几乎重合？</li>
+<li>由此说明：Hyperball 固定权重范数，实质上是在消除哪一项？</li>
+<li>为什么说"调 lr"这个动作本身可能是被误导的？</li>
+<li><strong>面试题</strong>：如果只能记录一个量来诊断训练，你会记名义 lr
+还是有效 lr？为什么？</li>
+<li><strong>延伸</strong>：累积学习率
+<span class="math">\int\eta_t\,dt</span>
+作为一个"守恒量"，对跨模型规模迁移超参有什么用处？（接第 38-40 行的
+μP）</li>
+<li><strong>动手</strong>：跑第 45 行的实验，把名义 lr 与有效 lr
+画在同一张图上，标出它们开始分道扬镳的位置。</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>答不出来不要往下读第 60 行。</strong> 后面 Hyperball
+之争的全部内容，就是这一问。</p>
+</blockquote>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>47</strong></td>
+<td>课程 <strong>§4.3.1 优化器设计 = 不同范数下的最速下降</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/variants.html">4.3</a></td>
+<td>⭐⭐
+<strong>全课程最关键的一节</strong>。<span class="math">\delta=\arg\min\{\langle\delta,\nabla\ell\rangle+\frac{1}{2\eta}\lVert\delta\rVert^2\}</span>：换范数就换优化器</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>48</strong></td>
+<td>同上：<span class="math">\ell_\infty</span> → sign-SGD</td>
+<td>同上 ｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/Muon优化器赏析：从向量到矩阵的本质跨越.html">Muon
+优化器赏析：从向量到矩阵的本质跨越</a> ｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/Muon续集：为什么我们选择尝试Muon.html">Muon
+续集：为什么我们选择尝试 Muon</a></td>
+<td>对偶范数是 <span class="math">\ell_1</span>；矩阵版用诱导
+<span class="math">1\to\infty</span>
+范数。<strong>自己推一遍，练对偶范数</strong>。📌
+那两篇是矩阵范数部分的完整推导（式 2–4
+的求解过程），<strong>是本行的前置</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>49</strong></td>
+<td>同上：谱范数 → <strong>Muon</strong></td>
+<td>同上 ｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/流形上的最速下降：2.%20Muon%20+%20正交.html">流形上的最速下降：2.
+Muon + 正交</a></td>
+<td>⭐⭐ <strong>谱范数 <span class="math">\ell_2\to\ell_2</span> =
+最大奇异值，其对偶是核范数</strong>，最速下降解
+<span class="math">-\eta\lVert\nabla\ell\rVert_*UV^\top</span>。<strong>那个突兀的
+<span class="math">UV^\top</span>
+正交化就是核范数对偶性的后果</strong>。📌
+那篇给了<strong>最完整的中文推导</strong>（含解不唯一性与 von Neumann
+迹不等式）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>50</strong></td>
+<td>课程 <strong>§4.3.2 Shampoo 与 Muon 的近似 Hessian
+视角</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/variants.html">4.3</a></td>
+<td>⭐⭐ 另一条路径：交叉熵的 Hessian → <strong>Fisher 信息矩阵</strong>
+→ 白化 <span class="math">I^{-1/2}\nabla\ell</span> →
+<strong>对角近似恰好给出 Adam</strong>
+<span class="math">\frac{\nabla\ell}{\nabla\ell\odot\nabla\ell}</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>51</strong></td>
+<td>Bernstein &amp; Newhouse — <strong>Old Optimizer, New Norm: An
+Anthology</strong></td>
+<td><a href="https://arxiv.org/abs/2409.20325">arXiv:2409.20325</a></td>
+<td>⭐⭐ <strong>第 47–49 行的论文版</strong>：把 Adam、Shampoo、Prodigy
+三者在<strong>关掉 EMA
+后</strong>统一解释为"某个范数下的最速下降"，并主张<strong>按张量在网络中的角色分配不同范数</strong>（线性层与嵌入层形状相同但角色不同，应给不同范数）。<strong>Muon
+的官方博客明确说其理论动机来自这篇</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>52</strong></td>
+<td>同上：Kronecker 分解 → Shampoo</td>
+<td>同上 ｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/为什么Adam的Update%20RMS是0.2.html">为什么
+Adam 的 Update RMS 是 0.2</a> ｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/从Hessian近似看自适应学习率优化器.html">从
+Hessian 近似看自适应学习率优化器</a></td>
+<td><span class="math">W\leftarrow W-\gamma L^{-1/4}GR^{-1/4}</span>；<strong>推论：Muon
+与 Shampoo 在 <span class="math">\beta=0</span> 时完全相同</strong>。📌
+附带两篇中文：一篇讲清"Adam 的更新幅度到底多大"（做第 26–27
+行动手实验直接可用），一篇从 Hessian
+近似<strong>同题对照</strong>本行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-11全表最重要的检查点">⛳ 检查点
+11｜全表最重要的检查点</h3>
+<blockquote>
+<p><strong>核心洞察 ①：一句话</strong> <strong>优化器 =
+在最速下降里选一个范数。</strong></p>
+<table>
+<thead>
+<tr>
+<th>范数</th>
+<th>得到的算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math">\ell_2</span></td>
+<td>SGD</td>
+</tr>
+<tr>
+<td><span class="math">\ell_\infty</span></td>
+<td>sign-SGD</td>
+</tr>
+<tr>
+<td>诱导 <span class="math">1\to\infty</span></td>
+<td>矩阵版 sign-SGD</td>
+</tr>
+<tr>
+<td><strong>谱范数（对偶＝核范数）</strong></td>
+<td><strong>Muon（正交化）</strong></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：正交化不是"设计"，是"推导出来的"</strong> 谱范数
+<span class="math">\ell_2\to\ell_2</span>
+的值等于<strong>最大奇异值</strong>；它的<strong>对偶范数是核范数</strong>（奇异值之和）。最速下降的解因此带上
+<span class="math">\lVert \nabla\ell\rVert _*</span> 与
+<span class="math">UV^\top</span>。 所以那个看起来突兀的
+<span class="math">UV^\top</span>，是<strong>核范数对偶性的直接后果</strong>——不是谁"想到"要正交化。<strong>理解这一点，Muon
+就从"玄学 trick"变成了"必然结果"。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：两条路汇合</strong>
+课程给了<strong>两条独立推导</strong>：</p>
+<ul>
+<li>路径 A：换范数 → 谱范数 → Muon；</li>
+<li>路径 B：交叉熵 Hessian → Fisher 信息 → 对角近似 → Adam；→ Kronecker
+分解 → Shampoo。</li>
+</ul>
+<p><strong>而 Muon 与 Shampoo 在 <span class="math">\beta=0</span>
+时完全相同。</strong>
+意味着"换范数"与"近似二阶信息"不是两件事——<strong>通过仔细选择矩阵范数，可以部分恢复二阶信息。</strong></p>
+</blockquote>
+<p><strong>面试级问题（必须能闭卷回答）</strong></p>
+<ol type="1">
+<li><strong>"为什么 Muon 要做正交化？"</strong> →
+它是在<strong>谱范数</strong>几何下做最速下降，谱范数的对偶是核范数，解就是
+<span class="math">-\eta\lVert \nabla\ell\rVert _*UV^\top</span>。</li>
+<li><strong>"Adam 和二阶方法有什么关系？"</strong> → 对角 Fisher 近似下
+<span class="math">\mathrm{diag}(\nabla\ell\,\nabla\ell^\top)^{-1}\nabla\ell=\frac{\nabla\ell}{\nabla\ell\odot\nabla\ell}</span>，正是
+Adam。称它二阶方法并非比喻。</li>
+<li><strong>"Muon 和 Shampoo 有什么关系？"</strong> →
+<span class="math">\beta=0</span>
+时二者相同；换范数与近似二阶信息是同一族算法的两种推导。</li>
+<li><strong>"为什么 <span class="math">\ell_\infty</span> 范数给出
+sign-SGD？"</strong> → <span class="math">\ell_\infty</span> 的对偶是
+<span class="math">\ell_1</span>，最速下降解取在各坐标的最大值处，即符号。</li>
+</ol>
+<p><strong>进阶自测</strong></p>
+<ol start="5" type="1">
+<li>自己推一遍"<span class="math">\ell_\infty</span> 的对偶是
+<span class="math">\ell_1</span>"，再推矩阵版
+<span class="math">1\to\infty</span> 的情形。</li>
+<li>为什么"换范数"能恢复部分二阶信息？用 PSD 锥上的范数几何解释。</li>
+<li><strong>面试题</strong>：如果让你设计一个新优化器，你会从"选哪个范数"还是"用哪个
+Hessian 近似"入手？两者能兼得吗？</li>
+<li><strong>延伸</strong>：第 65-66 行的 Hyperball
+之争，与这里的范数视角是同一件事吗？</li>
+</ol>
+<blockquote>
+<p><strong>这四问答得出来，课程第 4 章的核心就拿到了。</strong></p>
+</blockquote>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>53</strong></td>
+<td>Gupta, Koren &amp; Singer — Shampoo</td>
+<td><a href="https://arxiv.org/abs/1802.09568">arXiv:1802.09568</a></td>
+<td>课程 4.3.2 的核心参考；完整推导与 Kronecker 分解引理</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>54</strong></td>
+<td>Martens &amp; Grosse — K-FAC</td>
+<td><a href="https://arxiv.org/abs/1503.05671">arXiv:1503.05671</a></td>
+<td>⭐ Kronecker 分解近似 Fisher 的<strong>原始工作</strong>，Shampoo
+引理的动机来源</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>55</strong></td>
+<td>苏剑林 — <strong>从 Hessian 近似看自适应学习率优化器</strong></td>
+<td><a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/从Hessian近似看自适应学习率优化器.html">中文博客</a></td>
+<td>⭐ 与课程 §4.3.2 的"对角 Fisher 近似 →
+Adam"<strong>同题对照</strong>：一个从 Fisher 出发，一个从 Hessian
+近似出发</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>56</strong></td>
+<td>Keller Jordan — Muon 代码 + 原始博客</td>
+<td><a href="https://github.com/KellerJordan/Muon">仓库</a> ｜ <a
+href="https://kellerjordan.github.io/posts/muon/">博客</a></td>
+<td>代码只有几十行。<strong>读完 §4.3
+再看，会有"原来就是这个"的感觉</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>57</strong></td>
+<td>苏剑林 — 流形上的最速下降：<strong>3. Muon + Stiefel</strong> ｜
+<strong>4. Muon + 谱球面</strong> ｜ <strong>5.
+对偶梯度下降</strong></td>
+<td><a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/流形上的最速下降：3.%20Muon%20+%20Stiefel.html">3</a>
+｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/流形上的最速下降：4.%20Muon%20+%20谱球面.html">4</a>
+｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/流形上的最速下降：5.%20对偶梯度下降.html">5</a></td>
+<td>⭐ 五篇连载的后三篇。<strong>第 3 篇处理
+<span class="math">n>m</span> 的半正交（Stiefel）情形</strong>，与第 58
+行 Bernstein &amp; Newhouse 那篇同题；<strong>第 4 篇"谱球面"直接对应第
+60 行 Hyperball</strong>；第 5 篇转入对偶语言</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>58</strong></td>
+<td>Amsel et al. — The Polar Express: Optimal Matrix Sign Methods</td>
+<td><a href="https://arxiv.org/abs/2505.16932">arXiv:2505.16932</a></td>
+<td>⭐ Muon 里的 <strong>Newton–Schulz 迭代（NS
+step）</strong>，即用多项式逼近矩阵符号函数。发表在 <strong>math.NA（MSC
+65F30，polar decomposition）</strong>，正是你数值代数的主场</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-12一处典型的数学与工程取舍">⛳ 检查点
+12｜一处典型的数学与工程取舍</h3>
+<blockquote>
+<p><strong>核心洞察 ①：理论 vs 工程的错位</strong> Muon
+的<strong>理论核心</strong>是"算矩阵符号函数
+<span class="math">\mathrm{msgn}(X)=UV^\top</span>"，而<strong>工程核心</strong>是"别用
+SVD，改用多项式迭代（Newton–Schulz）"。两者追求的东西完全不同：前者要精确，后者要吞吐。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：为什么 SVD 不行</strong>
+三个理由，都是工程现实：</p>
+<ol type="1">
+<li><strong>速度</strong>：SVD 难以在 GPU 上做高吞吐并行，而 NS
+迭代<strong>只用矩阵乘法</strong>——恰好是 GPU 最擅长的操作；</li>
+<li><strong>精度</strong>：SVD 在 bfloat16
+下数值不稳定，而训练本来就在低精度下跑；</li>
+<li><strong>频率</strong>：每步都要算，代价会被放大几百万倍。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：为什么"近似"是够的</strong>
+关键认识：<strong>优化器只需要一个足够好的下降方向，不需要精确的极分解。</strong>
+所以 NS
+迭代只跑少数几步就停——这是"用数学上的不精确换取工程上的可行"的典型取舍。Polar
+Express
+进一步把每步的多项式系数用<strong>极小极大优化</strong>选出来，使误差在最坏情况下最小、前期收敛最快，并专门处理了有限精度问题。</p>
+<p><strong>这是你数值代数 93 的直接应用场景</strong>：polar
+decomposition、矩阵符号函数、多项式逼近，全是这门课的内容。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>什么是矩阵符号函数
+<span class="math">\mathrm{msgn}(X)</span>？它与极分解什么关系？</li>
+<li>为什么 SVD 不适合放在训练内循环？</li>
+<li>Newton–Schulz 迭代只用矩阵乘法，代价是什么？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么可以只做<strong>少量几步</strong>而不求精确？</li>
+<li>Polar Express 的"极小极大优化"在选择系数时最小化什么？</li>
+<li>bfloat16 下做 NS 迭代会遇到什么问题？Polar Express 怎么处理的？</li>
+<li><strong>面试题</strong>：如果给你一个新的矩阵优化器，你怎么判断它的"每步开销是否可接受"？</li>
+<li><strong>动手</strong>：实现 NS 迭代与
+<code>torch.linalg.svd</code>，比较结果的接近程度、耗时，以及<strong>只跑
+3 步 vs 5 步</strong>的差异。</li>
+<li><strong>延伸</strong>：第 69 行 Newton–Muon 需要算
+<span class="math">\mathrm{msgn}(G(ZZ^\top)^{-1})</span>——多了个右预条件，这对
+NS 迭代的实现有什么影响？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>59</strong></td>
+<td>动手：实现 Muon 与 Shampoo</td>
+<td>自己写</td>
+<td>对动量矩阵做 NS 迭代近似 <span class="math">\mathrm{msgn}</span>，与
+<code>torch.linalg.svd</code> 对比</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>60</strong></td>
+<td>Liu, Su et al. — Muon is Scalable for LLM Training</td>
+<td><a href="https://arxiv.org/abs/2502.16982">arXiv:2502.16982</a></td>
+<td>规模化验证。⚠️ 作者含<strong>苏剑林</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>61</strong></td>
+<td>Bernstein &amp; Newhouse — Orthogonal Gradient Descent（Stiefel
+流形）</td>
+<td><a href="https://arxiv.org/abs/2305.05665">arXiv:2305.05665</a></td>
+<td>正交化的另一条路线及其<strong>收敛性证明</strong>；与"谱范数最速下降"两种语言对照</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>62</strong></td>
+<td>Understanding Gradient Orthogonalization via Non-Euclidean
+Trust-Region</td>
+<td><a href="https://arxiv.org/abs/2503.12645">arXiv:2503.12645</a> ｜
+<a href="https://ar5iv.labs.arxiv.org/html/2503.12645">HTML</a></td>
+<td>用<strong>非欧信任域</strong>框架解释正交化为何有效</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>63</strong></td>
+<td>Wen et al. — Hyperball Optimization</td>
+<td><a href="https://arxiv.org/abs/2606.16899">arXiv:2606.16899</a></td>
+<td>把权重矩阵与其更新的 Frobenius 范数固定为常数；Qwen3
+风格模型（≤1.2B）上 20–30% token 等效加速</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>64</strong></td>
+<td>苏剑林 — <strong>AdamW 的 Weight RMS 的渐近估计（上）</strong> ｜
+<strong>（下）</strong></td>
+<td><a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/AdamW的Weight%20RMS的渐近估计（上）.html">上</a>
+｜ <a
+href="https://tianshijing.github.io/ScalingOpt/pages/blogs/Jianlin/AdamW的Weight%20RMS的渐近估计（下）.html">下</a></td>
+<td>⭐
+<strong>把"权重范数会收敛到平衡点"这件事算成渐近公式</strong>——正是第
+60–61 行 Hyperball 的理论动机那一句"weight decay
+决定角学习率"的严格版本</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>65</strong></td>
+<td>Xiao et al. — Hyperball May Not Be a Free Lunch</td>
+<td><a href="https://arxiv.org/abs/2607.22444">arXiv:2607.22444</a></td>
+<td>⭐
+<strong>与上篇对照读</strong>：双向参数对齐实验表明主要机制只是隐式状态相关
+lr 调度，梯度方向无额外几何优势</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-13两篇论文的分歧点在归因">⛳ 检查点
+13｜两篇论文的分歧点在"归因"</h3>
+<blockquote>
+<p><strong>核心洞察 ①：分歧不在实验，在归因</strong>
+两篇论文的实验都没有做错，它们对<strong>同一组现象给出不同的因果归因</strong>：</p>
+<ul>
+<li>正方：Hyperball 约束权重范数 →
+<strong>带来额外的几何优势</strong>；</li>
+<li>反方：只调名义 lr 就能<strong>精确复现</strong>对方的损失曲线 →
+优势来自<strong>隐式状态相关 lr
+调度</strong>，梯度方向没有额外好处。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：为什么反方的实验有说服力</strong>
+它的设计是<strong>双向参数对齐</strong>：固定基础优化器，逐点微调名义 lr
+去匹配目标的有效 lr 轨迹，分别做 MuonWD→MuonH 与 MuonH→MuonWD。
+结果两条曲线都高度贴合——<strong>只动一个标量序列就能复现另一个优化器的全部行为</strong>。这在因果推断上是很强的证据：如果存在额外的"几何优势"，它应该<strong>无法</strong>被一维的
+lr 序列解释掉。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：关键分辨力</strong>
+<strong>"机理解释"与"实用价值"是两件事。</strong> 反方并没有说 Hyperball
+没用——它说 Hyperball
+起作用的<strong>机制</strong>是隐式调度，而非几何优势。
+这个区分在工程上很重要：如果机制只是隐式调度，那你完全可以用一个更简单的学习率调度达到类似效果；但如果要的是"免调参、状态自适应"，Hyperball
+仍然有独立价值。
+<strong>顺带</strong>：反方还给出一个实践警告——Hyperball
+去掉了自然衰减，所以名义 lr
+<strong>必须</strong>配明确的衰减规划，且衰减幅度有上限。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>正方与反方各自的主张是什么？</li>
+<li>什么是"双向参数对齐"实验？</li>
+<li>反方为什么说 Hyperball "不是免费午餐"？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么"只调名义 lr
+就能复现"这个事实，足以反驳"存在额外几何优势"？</li>
+<li>这个结论是否推翻 Hyperball 的实用价值？给出你的理由。</li>
+<li>反方对实践使用 Hyperball 提出的警告是什么？</li>
+<li><strong>面试题</strong>：如果两篇论文结论相反，你怎么判断该信哪个？（提示：看实验设计能否排除竞争解释）</li>
+<li><strong>延伸</strong>：这一争论如何直接引出第 66-67
+行的理论工作？（提示：需要一个能判断"正交化是否最优"的框架）</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>66</strong></td>
+<td><strong><code>veryinterested/</code></strong> Weijie Su — Isotropic
+Curvature Model</td>
+<td><code>veryinterested/2511.00674v1.pdf</code></td>
+<td>⭐ 假设曲率各向同性 →
+最优更新是让梯度矩阵<strong>奇异值比值更均匀</strong>；曲率增长相变时正交化才恰好最优
+→ <strong>Muon "方向正确但不严格最优"</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>67</strong></td>
+<td><strong><code>veryinterested/</code></strong> Du &amp; Su — The
+Newton–Muon Optimizer</td>
+<td><code>veryinterested/2604.01472v1.pdf</code></td>
+<td>⭐ 代理模型用
+<span class="math">G</span>（梯度）、<span class="math">H</span>（输出空间曲率）、<span class="math">Z</span>（层输入）；闭式解
+<span class="math">W\leftarrow W-\eta\,\mathrm{msgn}(G(ZZ^\top)^{-1})</span>
+→ <strong>标准 Muon 是忽略输入二阶矩右预条件的隐式牛顿法</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-14一个可以迁移到别处的研究套路">⛳ 检查点
+14｜一个可以迁移到别处的研究套路</h3>
+<blockquote>
+<p><strong>核心洞察 ①：一个可迁移的研究套路</strong>
+苏炜杰那两篇方法论完全一样，<strong>而这个套路比结论更值得学</strong>：</p>
+<ol type="1">
+<li><strong>造一个可分析的代理模型</strong>（各向同性曲率假设 /
+三矩阵代理损失）；</li>
+<li><strong>在模型下求最优更新</strong>（得到闭式解）；</li>
+<li><strong>把现实算法当作它的特例来定位</strong>（Muon =
+忽略右预条件的特例）。</li>
+</ol>
+<p>这个套路在优化理论里反复出现——第 66 行导师那篇的 TTSA 框架、第 90 行
+Newton Matching 的 canonical models，都是同一个思路。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：结论到底说了什么</strong> <strong>Muon
+的正交化"方向正确，但不严格最优"。</strong></p>
+<ul>
+<li>一般情形下，最优更新是让梯度矩阵的<strong>奇异值比值更均匀</strong>（改善条件数），正交化只是其中一个特例；</li>
+<li>当曲率增长发生<strong>相变</strong>时，正交化才恰好最优。</li>
+</ul>
+<p>所以这不是"Muon 错了"，而是"Muon
+在一个更一般的谱形框架里是一个合理的近似"。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：Newton–Muon 补上了什么</strong> 闭式解
+<span class="math">W\leftarrow W-\eta\,\mathrm{msgn}(G(ZZ^\top)^{-1})</span>
+比标准 Muon 多了一个<strong>右预条件
+<span class="math">(ZZ^\top)^{-1}</span></strong>，即<strong>输入数据的二阶矩</strong>。
+含义很直接：标准 Muon 相当于假设
+<span class="math">ZZ^\top\propto I</span>（输入各向同性）——而论文指出这在实践中<strong>根本不成立</strong>（<span class="math">ZZ^\top</span>
+高度各向异性）。它丢了关于输入分布几何的信息。
+<strong>另一个角度</strong>：标准 Muon
+可以看作"隐式牛顿法"，只是没管输入侧的预条件。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>什么是"代理模型"方法？为什么需要它？</li>
+<li>苏炜杰那篇的结论是什么？"方向正确但不严格最优"具体指什么？</li>
+<li>Newton–Muon 的闭式解是什么？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么"让奇异值比值更均匀"能改善条件数？</li>
+<li>"曲率增长发生相变"指什么？相变前后最优更新有什么不同？</li>
+<li>Newton–Muon 比 Muon 多了什么？为什么
+<span class="math">ZZ^\top</span> 各向异性意味着标准 Muon
+丢了信息？</li>
+<li>Newton–Muon 在 Modded-NanoGPT 上的收益是多少？（少 6% 迭代步数、约
+4% 墙钟）这个量级值得换吗？</li>
+<li><strong>面试题</strong>：如果让你复现这两篇的核心结论，最小的实验设计是什么？</li>
+<li><strong>举一反三</strong>：这个"代理模型 → 求最优 →
+对照现实算法"的套路，你还能想到用在哪个优化器上？</li>
+<li><strong>延伸</strong>：第 90 行 Newton Matching
+也用牛顿方向，但它在函数空间——两处的"牛顿"是同一个意思吗？</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>68</strong></td>
+<td>可选：Fan et al. — Muon 在预训练之外的谱失效与高通补救（Pion）</td>
+<td><a href="https://arxiv.org/abs/2605.19282">arXiv:2605.19282</a></td>
+<td>反例视角：均匀谱白化在 VLA 与 RLVR 上会失效。⚠️ 作者含
+<strong>Mingyi Hong</strong>（课程贡献者）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>69</strong></td>
+<td><strong><code>veryinterested/</code></strong> Peyré — Muon Dynamics
+as a Spectral Wasserstein Flow</td>
+<td><code>veryinterested/2604.04891v2.pdf</code></td>
+<td>⚠️ <strong>需最优传输前置（Kantorovich
+对偶、Benamou–Brenier）</strong>。谱 Wasserstein
+距离：迹范数→<span class="math">W_2</span>、算子范数→Muon
+几何；作者明说本文只提供形式化框架，不解释 Muon 为何更好</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>70</strong></td>
+<td><strong><code>processing/</code></strong> Hong,
+<strong>Wai</strong>, Wang &amp; Yang —
+双层优化的双时间尺度随机算法</td>
+<td><code>processing/20m1387341.pdf</code></td>
+<td>⚠️
+<strong>第二作者是你导师</strong>。内层大步长、外层小步长的双时间尺度随机逼近；强/弱凸外层的
+<span class="math">\mathcal{O}(K^{-2/3})</span>、<span class="math">\mathcal{O}(K^{-2/5})</span>；自然
+actor-critic 是其特例。需<strong>变分不等式</strong>前置</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-15进组前的准备">⛳ 检查点 15｜进组前的准备</h3>
+<blockquote>
+<p><strong>核心洞察 ①：这篇论文的贡献不止"双时间尺度"</strong>
+三个层次：</p>
+<ol type="1">
+<li><strong>框架</strong>：内层大步长、外层小步长的<strong>双时间尺度随机逼近</strong>（TTSA）；</li>
+<li><strong>复杂度</strong>：外层强凸得
+<span class="math">\mathcal{O}(K_{\max}^{-2/3})</span>、弱凸得
+<span class="math">\mathcal{O}(K_{\max}^{-2/5})</span>；</li>
+<li><strong>应用</strong>：证明一个自然的 <strong>actor-critic
+近端策略优化算法是其特例</strong>，收敛率
+<span class="math">\mathcal{O}(K_{\max}^{-1/4})</span>。</li>
+</ol>
+<p><strong>第 3
+点是把抽象框架"落地"的关键</strong>——它说明这套理论不是自娱自乐，而是能覆盖真实算法。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：双时间尺度为什么必要</strong>
+双层优化里，外层目标依赖内层问题的最优解
+<span class="math">y^\star(x)</span>。如果每步外层都等内层完全收敛，代价无法接受。
+所以做法是：<strong>内外层同时迭代，但外层步长比内层小一个量级</strong>——内层"追得动"外层的移动。这就是"双时间尺度"的全部直觉。
+注意它与第 90 行 Newton Matching 的"切向步 + canonical
+retraction"是<strong>同一类设计</strong>：都不等一个子问题完全解完。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：与你已有的知识怎么接</strong></p>
+<ul>
+<li><strong>随机逼近</strong>：你 Bandit
+研究里用过半成品，这里是系统版本；</li>
+<li><strong>变分不等式 /
+单调算子</strong>：弱凸外层的分析工具，也是导师与 Mingyi Hong
+的常用语言；</li>
+<li><strong>KKT 与对偶</strong>（第 5
+行）：双层结构写成一阶最优性条件后，就变成约束优化问题。</li>
+</ul>
+<p><strong>这是进组前最该掌握的一篇</strong>——它是导师的方法论文，也是你未来可能直接接手的方向。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>什么是双层优化？内层与外层分别是什么？</li>
+<li>双时间尺度指什么？内外层步长的相对量级关系是什么？</li>
+<li>这篇的两个复杂度结果分别对应什么假设？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么外层不能等内层完全收敛？</li>
+<li>论文证明了哪个真实算法是它的特例？收敛率是多少？</li>
+<li>这篇与第 5 行的 KKT、第 83 行的原始-对偶共享什么数学语言？</li>
+<li><strong>面试题</strong>：如果有人说"双时间尺度只是工程技巧"，你会怎么反驳？</li>
+<li><strong>进组前必答</strong>：用三句话复述<strong>导师这篇论文做了什么、为什么重要</strong>。（这句话你迟早要能说）</li>
+<li><strong>延伸</strong>：第 69 行 Peyré
+那篇也处理"约束/几何"，与这篇的方向有何不同？（Peyré
+给形式化语言，这篇给复杂度保证）</li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>71</strong></td>
+<td>Kaplan et al. — Scaling Laws for Neural Language Models</td>
+<td><a href="https://arxiv.org/abs/2001.08361">arXiv:2001.08361</a></td>
+<td>经验 scaling law 的起点：损失随
+<span class="math">N</span>、<span class="math">D</span>、<span class="math">C</span>
+呈幂律下降</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>72</strong></td>
+<td><strong><code>processing/</code></strong> Drusvyatskiy &amp; Xiao —
+<strong>Stochastic Optimization with Decision-Dependent
+Distributions</strong>（<em>Math. of OR</em> 48(2):954–998, 2023）</td>
+<td><code>processing/EBSCO-FullText-09_21_2026.pdf</code></td>
+<td>⭐⭐ <strong>Performative Prediction 的核心理论工作</strong>——⚠️
+<strong>而你导师的方向里明确写着 Performative
+Prediction</strong>。数据分布会<strong>随决策变量改变</strong>（如用户为通过分类器而操纵自身特征），目标是找"对<strong>由该决策诱导出的静态分布</strong>最优"的决策点。结论：强凸下<strong>常规随机算法（SGD、clipped
+gradient、prox-point、对偶平均及其加速/邻近变体）可直接套用</strong>，因为分布漂移只是引入一个<strong>随到解距离线性衰减的偏差</strong>；并提出只用
+<span class="math">\log</span> 次部署也能保持样本效率的改法。</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>73</strong></td>
+<td>Hoffmann et al. — Chinchilla</td>
+<td><a href="https://arxiv.org/abs/2203.15556">arXiv:2203.15556</a></td>
+<td>与 Kaplan
+结论不同，<strong>读时找差异</strong>——差异本身是理解"瓶颈"的入口</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>74</strong></td>
+<td>Rosenfeld et al. — A Constructive Prediction of the Generalization
+Error</td>
+<td><a href="https://arxiv.org/abs/2012.04115">arXiv:2012.04115</a></td>
+<td>多重幂律（MPL）的机制</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>75</strong></td>
+<td>Bahri et al. — Explaining Neural Scaling Laws</td>
+<td><a href="https://arxiv.org/abs/2102.06731">arXiv:2102.06731</a></td>
+<td>从"四类机制"解释幂律；与下篇对照</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>76</strong></td>
+<td>邹嘉轩等 — Effective Frontiers: A Unification of Neural Scaling
+Laws</td>
+<td><a href="https://arxiv.org/abs/2602.02593">arXiv:2602.02593</a></td>
+<td>⭐
+把学习抽象为<strong>长尾（Zipf）分布的模式覆盖</strong>；Effective
+Frontier <span class="math">k_\star</span> 分割已学/未学；用
+<strong>Max-Bottleneck 原理</strong>说明 Kaplan 与 Chinchilla
+不矛盾，而是同一约束优化问题在不同活跃瓶颈下的均衡解</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>77</strong></td>
+<td>Ren et al. — Transferable Hypersphere Optimization</td>
+<td><a href="https://arxiv.org/abs/2603.28743">arXiv:2603.28743</a></td>
+<td>最优学习率的幂律缩放
+<span class="math">\eta^*\propto T^{-0.32}</span> 的来源</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>78</strong></td>
+<td>可选：Schaeffer et al. — Are Emergent Abilities of LLMs a
+Mirage?</td>
+<td><a href="https://arxiv.org/abs/2304.15004">arXiv:2304.15004</a></td>
+<td>给 scaling law 加一层怀疑：涌现可能是度量选择的产物</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-16两篇-scaling-law-为什么不矛盾">⛳ 检查点 16｜两篇
+scaling law 为什么不矛盾</h3>
+<blockquote>
+<p><strong>核心洞察 ①：为什么不是"谁错了"</strong> Kaplan 与 Chinchilla
+都正确——它们是<strong>同一个约束优化问题在不同"活跃瓶颈"下的均衡解</strong>（Max-Bottleneck
+原理）。
+损失由三个瓶颈中最紧的那个决定：<span class="math">N</span>（模型容量）、<span class="math">D</span>（数据覆盖）、<span class="math">C</span>（优化）。两组实验的<strong>瓶颈不同</strong>，所以最优配比不同。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：长尾覆盖视角</strong> Effective Frontiers
+的框架：把学习任务抽象为<strong>从长尾（Zipf）分布中逐步覆盖模式</strong>。</p>
+<ul>
+<li>设"有效前沿" <span class="math">k_\star</span>：秩低于
+<span class="math">k_\star</span> 的模式已学会，高于的还在尾部；</li>
+<li><strong>可约损失渐近等于尾部概率质量</strong>；</li>
+<li>于是
+<span class="math">N</span>、<span class="math">D</span>、<span class="math">C</span>
+分别对应三种瓶颈——<strong>容量、覆盖、优化</strong>。</li>
+</ul>
+<p>这个框架的好处是把三个经验幂律<strong>用同一套语言</strong>推出来，而不是三条独立拟合曲线。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：开放问题</strong>
+<span class="math">\eta^*\propto T^{-0.32}</span>（最优学习率随 token
+规模的幂律缩放）是实证结论，且与 AdamW
+上报告的指数相符——<strong>但该指数的理论来源未查明。</strong>
+这是难得一见写在论文里的明确开放问题。<strong>读到它时的正确反应不是"我没读懂"，而是"这是个可以做的题"。</strong></p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>Kaplan 与 Chinchilla 的结论差异是什么？</li>
+<li>什么是"活跃瓶颈"？三个瓶颈分别对应什么？</li>
+<li>Effective Frontier <span class="math">k_\star</span>
+是什么意思？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么可约损失由长尾分布的<strong>尾部概率质量</strong>决定？</li>
+<li>用瓶颈语言解释：为什么数据量增大到某一点后，扩模型才开始划算？</li>
+<li><strong>面试题</strong>："Kaplan 和 Chinchilla
+谁错了？"——你会怎么回答？</li>
+<li><span class="math">\eta^*\propto T^{-0.32}</span>
+这个指数从哪来？</li>
+<li><strong>延伸</strong>：第 74
+行"涌现能力可能是度量选择的产物"这一说法，与 scaling law
+的幂律图景矛盾吗？</li>
+<li><strong>延伸</strong>：第 75 行用 Fisher
+信息把学习速度分解为漂移+噪声，这与本检查点的"三种瓶颈"是互补还是重复？</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>第 7 题的答案是"没人知道"——这是公开的开放问题。</strong>
+论文里没有答案，不要以为自己没读懂。</p>
+</blockquote>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>79</strong></td>
+<td>可选：<strong><code>veryinterested/</code></strong> SGD
+信息获取速度极限</td>
+<td><code>veryinterested/2609.08219v1.pdf</code></td>
+<td>把 SGD 建模为马尔可夫过程，导出 <strong>Fisher
+信息流速度极限</strong>，把信息流分解为漂移项 + 噪声项——与 ELR 的
+bias–variance 分解<strong>结构同源</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>80</strong></td>
+<td>Sutton &amp; Barto — RL: An Introduction（第 13 章）</td>
+<td><a
+href="http://incompleteideas.net/book/the-book-2nd.html">官网免费</a></td>
+<td>策略梯度定理；第 3–4 章可略读</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>81</strong></td>
+<td>Schulman et al. — GAE（Generalized Advantage Estimation）</td>
+<td><a href="https://arxiv.org/abs/1506.02438">arXiv:1506.02438</a></td>
+<td>⭐
+优势估计的<strong>偏差-方差权衡</strong>——与优化器理论最同构的一篇，用的是同一套语言</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>82</strong></td>
+<td>Schulman et al. — TRPO</td>
+<td><a href="https://arxiv.org/abs/1502.05477">arXiv:1502.05477</a></td>
+<td>把"策略别变太多"写成 KL 约束 → 变成约束优化问题</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>83</strong></td>
+<td>Schulman et al. — PPO</td>
+<td><a href="https://arxiv.org/abs/1707.06347">arXiv:1707.06347</a></td>
+<td>clipping 如何近似信任域、丢掉了什么</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>84</strong></td>
+<td>Ouyang et al. — InstructGPT / RLHF</td>
+<td><a href="https://arxiv.org/abs/2203.02155">arXiv:2203.02155</a></td>
+<td>RL 在语言模型上真正跑通的起点（SFT → RM → PPO）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>85</strong></td>
+<td>Shao et al. — DeepSeekMath / GRPO</td>
+<td><a href="https://arxiv.org/abs/2402.03300">arXiv:2402.03300</a></td>
+<td>去掉价值网络，改用组内相对优势</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>86</strong></td>
+<td>Yu et al. — DAPO</td>
+<td><a href="https://arxiv.org/abs/2503.14476">arXiv:2503.14476</a></td>
+<td>clipping 在真实大规模系统里如何被改造（clip-higher、动态采样）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-17跨线问题clipping-与学习率衰减">⛳ 检查点
+17｜跨线问题：clipping 与学习率衰减</h3>
+<blockquote>
+<p><strong>核心洞察 ①：这是同一个问题</strong> PPO 的 <strong>clipping
+是一种启发式的"步长控制"</strong>——限制策略不要一次更新太远。这和优化器里的学习率调度<strong>是同一类问题的两种问法</strong>：都在问"这一步该迈多大"。
+两边的工具也对应：KL 约束 ↔︎ 信任域；clip 范围 ↔︎
+步长上限；<span class="math">\beta_2</span> ↔︎ 优势估计的
+<span class="math">\lambda</span>。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：clipping 丢掉了什么</strong>
+裁剪是<strong>无差别</strong>的：既砍掉坏的（高散度低回报的更新），也砍掉好的（高回报但高散度的更新）。
+后者恰恰是探索最有价值的信号——<strong>新发现往往就藏在"策略变化大但结果好"的更新里</strong>。R²VPO
+的观察就是：显式约束<strong>策略比值的方差</strong>，可以作为信任域约束的原理性局部近似，从而取代硬
+clip。 它还带来一个副产品：能<strong>复用陈旧的 off-policy
+数据</strong>（自然降权而非直接丢弃）。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：GAE 与偏差-方差</strong> 第 77 行 GAE
+是全表<strong>与优化器理论最同构</strong>的一篇：它用
+<span class="math">\lambda</span>
+在"偏差"与"方差"之间插值——<span class="math">\lambda=0</span>
+只用一步（低方差高偏差），<span class="math">\lambda=1</span>
+用完整回报（低偏差高方差）。 这与第 8 检查点的调度形状、第 32-37 行的
+warmup/decay
+是<strong>同一个权衡的不同外衣</strong>。<strong>能看出这层同构，说明你真的把它读通了。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ④：三篇论文在改同一件事的三个位置</strong> 把第
+83–85
+行放在一起看，会发现它们攻击的是<strong>同一个目标的三个不同位置</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>论文</th>
+<th>改的是</th>
+<th>手段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R²VPO（83）</td>
+<td><strong>更新幅度的约束方式</strong></td>
+<td>用比值方差取代硬 clipping</td>
+</tr>
+<tr>
+<td>TailRL（84）</td>
+<td><strong>优化的目标函数</strong></td>
+<td>从期望奖励 → 奖励上尾覆盖率</td>
+</tr>
+<tr>
+<td><strong>MaxRL（85）</strong></td>
+<td><strong>目标的数学性质</strong></td>
+<td>指出期望回报 RL
+只是<strong>似然的一阶近似</strong>，改回极大似然</td>
+</tr>
+</tbody>
+</table>
+<p><strong>MaxRL
+的论证最彻底</strong>：当反馈是<strong>终局二值</strong>（对/错）时，模型本来就隐含了一个"正确
+rollout 的似然"，用 RL 只是绕开不可微的权宜之计——<strong>所以标准 RL
+目标从根上就选错了对象</strong>。它的目标是按<strong>采样算力</strong>索引的一族函数，在"期望回报"与"极大似然"之间插值，对标准实现只改一行。</p>
+<p>📌 <strong>而 TailRL 与 MaxRL 是同一批作者（CMU Zanette
+组）。</strong>
+顺着这条线读，能看到一个研究组如何从"改目标的一个方面"走到"质疑目标本身"——<strong>这本身就是很好的科研方法样本</strong>。</p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>写出 PPO 的 clipped objective，逐项解释。</li>
+<li>clipping 丢掉了什么信息？</li>
+<li>什么是优势函数？为什么要减 baseline？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>TRPO 的 KL 约束本质上是哪种"步长控制"？</li>
+<li>R²VPO 提出的替代是什么？为什么说它是"信任域约束的局部近似"？</li>
+<li>GAE 的 <span class="math">\lambda</span>
+在权衡什么？<span class="math">\lambda=0</span> 与
+<span class="math">\lambda=1</span> 分别是什么极端？</li>
+<li><strong>面试题</strong>：为什么大模型 RL 普遍用 GRPO 而不直接用
+PPO？（提示：价值网络的代价）</li>
+<li><strong>跨线问题（本计划最值得想的一问）</strong>：clipping
+与学习率衰减，是不是同一个"抑制后期方差"的两种写法？</li>
+<li><strong>延伸</strong>：R²VPO 用原始-对偶框架实现约束——回到第 5 行的
+KKT，你能说出对偶变量在这里的物理意义吗？</li>
+</ol>
+<p><strong>关于 MaxRL 的追加自测（第 86 行）</strong></p>
+<ol start="10" type="1">
+<li>为什么说"终局二值反馈"下模型隐含了一个似然？这个似然定义在什么空间上？</li>
+<li>"期望回报 RL
+只是似然的一阶近似"——这里的"一阶"是指对什么量做展开？</li>
+<li>MaxRL
+用"采样算力"索引目标函数，这意味着什么？算力越大目标越接近什么？</li>
+<li><strong>面试题</strong>：如果 MaxRL 在测试期 scaling 效率上比 GRPO
+高 20×，你会怎么设计实验来验证这不是调参带来的假象？</li>
+<li><strong>对照题（最重要）</strong>：TailRL 与 MaxRL
+出自同一批作者、都改目标函数。<strong>它们改的是同一个方面吗？各自的立足点是什么？</strong></li>
+</ol>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>87</strong></td>
+<td><strong>腾讯混元 — GradLoc：异常梯度定位器</strong>（RLVR
+训练崩溃诊断）</td>
+<td><a
+href="https://hy.tencent.com/research/100015?langVersion=zh">研究博客</a>
+｜ <a href="https://github.com/Tencent-Hunyuan/GradLoc">GitHub</a></td>
+<td>⭐ 把全局 <strong>Gradient Spike 定位到具体
+token</strong>：适配分布式框架 + 二分搜索（复杂度线性→对数）＋ 贪心 DFS
+回溯多个异常点 ＋
+自适应阈值。据此定位出三类异常并给出对应裁剪：<strong>TokenClip /
+SeqClip / LayerClip</strong>。⚠️ 页面 JS 渲染，抓不到正文；可读<a
+href="https://cloud.tencent.cn/developer/article/2632665">云社区转载全文</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-18训练不稳定性从玄学到可观测">⛳ 检查点
+18｜训练不稳定性：从"玄学"到可观测</h3>
+<blockquote>
+<p><strong>核心洞察 ①：一个被忽视的问题</strong> 前面 80
+行都在讲"<strong>怎么设计更好的优化器</strong>"。但工业界真实训练里，最常见、最烧钱的失败是——<strong>训练中途崩溃</strong>（损失断崖式下跌），伴随监控面板上的
+<strong>Gradient Spike</strong>。 而排查手段极其原始：盯着
+<code>grad_norm</code>
+曲线猜——是学习率不对？数据脏？还是工程问题？然后端到端跑实验验证。<strong>这种排查高度依赖专家直觉，周期以「周」计。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ②：GradLoc 做的事</strong>
+把全局的梯度突刺<strong>定位到具体 token</strong>。技术上三个要点：</p>
+<ul>
+<li><strong>二分搜索</strong>：适配分布式框架分层定位（Global →
+Micro-Batch → Rank →
+Token），复杂度从线性降到<strong>对数级</strong>。没有它，排查一个 step
+要花数万个 step 的时间。</li>
+<li><strong>贪心
+DFS</strong>：优先追踪梯度范数最大的一侧，并在异常点附近回溯，一次定位出多个异常
+token。</li>
+<li><strong>自适应阈值</strong>：适应聚合规模的动态变化，避免漏检与误检。</li>
+</ul>
+<p>结果是能给出确定性的诊断："<strong>崩溃根源是 Batch 中第 2 个序列的第
+5 个 token，在第 32 层反向传播时数值异常。</strong>" 代价可控：异常 step
+耗时增加 1–3 倍，但<strong>只在检测到突刺时触发</strong>（always-on but
+dormant），摊销到整个训练几乎可忽略。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ③：与你主线最直接的接口</strong> GradLoc
+定位出三类异常，并对应三种裁剪：<strong>TokenClip（token 级训推不一致）/
+SeqClip（序列级）/ LayerClip（层间梯度异质性）</strong>。</p>
+<p><strong>注意最后一类</strong>：论文明确说 LayerClip
+只是<strong>缓解手段</strong>，并未从源头消除"层间梯度异质性"——而这被列为<strong>尚未被充分理解的现象</strong>，并指出未来要"从<strong>数学原理层面</strong>设计更鲁棒、更高效的优化算法"。</p>
+<p>🎯 <strong>这就是你的机会窗口</strong>：你表里前 80
+行学的所有东西（范数几何、Fisher
+信息、有效学习率）都是<strong>设计优化器</strong>的工具；而"为什么不同层的梯度行为不同"是一个<strong>几乎还没被理论回答</strong>的问题。<strong>这一类"工业界提出、理论界未答"的问题，正是最适合切进去的题目。</strong></p>
+</blockquote>
+<p><strong>自测（基础）</strong></p>
+<ol type="1">
+<li>什么是 Gradient Spike？它与训练崩溃是什么关系？</li>
+<li>GradLoc 为什么要用二分搜索？不用会怎样？</li>
+<li>三类裁剪（TokenClip / SeqClip / LayerClip）分别针对什么异常？</li>
+</ol>
+<p><strong>自测（进阶）</strong></p>
+<ol start="4" type="1">
+<li>为什么"层间梯度异质性"无法靠 LayerClip 从根本上解决？</li>
+<li>自适应阈值要避免哪两种错误？为什么聚合规模变化会让固定阈值失效？</li>
+<li><strong>面试题</strong>：如果给你一条 <code>grad_norm</code>
+曲线和一次训练崩溃，你会怎么设计排查流程？</li>
+<li><strong>延伸（最重要的一问）</strong>：本表第 42-50
+行讲的都是"如何设计更好的更新方向与步长"。<strong>那么"梯度在深层网络里为什么会产生层间异质性"，属于同一个理论体系能回答的问题吗？</strong></li>
+<li><strong>延伸</strong>：第 77-81 行的 PPO/GRPO 与这里的 RLVR
+是什么关系？为什么 RL 阶段比预训练更容易崩？</li>
+</ol>
+<blockquote>
+<p>💡
+<strong>为什么这一条值得单独列</strong>：你兴趣清单里写着"优化器从数学第一性出发"。但<strong>第一性原理不只用来设计优化器，也用来解释工业界撞到的墙</strong>。这一条给了你一个具体、当下、还没被解决的问题作为锚点。</p>
+</blockquote>
+<hr />
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>先看什么（材料）</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>88</strong></td>
+<td><strong><code>veryinterested/</code></strong> R²VPO — Ratio-Variance
+Regularized Policy Optimization</td>
+<td><code>veryinterested/2605.26784v1.pdf</code></td>
+<td>⭐
+显式约束<strong>策略比值方差</strong>作为信任域约束的原理性局部近似，取代硬
+clipping；用<strong>原始-对偶优化</strong>实现（接第 5 行的 KKT）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>89</strong></td>
+<td><strong><code>veryinterested/</code></strong> TailRL —
+Tail-Likelihood Reinforcement Learning</td>
+<td><code>veryinterested/2609.02987v2.pdf</code></td>
+<td>⭐ 优化<strong>奖励的上尾覆盖率</strong>而非期望；梯度可解释为
+Best-of-k 梯度的混合</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>90</strong></td>
+<td><strong><code>veryinterested/</code></strong> Tajwar, Zeng, Zhou,
+Song, Arora, Jiang, Schneider, Salakhutdinov, Feng &amp; Zanette —
+<strong>Maximum Likelihood Reinforcement Learning (MaxRL)</strong>（ICML
+2026）</td>
+<td><code>veryinterested/2602.02710v3.pdf</code> ｜ <a
+href="https://arxiv.org/abs/2602.02710">arXiv:2602.02710</a> ｜ <a
+href="https://zanette-labs.github.io/MaxRL/">项目页</a></td>
+<td>⭐⭐ <strong>本表 RL
+部分理论最深的一篇</strong>。核心观察：当反馈是<strong>终局且二值</strong>（做对/做错）时，模型实际上<strong>隐含地定义了一个"正确
+rollout"的似然</strong>——而 RL
+只是为了绕开不可微才被拿来用。<strong>定理：标准期望回报式 RL
+只是该似然的一阶近似。</strong> 由此提出
+<strong>MaxRL</strong>——一族按<strong>采样算力索引</strong>的目标函数，在"期望回报
+RL"与"极大似然"之间插值；<strong>对标准 RL
+实现只是一行代码的改动</strong>。结果：在所有测试模型与任务上 Pareto
+占优，<strong>测试期 scaling 效率相对 GRPO 最高提升
+20×</strong>，且随训练数据与算力扩展更有利。⚠️ <strong>与第 85 行 TailRL
+是同一批作者</strong>（CMU Zanette 组），务必对照读</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>91</strong></td>
+<td>选修：课程 <strong>§4.5 零阶优化</strong></td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/lectures/Chapter4/zeroth_order.html">4.5</a></td>
+<td>用函数值差分
+<span class="math">\frac{\ell(w+\mu u)-\ell(w-\mu u)}{2\mu}u</span>
+替代反向传播；只要两次前向；含显存分解的可运行代码</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>92</strong></td>
+<td>Malladi et al. — MeZO</td>
+<td><a href="https://arxiv.org/abs/2305.17333">arXiv:2305.17333</a></td>
+<td>"只用前向传播微调"的代表工作</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>93</strong></td>
+<td>Zhang et al. — Revisiting ZO for Memory-Efficient LLM
+Fine-Tuning</td>
+<td><a href="https://arxiv.org/abs/2402.11592">arXiv:2402.11592</a></td>
+<td>13B 模型内存对比。⚠️ 作者含 <strong>Mingyi
+Hong</strong>、<strong>Jiaxiang Li</strong>（课程贡献者）</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>94</strong></td>
+<td><strong><code>maybeRead/</code></strong> Li, Wang, Giaretta &amp;
+<strong>Azizan（MIT）</strong> — Newton Matching for Generative
+Modeling</td>
+<td><code>maybeRead/2609.05727v1.pdf</code> ｜ <a
+href="https://arxiv.org/abs/2609.05727">arXiv:2609.05727</a></td>
+<td>⭐ 把微调与采样统一：目标
+<span class="math">\pi\propto\mu e^{\tau r}</span>；在密度流形上搬运
+<strong>Fisher–Rao 度量</strong>，<strong>证明 reverse-KL 的 Hessian
+等于该度量，故牛顿方向 = 负 Fisher–Rao 梯度</strong>；全步长
+<span class="math">\eta=\tau</span> 时<strong>局部二次收敛</strong>。⚠️
+<strong>需信息几何前置；换了函数空间框架，放最后读</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="golf-检查点-19全表终测">⛳ 检查点 19｜全表终测</h3>
+<blockquote>
+<p><strong>能闭卷回答下面五个问题，这份材料就算读通了。</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>问题</th>
+<th style="text-align: center;">答案在哪一行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td><strong>Adam 为什么叫"二阶方法"？</strong></td>
+<td style="text-align: center;">48（对角 Fisher 近似）</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>Muon 为什么要正交化？</strong></td>
+<td style="text-align: center;">47（谱范数最速下降，对偶是核范数）</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td><strong>Hyperball 到底做了什么？争论点在哪？</strong></td>
+<td style="text-align: center;">41–43、58–59</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td><strong>为什么最优 lr 会随模型宽度变化？</strong></td>
+<td style="text-align: center;">37–39（μP）</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td><strong>Kaplan 和 Chinchilla 谁错了？</strong></td>
+<td style="text-align: center;">69（都没错，是不同瓶颈下的均衡解）</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td><strong><span class="math">T^{-0.32}</span>
+这个指数为什么是这个值？</strong></td>
+<td
+style="text-align: center;">70（<strong>开放问题，没有答案</strong>）</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td><strong>为什么要 warmup？为什么最优调度是峰值加衰减？</strong></td>
+<td style="text-align: center;">31–36（偏差-方差权衡）</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td><strong>"调 lr"到底在调什么？</strong></td>
+<td style="text-align: center;">41–44（有效学习率）</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td><strong>clipping 与学习率衰减是同一件事吗？</strong></td>
+<td style="text-align: center;">74–80（都是"步长该迈多大"）</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td><strong>双时间尺度为什么必要？</strong></td>
+<td style="text-align: center;">64（外层不能等内层收敛）</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td><strong>有个工业界撞到、理论界还没答的问题是什么？</strong></td>
+<td style="text-align: center;">80（层间梯度异质性）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心验收标准</strong></p>
+<blockquote>
+<p><strong>能画出第 46-50 行那条"换范数就换优化器"的链条。</strong>
+<span class="math display">\ell_2\to\text{SGD},\qquad \ell_\infty\to\text{sign-SGD},\qquad \text{谱范数}\to\text{Muon}</span>
+以及另一条：<strong>对角 Fisher <span class="math">\to</span>
+Adam，Kronecker <span class="math">\to</span> Shampoo</strong>，而 Muon
+与 Shampoo 在 <span class="math">\beta=0</span> 时相同。</p>
+</blockquote>
+<p><strong>三条贯穿全表的主线（能复述就算通过）</strong></p>
+<ol type="1">
+<li><strong>范数 → 几何 → 优化器</strong>：选范数 = 选几何 = 选算法（第
+46-50 行）</li>
+<li><strong>Fisher 信息 →
+二阶方法</strong>：Adam（对角）、Shampoo（Kronecker）、Newton–Muon（牛顿型）、Newton
+Matching（函数空间）</li>
+<li><strong>步子该迈多大</strong>：<span class="math">\eta_t\le 1/L</span>
+→ 调度形状 → 权重范数与有效学习率 → Hyperball 之争 → RL 里的
+clipping</li>
+</ol>
+<p><strong>如果只能记住一句话</strong></p>
+<blockquote>
+<p><strong>现代优化器的设计，本质是在最速下降里选一个范数；而这个范数背后，是对"参数是什么几何对象"的回答。</strong></p>
+</blockquote>
+<p><strong>最后：动手清单自检</strong></p>
+<ul class="task-list">
+<li><p><label><input type="checkbox" />手写过 SGD / 动量 / Adam /
+AdamW，且与 <code>torch.optim</code> 数值对齐</label></p></li>
+<li><p><label><input type="checkbox" />复现过 "Adam + L2" vs "AdamW"
+的差异</label></p></li>
+<li><p><label><input type="checkbox" />记录过名义 lr / 权重范数 / 有效
+lr，并看到二者分道扬镳</label></p></li>
+<li><p><label><input type="checkbox" />实现过 Muon 与 Shampoo，并验证
+<span class="math">\beta=0</span> 时二者相同</label></p></li>
+<li><p><label><input type="checkbox" />用 Newton–Schulz
+迭代近似过矩阵符号函数，与 SVD 对比</label></p></li>
+<li><p><label><input
+type="checkbox" />画出过不同优化器的更新矩阵<strong>奇异值分布</strong></label></p></li>
+<li><p><label><input type="checkbox" />自己拟合过一条 scaling law
+幂律并报出指数</label></p></li>
+</ul>
+<hr />
+<h2
+id="兴趣支线深度学习理论不阻塞主线有余力再读">兴趣支线：深度学习理论（不阻塞主线，有余力再读）</h2>
+<blockquote>
+<p>对应你「三、兴趣关注」里那两条"纯兴趣"：Grokking、表示学习、对称性、位置编码。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>材料在哪</th>
+<th>学习什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">A1</td>
+<td>Power et al. — Grokking: Generalized...</td>
+<td><a href="https://arxiv.org/abs/2201.02177">arXiv:2201.02177</a></td>
+<td>Grokking 现象的发现论文</td>
+</tr>
+<tr>
+<td style="text-align: center;">A2</td>
+<td>Liu et al. — Towards Understanding Grokking（ICLR 2023）</td>
+<td><a href="https://arxiv.org/abs/2205.10343">arXiv:2205.10343</a></td>
+<td>Grokking 的机理分析（表示学习视角）</td>
+</tr>
+<tr>
+<td style="text-align: center;">A3</td>
+<td>Nanda et al. — Progress Measures for Grokking via Mechanistic
+Interpretability</td>
+<td><a href="https://arxiv.org/abs/2301.05217">arXiv:2301.05217</a></td>
+<td>用机制可解释性看 Grokking 内部发生了什么</td>
+</tr>
+<tr>
+<td style="text-align: center;">A4</td>
+<td>Chizat, Oyallon &amp; Bach — On Lazy Training</td>
+<td><a href="https://arxiv.org/abs/1812.07956">arXiv:1812.07956</a></td>
+<td>特征学习动力学的起点：什么时候网络"不学特征"</td>
+</tr>
+<tr>
+<td style="text-align: center;">A5</td>
+<td>Sun, Hu &amp; Chizat — How Do Infinite Width Networks Avoid the Lazy
+Regime?</td>
+<td><a href="https://arxiv.org/abs/2002.08826">arXiv:2002.08826</a></td>
+<td>有限宽度为什么会真的学特征</td>
+</tr>
+<tr>
+<td style="text-align: center;">A6</td>
+<td>Neyshabur et al. — In Search of the Real Inductive Bias</td>
+<td><a href="https://arxiv.org/abs/1412.6614">arXiv:1412.6614</a></td>
+<td>隐式正则：泛化从哪来。<strong>与 Muon/Hyperball 的"隐式 lr
+调度"是同一类思路</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">A7</td>
+<td>Cohen et al. — Group Equivariant Convolutional
+Networks（G-CNN）</td>
+<td><a href="https://arxiv.org/abs/1602.07576">arXiv:1602.07576</a></td>
+<td><strong>对称性与表示学习</strong>的奠基工作；群论进入网络架构的范例</td>
+</tr>
+<tr>
+<td style="text-align: center;">A8</td>
+<td>Bronstein et al. — Geometric Deep Learning: Going Beyond Euclidean
+Data</td>
+<td><a href="https://arxiv.org/abs/1611.08097">arXiv:1611.08097</a></td>
+<td>对称性/不变性的统一框架（GDL 蓝图）</td>
+</tr>
+<tr>
+<td style="text-align: center;">A9</td>
+<td>Su et al. — RoFormer / RoPE</td>
+<td><a href="https://arxiv.org/abs/2104.09864">arXiv:2104.09864</a></td>
+<td>位置编码的数学本质。⚠️ 作者含<strong>苏剑林</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">A10</td>
+<td>Zou — Kaczmarz Linear Attention</td>
+<td><a href="https://arxiv.org/abs/2605.08587">arXiv:2605.08587</a></td>
+<td>邹嘉轩的工作，看同代人怎么做架构理论</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="本地材料位置">本地材料位置</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>是什么</th>
+<th style="text-align: center;">在总表第几行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>processing/2604.12968v1.pdf</code></td>
+<td>优化方法演化综述（2026）</td>
+<td style="text-align: center;">28</td>
+</tr>
+<tr>
+<td><code>processing/19m1263443.pdf</code></td>
+<td>Barakat &amp; Bianchi — Adam 的收敛与动力学（SIAM J. Optim.
+2021）</td>
+<td style="text-align: center;">29</td>
+</tr>
+<tr>
+<td><code>processing/EBSCO-FullText-09_21_2026 (1).pdf</code></td>
+<td>Chen, Na &amp; Kolar — 增长条件下加速 SGD 的收敛分析（<em>Math. of
+OR</em> 2024）<strong>← 新</strong></td>
+<td style="text-align: center;">30</td>
+</tr>
+<tr>
+<td><code>processing/20m1387341.pdf</code></td>
+<td>Hong, <strong>Wai</strong>, Wang &amp; Yang —
+双层优化双时间尺度（SIAM J. Optim. 2023）</td>
+<td style="text-align: center;">70</td>
+</tr>
+<tr>
+<td><code>processing/EBSCO-FullText-09_21_2026.pdf</code></td>
+<td>Drusvyatskiy &amp; Xiao — 决策依赖分布下的随机优化（<em>Math. of
+OR</em> 2023）<strong>← 新</strong></td>
+<td style="text-align: center;">72</td>
+</tr>
+<tr>
+<td><code>veryinterested/2511.00674v1.pdf</code></td>
+<td>Weijie Su — Isotropic Curvature Model</td>
+<td style="text-align: center;">66</td>
+</tr>
+<tr>
+<td><code>veryinterested/2604.01472v1.pdf</code></td>
+<td>Du &amp; Su — The Newton–Muon Optimizer</td>
+<td style="text-align: center;">67</td>
+</tr>
+<tr>
+<td><code>veryinterested/2604.04891v2.pdf</code></td>
+<td>Peyré — Muon Dynamics as a Spectral Wasserstein Flow</td>
+<td style="text-align: center;">69</td>
+</tr>
+<tr>
+<td><code>veryinterested/2605.26784v1.pdf</code></td>
+<td>R²VPO</td>
+<td style="text-align: center;">88</td>
+</tr>
+<tr>
+<td><code>veryinterested/2609.02987v2.pdf</code></td>
+<td>TailRL</td>
+<td style="text-align: center;">89</td>
+</tr>
+<tr>
+<td><code>veryinterested/2602.02710v3.pdf</code></td>
+<td>Tajwar et al. — <strong>MaxRL: Maximum Likelihood Reinforcement
+Learning</strong>（ICML 2026）</td>
+<td style="text-align: center;">90</td>
+</tr>
+<tr>
+<td><code>veryinterested/2609.08219v1.pdf</code></td>
+<td>SGD 信息获取速度极限</td>
+<td style="text-align: center;">79</td>
+</tr>
+<tr>
+<td><code>maybeRead/2609.05727v1.pdf</code></td>
+<td>Li, Wang, Giaretta &amp; Azizan — Newton Matching</td>
+<td style="text-align: center;">94</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong><code>processing/</code> 里新增的两篇用的是 EBSCO
+导出的临时文件名</strong>，完全看不出是哪篇、还带 <code>(1)</code>
+后缀。建议改名，例如：</p>
+<ul>
+<li><code>ChenNaKolar-加速SGD-增长条件-MOR2024.pdf</code></li>
+<li><code>DrusvyatskiyXiao-决策依赖分布-MOR2023.pdf</code></li>
+</ul>
+<p>另有 <code>19m1263443.pdf</code>、<code>20m1387341.pdf</code>
+是期刊投稿编号而非标题（<code>20m1387341</code> = DOI
+10.1137/20M1387341）。<strong>读完统一改成「作者-标题」</strong>，否则过一阵就认不出哪个是哪个。</p>
+<p>📥 <strong>下载时注意取最新 v 号</strong>：MaxRL 已到
+<strong>v3</strong>（2026-08-21 修订，本地已存
+<code>2602.02710v3.pdf</code>），TailRL 本地是 v2。arXiv 的 v
+号会随修订变化，直接拼 <code>v1</code> 可能拿到旧版。</p>
+</blockquote>
+<hr />
+<h2
+id="需要先补的数学工具用不到就不用学">需要先补的数学工具（用不到就不用学）</h2>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>什么时候需要</th>
+<th>用在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对偶范数（<span class="math">\ell_\infty\leftrightarrow\ell_1</span>；谱范数
+<span class="math">\leftrightarrow</span> 核范数）</td>
+<td>第 46-48 行</td>
+<td>Muon 的推导</td>
+</tr>
+<tr>
+<td><strong>矩阵优化 / 流形上的最速下降</strong>（约束优化、Stiefel
+流形、retraction）</td>
+<td>第 46-50 行</td>
+<td>课程 §4.3 ＋
+<strong>苏剑林五篇连载</strong>（见「中文长文支线」）。数学基础你已有，主要是把"约束
+→ 最速下降 → 优化器"这套语言接上</td>
+</tr>
+<tr>
+<td>Łojasiewicz 不等式</td>
+<td>第 29 行</td>
+<td>Adam 的 ODE 收敛分析</td>
+</tr>
+<tr>
+<td>变分不等式 / 单调算子</td>
+<td>第 66 行</td>
+<td>双层优化</td>
+</tr>
+<tr>
+<td>双时间尺度随机逼近</td>
+<td>第 66 行</td>
+<td>导师论文</td>
+</tr>
+<tr>
+<td>最优传输（Kantorovich 对偶、Benamou–Brenier）</td>
+<td>第 65 行</td>
+<td>谱 Wasserstein 几何</td>
+</tr>
+<tr>
+<td>信息几何（Fisher–Rao 度量、密度流形）</td>
+<td>第 94 行</td>
+<td>Newton Matching</td>
+</tr>
+<tr>
+<td>李群 / 对称性</td>
+<td>第 56、A7、A8 行</td>
+<td>正交化几何、等变网络</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="三条主干线索读的时候心里有数">三条主干线索（读的时候心里有数）</h2>
+<ol type="1">
+<li><strong>范数 → 几何 → 优化器</strong>：换最速下降里的范数，依次得到
+SGD（<span class="math">\ell_2</span>）、sign-SGD（<span class="math">\ell_\infty</span>）、Muon（谱范数）。第
+46-48 行是这个链条的核心。</li>
+<li><strong>Fisher 信息 → 二阶方法</strong>：对角 Fisher 近似给出
+Adam（第 50 行）；Kronecker 分解给出 Shampoo（第 50-52
+行）；牛顿型重建给出 Newton–Muon（第 69 行）与 Newton Matching（第 90
+行）。</li>
+<li><strong>步子该迈多大</strong>：从
+<span class="math">\eta_t\le 1/L</span>（第 6 行）→ 调度形状（第 31-37
+行）→ 权重范数与有效学习率（第 42-44 行）→ Hyperball 之争（第 59-60
+行）；RL 那边是同一个问题的另一种问法（clipping，第 76-82 行）。</li>
+</ol>
+<hr />
+<h2 id="跟踪对象">跟踪对象</h2>
+<h3 id="个人与工具">个人与工具</h3>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⭐ OptimAI-Lab 课程</td>
+<td><a
+href="https://optimai-lab.github.io/LLM-OPT/">optimai-lab.github.io/LLM-OPT</a></td>
+<td>你导师参与编写；网站注明 "still under active
+developments"，可定期回看新增章节</td>
+</tr>
+<tr>
+<td>邹嘉轩 Jiaxuan Zou</td>
+<td><a href="https://jiaxuanzou0714.github.io">主页</a> ｜ <a
+href="https://jiaxuanzou0714.github.io/blog/">博客</a> ｜ <a
+href="https://jiaxuanzou0714.github.io/publications/">论文</a></td>
+<td>同为数学系本科出身，同一条路径；<a
+href="https://jiaxuanzou0714.github.io/blog/2026/mup-map/">μP
+阅读地图</a></td>
+</tr>
+<tr>
+<td>苏炜杰 Weijie Su</td>
+<td><a href="https://arxiv.org/abs/2511.00674">2511.00674</a> ｜ <a
+href="https://arxiv.org/abs/2604.01472">2604.01472</a></td>
+<td>本地已有两篇；Muon 理论的正统路线</td>
+</tr>
+<tr>
+<td>苏剑林 Su Jianlin</td>
+<td><a href="https://arxiv.org/abs/2502.16982">Muon is Scalable</a></td>
+<td>方法论坐标之一，参与 Muon 规模化</td>
+</tr>
+<tr>
+<td>ScalingOpt</td>
+<td><a
+href="https://tianshijing.github.io/ScalingOpt/">tianshijing.github.io/ScalingOpt</a></td>
+<td>LLM 优化器库与基准</td>
+</tr>
+<tr>
+<td>Awesome-Optimizer</td>
+<td><a
+href="https://github.com/APRIL-AIGC/Awesome-Optimizer">github.com/APRIL-AIGC/Awesome-Optimizer</a></td>
+<td>第 28 行综述的配套仓库</td>
+</tr>
+</tbody>
+</table>
+<h3 id="工业界研究博客值得定期刷">工业界研究博客（值得定期刷）</h3>
+<blockquote>
+<p><strong>为什么单独列</strong>：第 43 行（ELR）与第 83
+行（GradLoc）都来自这里。<strong>这条线上"工业界先撞到墙、理论界后解释"的节奏很快</strong>，是找题目最实际的来源。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>链接</th>
+<th>已有成果</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⭐ <strong>腾讯混元 HY Research</strong></td>
+<td><a
+href="https://hy.tencent.com/research?langVersion=zh">hy.tencent.com/research</a></td>
+<td>① ELR（预训练动力学，第 43 行）② GradLoc（RLVR 训练崩溃诊断，第 83
+行）③ 长上下文持续预训练的学习动力学（<a
+href="https://arxiv.org/abs/2604.02650">arXiv:2604.02650</a>）</td>
+<td>⚠️ 整站 <strong>JS
+渲染</strong>，直接抓取只能拿到标题；用浏览器打开。转载常出现在<a
+href="https://cloud.tencent.cn/developer/column">腾讯云开发者社区</a></td>
+</tr>
+<tr>
+<td>GradLoc 代码库</td>
+<td><a
+href="https://github.com/Tencent-Hunyuan/GradLoc">github.com/Tencent-Hunyuan/GradLoc</a></td>
+<td>可复现的诊断工具</td>
+<td>若将来想碰训练稳定性，这是可以直接上手的基础设施</td>
+</tr>
+<tr>
+<td>混元研究总目录</td>
+<td><a
+href="https://hy.tencent.com/research">hy.tencent.com/research</a></td>
+<td>—</td>
+<td>与上一行同址，按编号浏览各篇</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌
+<strong>一个观察</strong>：混元这三篇公开研究有个共同点——<strong>都在给"训练动力学"建立观测手段</strong>（有效学习率、异常梯度定位、内在收敛状态监测）。这与你「三、兴趣关注」里"把训练经验现象还原成第一性原理机制"是同一个取向。
+📌 <strong>第 ③ 篇的标题值得记一下</strong>：<em>Revealing the Learning
+Dynamics of Long-Context Continual Pre-training</em>——用工业级
+Hunyuan-A13B（80B 总参数）追踪 200B token 的训练轨迹，并指出 NIAH
+基准会给出"<strong>假饱和</strong>"（deceptive
+saturation），而基于困惑度的分析才反映内在收敛。<strong>这是"评估指标会骗人"的又一个实例，与第
+74 行"涌现可能是度量选择的产物"呼应。</strong></p>
+</blockquote>
+<hr />
+<blockquote>
+<p>更新于 2026 年 9 月 20 日。</p>
+</blockquote>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="./assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    if(typeof katex==='undefined'){return;}
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>
