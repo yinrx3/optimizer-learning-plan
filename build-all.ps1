@@ -7,10 +7,10 @@ $R = Split-Path -Parent $MyInvocation.MyCommand.Path
 Write-Host "repo root: $R"
 
 Write-Host "`n[1/4] notes/*.md"
-node (Join-Path $R '.survey-chunks\build-notes.js')
+node (Join-Path $R 'build\build-notes.js')
 
 Write-Host "`n[2/4] section markers"
-node (Join-Path $R '.survey-chunks\mark-plan-sections.js')
+node (Join-Path $R 'build\mark-plan-sections.js')
 
 Write-Host "`n[3/4] pandoc fragments"
 $tmp = Join-Path $R 'web\.tmp'
@@ -32,6 +32,6 @@ Write-Host "`n[4/4] assemble"
 node (Join-Path $R 'build-web.js')
 
 Write-Host "`n=== verify ==="
-node (Join-Path $R '.survey-chunks\verify-web.js')
+node (Join-Path $R 'build\verify-web.js')
 Remove-Item (Join-Path $R 'web\.tmp') -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "`ndone -> web/index.html"

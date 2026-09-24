@@ -1,6 +1,6 @@
 // build-web.js —— 组装网页：读取 pandoc 产出的 HTML 片段，套模板输出到 web/
 // pandoc 由外部 PowerShell 调用（沙箱禁止 node 通过管道 spawn 子进程）
-// 板块定义来自 .survey-chunks/sections.json（单一来源）
+// 板块定义来自 build/sections.json（单一来源）
 const fs = require('fs');
 const path = require('path');
 
@@ -20,7 +20,7 @@ function tocOf(f) {
   const m = html.match(/<nav id="TOC"[\s\S]*?<\/nav>/);
   return m ? m[0] : '';
 }
-const SECTIONS = JSON.parse(fs.readFileSync(path.join(ROOT, '.survey-chunks', 'sections.json'), 'utf8'));
+const SECTIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'sections.json'), 'utf8'));
 const rangeLabel = (s) => (s.from === 28 ? '28–28f、29–30' : s.from + '–' + s.to);
 
 const CSS = `

@@ -94,7 +94,7 @@
 | `build-all.ps1` | 一键重建网页 |
 | `build-web.js` | 组装 HTML 模板（node，不含 pandoc 调用） |
 | `math-to-span.lua` | Pandoc 过滤器，把公式原样交给浏览器端 KaTeX |
-| `.survey-chunks/` | 构建脚本与中间产物（`sections.json` 是板块定义的单一来源） |
+| `build/` | 构建与校验脚本（`sections.json` 是 15 个板块定义的单一来源） |
 
 ## 本地构建
 
