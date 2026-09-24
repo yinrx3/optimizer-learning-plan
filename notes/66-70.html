@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 66-70 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-66">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 66-70</h1>
+        <div class="sub">苏炜杰的两篇与导师论文</div>
+        <div class="meta">材料 66–70　｜　检查点 14、15　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/66-70.md" target="_blank" rel="noopener">66-70.md 源文件</a></div></div>
+<h1 id="苏炜杰的两篇与导师论文">66-70｜苏炜杰的两篇与导师论文</h1>
+<blockquote>
+<p>材料 66–70　｜　对应检查点 14、15</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>66</strong></td>
+<td>veryinterested/ Weijie Su — Isotropic Curvature Model</td>
+<td>总表第 66 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>67</strong></td>
+<td>veryinterested/ Du &amp; Su — The Newton–Muon Optimizer</td>
+<td>总表第 67 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>68</strong></td>
+<td>可选：Fan et al. — Muon 在预训练之外的谱失效与高通补救（Pion）</td>
+<td>总表第 68 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>69</strong></td>
+<td>veryinterested/ Peyré — Muon Dynamics as a Spectral Wasserstein Flow</td>
+<td>总表第 69 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>70</strong></td>
+<td>processing/ Hong, Wai, Wang &amp; Yang — 双层优化的双时间尺度随机算法</td>
+<td>总表第 70 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-14一个可以迁移到别处的研究套路">⛳ 检查点 14｜一个可以迁移到别处的研究套路</h2>
+<ol type="1">
+<li>什么是”代理模型”方法？为什么需要它？</li>
+<li>苏炜杰那篇的结论是什么？“方向正确但不严格最优”具体指什么？</li>
+<li>Newton–Muon 的闭式解是什么？</li>
+<li>为什么”让奇异值比值更均匀”能改善条件数？</li>
+<li>“曲率增长发生相变”指什么？相变前后最优更新有什么不同？</li>
+<li>Newton–Muon 比 Muon 多了什么？为什么 <span class="math">ZZ^\top</span> 各向异性意味着标准 Muon 丢了信息？</li>
+<li>Newton–Muon 在 Modded-NanoGPT 上的收益是多少？（少 6% 迭代步数、约 4% 墙钟）这个量级值得换吗？</li>
+<li><strong>面试题</strong>：如果让你复现这两篇的核心结论，最小的实验设计是什么？</li>
+<li><strong>举一反三</strong>：这个”代理模型 → 求最优 → 对照现实算法”的套路，你还能想到用在哪个优化器上？</li>
+<li><strong>延伸</strong>：第 90 行 Newton Matching 也用牛顿方向，但它在函数空间——两处的”牛顿”是同一个意思吗？</li>
+</ol>
+<h2 id="检查点-15进组前的准备">⛳ 检查点 15｜进组前的准备</h2>
+<ol type="1">
+<li>什么是双层优化？内层与外层分别是什么？</li>
+<li>双时间尺度指什么？内外层步长的相对量级关系是什么？</li>
+<li>这篇的两个复杂度结果分别对应什么假设？</li>
+<li>为什么外层不能等内层完全收敛？</li>
+<li>论文证明了哪个真实算法是它的特例？收敛率是多少？</li>
+<li>这篇与第 5 行的 KKT、第 83 行的原始-对偶共享什么数学语言？</li>
+<li><strong>面试题</strong>：如果有人说”双时间尺度只是工程技巧”，你会怎么反驳？</li>
+<li><strong>进组前必答</strong>：用三句话复述<strong>导师这篇论文做了什么、为什么重要</strong>。（这句话你迟早要能说）</li>
+<li><strong>延伸</strong>：第 69 行 Peyré 那篇也处理”约束/几何”，与这篇的方向有何不同？（Peyré 给形式化语言，这篇给复杂度保证）</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

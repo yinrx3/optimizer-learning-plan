@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 1-9 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-1">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 1-9</h1>
+        <div class="sub">基础：优化问题与 SGD 的定位</div>
+        <div class="meta">材料 1–9　｜　检查点 1　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/1-9.md" target="_blank" rel="noopener">1-9.md 源文件</a></div></div>
+<h1 id="基础优化问题与-sgd-的定位">1-9｜基础：优化问题与 SGD 的定位</h1>
+<blockquote>
+<p>材料 1–9　｜　对应检查点 1</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td>课程主页目录</td>
+<td>总表第 1 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong></td>
+<td>课程 Ch.1：1.1 优化简介 + 1.2 记号</td>
+<td>总表第 2 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong></td>
+<td>课程 Ch.3 大语言模型导论</td>
+<td>总表第 3 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td>课程 §2.1–2.4 经典优化理论</td>
+<td>总表第 4 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong></td>
+<td>课程 §2.5 对偶、Lagrange 乘子、KKT</td>
+<td>总表第 5 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td>课程 §4.1 SGD</td>
+<td>总表第 6 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>7</strong></td>
+<td>Bottou, Curtis &amp; Nocedal — Optimization Methods for Large-Scale ML（第 1–3 节）</td>
+<td>总表第 7 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>8</strong></td>
+<td>动手：PyTorch 训练循环 + batch size 实验</td>
+<td>总表第 8 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td>Ruder — Overview of Gradient Descent Algorithms</td>
+<td>总表第 9 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-1为什么神经网络训练不是经典优化问题">⛳ 检查点 1｜为什么神经网络训练不是经典优化问题</h2>
+<ol type="1">
+<li>为什么 mini-batch 梯度是无偏的？写出期望。</li>
+<li>方差随 batch size 怎么变？是 <span class="math">1/B</span> 还是 <span class="math">1/\sqrt{B}</span>？</li>
+<li>非凸优化里”收敛”指什么？为什么不是收敛到全局最优？</li>
+<li>这门课为什么要先花一整章讲 LLM 结构，才回头讲优化？</li>
+<li>用偏差-方差语言解释：为什么学习率太大会发散、太小会浪费？</li>
+<li>若把 batch size 扩大 4 倍，为了保持相同的”噪声/信号比”，学习率大概该怎么调？（提示：与线性缩放规则有关，见第 35 行）</li>
+<li>训练损失持续下降到接近 0，是否说明模型变好了？为什么？</li>
+<li>为什么高维空间里鞍点比局部极小更多？用”随机矩阵的特征值符号”直觉解释。</li>
+<li>“噪声既是约束又是探索机制”——这两个说法在什么意义上不矛盾？</li>
+<li>一个 7B 模型，FP32 训练下参数、Adam 状态各占多少 GB？换成 bf16 混合精度后各占多少？</li>
+<li><strong>面试题</strong>：如果显存是硬约束，你会先砍激活值还是先砍优化器状态？各自的代价是什么？</li>
+<li>综述把 <strong>ZO 方法的复兴</strong>归因于显存墙。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 38-46 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-38">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 38-46</h1>
+        <div class="sub">μP、超参迁移与有效学习率</div>
+        <div class="meta">材料 38–46　｜　检查点 10　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/38-46.md" target="_blank" rel="noopener">38-46.md 源文件</a></div></div>
+<h1 id="μp超参迁移与有效学习率">38-46｜μP、超参迁移与有效学习率</h1>
+<blockquote>
+<p>材料 38–46　｜　对应检查点 10</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>38</strong></td>
+<td>课程 §4.4.2 μP 与超参迁移</td>
+<td>总表第 38 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>39</strong></td>
+<td>Yang et al. — Tensor Programs V（μP）</td>
+<td>总表第 39 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>40</strong></td>
+<td>Yang, Simon &amp; Bernstein — A Spectral Condition for Feature Learning</td>
+<td>总表第 40 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>41</strong></td>
+<td>You et al. — LARS: Large Batch Training of CNNs</td>
+<td>总表第 41 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>42</strong></td>
+<td>Wan et al. — Spherical Motion Dynamics</td>
+<td>总表第 42 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>43</strong></td>
+<td>腾讯混元 — From LR to ELR</td>
+<td>总表第 43 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>44</strong></td>
+<td>邹嘉轩 — Hyperball、effective lr 与峰值加衰减</td>
+<td>总表第 44 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>45</strong></td>
+<td>苏剑林 — 滑动平均视角下的权重衰减和学习率</td>
+<td>总表第 45 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>46</strong></td>
+<td>动手：记录名义 lr / 权重范数 / 有效 lr</td>
+<td>总表第 46 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-10本计划最关键的一问">⛳ 检查点 10｜本计划最关键的一问</h2>
+<ol type="1">
+<li>写出有效学习率的定义式，并解释它与角更新幅度 AUS 的关系。</li>
+<li>为什么权重范数会在训练中持续增长？</li>
+<li>“隐式学习率衰减”具体指什么？</li>
+<li>三条峰值相差 2.4 倍的名义调度，为什么角更新幅度曲线几乎重合？</li>
+<li>由此说明：Hyperball 固定权重范数，实质上是在消除哪一项？</li>
+<li>为什么说”调 lr”这个动作本身可能是被误导的？</li>
+<li><strong>面试题</strong>：如果只能记录一个量来诊断训练，你会记名义 lr 还是有效 lr？为什么？</li>
+<li><strong>延伸</strong>：累积学习率 <span class="math">\int\eta_t\,dt</span> 作为一个”守恒量”，对跨模型规模迁移超参有什么用处？（接第 38-40 行的 μP）</li>
+<li><strong>动手</strong>：跑第 45 行的实验，把名义 lr 与有效 lr 画在同一张图上，标出它们开始分道扬镳的位置。</li>
+<li>从更新式出发，说明为什么 Adam 在 10× lr 下会”结构性崩溃”而 SGD 只是振荡。</li>
+<li>AdamW 在 10× lr 下是 0.2640（约等于随机猜），请解释这个数字为什么如此极端。</li>
+<li><strong>面试题</strong>：如果让你给一个不熟悉优化器的人解释”为什么不能随便放大 Adam 的学习率”，你会用哪个数学事实？</li>
+<li><strong>对照题（重要）</strong>：SGD 在大 lr 下”可用”，但它真的更好吗？请同时给出 A 轴（稳定性）与 B 轴（有效性）的证据。</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

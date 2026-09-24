@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 79-86 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-79">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 79-86</h1>
+        <div class="sub">强化学习：从 GAE 到 DAPO / MaxRL</div>
+        <div class="meta">材料 79–86　｜　检查点 17　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/79-86.md" target="_blank" rel="noopener">79-86.md 源文件</a></div></div>
+<h1 id="强化学习从-gae-到-dapo-maxrl">79-86｜强化学习：从 GAE 到 DAPO / MaxRL</h1>
+<blockquote>
+<p>材料 79–86　｜　对应检查点 17</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>79</strong></td>
+<td>可选：veryinterested/ SGD 信息获取速度极限</td>
+<td>总表第 79 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>80</strong></td>
+<td>Sutton &amp; Barto — RL: An Introduction（第 13 章）</td>
+<td>总表第 80 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>81</strong></td>
+<td>Schulman et al. — GAE（Generalized Advantage Estimation）</td>
+<td>总表第 81 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>82</strong></td>
+<td>Schulman et al. — TRPO</td>
+<td>总表第 82 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>83</strong></td>
+<td>Schulman et al. — PPO</td>
+<td>总表第 83 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>84</strong></td>
+<td>Ouyang et al. — InstructGPT / RLHF</td>
+<td>总表第 84 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>85</strong></td>
+<td>Shao et al. — DeepSeekMath / GRPO</td>
+<td>总表第 85 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>86</strong></td>
+<td>Yu et al. — DAPO</td>
+<td>总表第 86 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-17跨线问题clipping-与学习率衰减">⛳ 检查点 17｜跨线问题：clipping 与学习率衰减</h2>
+<ol type="1">
+<li>写出 PPO 的 clipped objective，逐项解释。</li>
+<li>clipping 丢掉了什么信息？</li>
+<li>什么是优势函数？为什么要减 baseline？</li>
+<li>TRPO 的 KL 约束本质上是哪种”步长控制”？</li>
+<li>R²VPO 提出的替代是什么？为什么说它是”信任域约束的局部近似”？</li>
+<li>GAE 的 <span class="math">\lambda</span> 在权衡什么？<span class="math">\lambda=0</span> 与 <span class="math">\lambda=1</span> 分别是什么极端？</li>
+<li><strong>面试题</strong>：为什么大模型 RL 普遍用 GRPO 而不直接用 PPO？（提示：价值网络的代价）</li>
+<li><strong>跨线问题（本计划最值得想的一问）</strong>：clipping 与学习率衰减，是不是同一个”抑制后期方差”的两种写法？</li>
+<li><strong>延伸</strong>：R²VPO 用原始-对偶框架实现约束——回到第 5 行的 KKT，你能说出对偶变量在这里的物理意义吗？</li>
+<li>把”控制步长”的四种手段列出来，各说一个代表算法与它的核心代价。</li>
+<li>为什么 sign 更新能保证”整个学习率区间都有安全基线”？它付出了什么？</li>
+<li><strong>对照题</strong>：clipping 与 sign 更新都在”抑制梯度幅值的影响”，但一个引入偏置、一个不引入。为什么？</li>
+<li><strong>延伸</strong>：这四种手段里，哪一种与”检查点 10 的有效学习率”是同一个机理？</li>
+<li>为什么说”终局二值反馈”下模型隐含了一个似然？这个似然定义在什么空间上？</li>
+<li>“期望回报 RL 只是似然的一阶近似”——这里的”一阶”是指对什么量做展开？</li>
+<li>MaxRL 用”采样算力”索引目标函数，这意味着什么？算力越大目标越接近什么？</li>
+<li><strong>面试题</strong>：如果 MaxRL 在测试期 scaling 效率上比 GRPO 高 20×，你会怎么设计实验来验证这不是调参带来的假象？</li>
+<li><strong>对照题（最重要）</strong>：TailRL 与 MaxRL 出自同一批作者、都改目标函数。<strong>它们改的是同一个方面吗？各自的立足点是什么？</strong></li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习计划索引（按板块） — 殷润轩</title>
+<link rel="stylesheet" href="./katex/katex.min.css">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><div class="toc-lead">15 个板块</div><ul class="toc-app"><li><a href="#s1">板块 1｜基础：优化问题与 SGD 的定位</a></li><li><a href="#s2">板块 2｜动量</a></li><li><a href="#s3">板块 3｜自适应步长：AdaGrad / sign-SGD / RMSProp</a></li><li><a href="#s4">板块 4｜Adam、AdamW 与收敛性之争</a></li><li><a href="#s5">板块 5｜三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</a></li><li><a href="#s6">板块 6｜学习率调度与 warmup</a></li><li><a href="#s7">板块 7｜μP、超参迁移与有效学习率</a></li><li><a href="#s8">板块 8｜优化器设计 = 不同范数下的最速下降</a></li><li><a href="#s9">板块 9｜Shampoo、K-FAC 与 Muon 的实现</a></li><li><a href="#s10">板块 10｜正交化的理论、Hyperball 与争论</a></li><li><a href="#s11">板块 11｜苏炜杰的两篇与导师论文</a></li><li><a href="#s12">板块 12｜Scaling Law</a></li><li><a href="#s13">板块 13｜强化学习：从 GAE 到 DAPO / MaxRL</a></li><li><a href="#s14">板块 14｜训练不稳定性与 RL 目标设计</a></li><li><a href="#s15">板块 15｜零阶优化与函数空间的牛顿法</a></li></ul><div class="toc-lead">其他</div><ul class="toc-app">
+      <li><a href="./learning-plan.html">完整学习计划</a></li>
+      <li><a href="./notes/index.html">笔记</a></li>
+      <li><a href="./index.html">← 返回首页</a></li></ul></nav>
+<main>
+<div class="masthead">
+      <h1>学习计划索引</h1>
+      <div class="sub">99 条材料按阅读依赖切成 15 个板块</div>
+      <div class="meta">每个板块：材料清单 + 自测检查点 + 对应笔记 + 该读综述哪几节</div>
+    </div>
+<h2 id="s0">板块总览</h2><div class="secgrid"><a href="#s1"><div class="sn">板块 1</div><div class="st">基础：优化问题与 SGD 的定位</div>
+       <div class="sd">材料 1–9　检查点 1</div></a><a href="#s2"><div class="sn">板块 2</div><div class="st">动量</div>
+       <div class="sd">材料 10–13　检查点 2</div></a><a href="#s3"><div class="sn">板块 3</div><div class="st">自适应步长：AdaGrad / sign-SGD / RMSProp</div>
+       <div class="sd">材料 14–17　检查点 3</div></a><a href="#s4"><div class="sn">板块 4</div><div class="st">Adam、AdamW 与收敛性之争</div>
+       <div class="sd">材料 18–27　检查点 4、5、6</div></a><a href="#s5"><div class="sn">板块 5</div><div class="st">三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</div>
+       <div class="sd">材料 28–28f、29–30　检查点 7、8</div></a><a href="#s6"><div class="sn">板块 6</div><div class="st">学习率调度与 warmup</div>
+       <div class="sd">材料 31–37　检查点 9</div></a><a href="#s7"><div class="sn">板块 7</div><div class="st">μP、超参迁移与有效学习率</div>
+       <div class="sd">材料 38–46　检查点 10</div></a><a href="#s8"><div class="sn">板块 8</div><div class="st">优化器设计 = 不同范数下的最速下降</div>
+       <div class="sd">材料 47–52　检查点 11</div></a><a href="#s9"><div class="sn">板块 9</div><div class="st">Shampoo、K-FAC 与 Muon 的实现</div>
+       <div class="sd">材料 53–58　检查点 12</div></a><a href="#s10"><div class="sn">板块 10</div><div class="st">正交化的理论、Hyperball 与争论</div>
+       <div class="sd">材料 59–65　检查点 13</div></a><a href="#s11"><div class="sn">板块 11</div><div class="st">苏炜杰的两篇与导师论文</div>
+       <div class="sd">材料 66–70　检查点 14、15</div></a><a href="#s12"><div class="sn">板块 12</div><div class="st">Scaling Law</div>
+       <div class="sd">材料 71–78　检查点 16</div></a><a href="#s13"><div class="sn">板块 13</div><div class="st">强化学习：从 GAE 到 DAPO / MaxRL</div>
+       <div class="sd">材料 79–86　检查点 17</div></a><a href="#s14"><div class="sn">板块 14</div><div class="st">训练不稳定性与 RL 目标设计</div>
+       <div class="sd">材料 87–90　检查点 18</div></a><a href="#s15"><div class="sn">板块 15</div><div class="st">零阶优化与函数空间的牛顿法</div>
+       <div class="sd">材料 91–94　检查点 19、20</div></a></div><h2 id="s1">各板块</h2><div id="s1" style="scroll-margin-top:20px"></div><div id="s2" style="scroll-margin-top:20px"></div><div id="s3" style="scroll-margin-top:20px"></div><div id="s4" style="scroll-margin-top:20px"></div><div id="s5" style="scroll-margin-top:20px"></div><div id="s6" style="scroll-margin-top:20px"></div><div id="s7" style="scroll-margin-top:20px"></div><div id="s8" style="scroll-margin-top:20px"></div><div id="s9" style="scroll-margin-top:20px"></div><div id="s10" style="scroll-margin-top:20px"></div><div id="s11" style="scroll-margin-top:20px"></div><div id="s12" style="scroll-margin-top:20px"></div><div id="s13" style="scroll-margin-top:20px"></div><div id="s14" style="scroll-margin-top:20px"></div><div id="s15" style="scroll-margin-top:20px"></div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 1｜基础：优化问题与 SGD 的定位</h3>
+      <p style="color:var(--fg); font-size:14.5px">优化问题的设定、记号、与深度学习的三处/四处破坏；SGD 与随机梯度</p>
+      <div class="n">材料 <b>1–9</b>（9 条）　｜　检查点 <b>1</b>　｜　
+      <a href="./notes/1-9.html">笔记 1-9.md</a>　｜　
+      <a href="./learning-plan.html#sec-1">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 2｜动量</h3>
+      <p style="color:var(--fg); font-size:14.5px">动量的本质（方差缩减 vs 加速）、Nesterov、频域视角</p>
+      <div class="n">材料 <b>10–13</b>（4 条）　｜　检查点 <b>2</b>　｜　
+      <a href="./notes/10-13.html">笔记 10-13.md</a>　｜　
+      <a href="./learning-plan.html#sec-10">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 3｜自适应步长：AdaGrad / sign-SGD / RMSProp</h3>
+      <p style="color:var(--fg); font-size:14.5px">分母改造史：累加 → EMA；sign 更新与逐元素缩放</p>
+      <div class="n">材料 <b>14–17</b>（4 条）　｜　检查点 <b>3</b>　｜　
+      <a href="./notes/14-17.html">笔记 14-17.md</a>　｜　
+      <a href="./learning-plan.html#sec-14">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 4｜Adam、AdamW 与收敛性之争</h3>
+      <p style="color:var(--fg); font-size:14.5px">Adam 的双 EMA 来历、偏差修正、解耦权重衰减、非收敛反例</p>
+      <div class="n">材料 <b>18–27</b>（10 条）　｜　检查点 <b>4、5、6</b>　｜　
+      <a href="./notes/18-27.html">笔记 18-27.md</a>　｜　
+      <a href="./learning-plan.html#sec-18">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 5｜三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</h3>
+      <p style="color:var(--fg); font-size:14.5px">综述的三遍读法；ODE 逼近法；增长条件下的加速方法</p>
+      <div class="n">材料 <b>28–28f、29–30</b>（3 条）　｜　检查点 <b>7、8</b>　｜　
+      <a href="./notes/28-30.html">笔记 28-30.md</a>　｜　
+      <a href="./learning-plan.html#sec-28">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 6｜学习率调度与 warmup</h3>
+      <p style="color:var(--fg); font-size:14.5px">调度形状的来源：偏差-方差权衡、river-valley、线性缩放规则</p>
+      <div class="n">材料 <b>31–37</b>（7 条）　｜　检查点 <b>9</b>　｜　
+      <a href="./notes/31-37.html">笔记 31-37.md</a>　｜　
+      <a href="./learning-plan.html#sec-31">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 7｜μP、超参迁移与有效学习率</h3>
+      <p style="color:var(--fg); font-size:14.5px">超参随宽度迁移；有效学习率 ELR / AUS；权重范数的隐式衰减</p>
+      <div class="n">材料 <b>38–46</b>（9 条）　｜　检查点 <b>10</b>　｜　
+      <a href="./notes/38-46.html">笔记 38-46.md</a>　｜　
+      <a href="./learning-plan.html#sec-38">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 8｜优化器设计 = 不同范数下的最速下降</h3>
+      <p style="color:var(--fg); font-size:14.5px">ℓ₂→SGD、ℓ∞→sign-SGD、谱范数→Muon；对偶范数；二阶近似两条路</p>
+      <div class="n">材料 <b>47–52</b>（6 条）　｜　检查点 <b>11</b>　｜　
+      <a href="./notes/47-52.html">笔记 47-52.md</a>　｜　
+      <a href="./learning-plan.html#sec-47">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 9｜Shampoo、K-FAC 与 Muon 的实现</h3>
+      <p style="color:var(--fg); font-size:14.5px">Kronecker 分解、矩阵符号函数、Newton–Schulz 与 Polar Express</p>
+      <div class="n">材料 <b>53–58</b>（6 条）　｜　检查点 <b>12</b>　｜　
+      <a href="./notes/53-58.html">笔记 53-58.md</a>　｜　
+      <a href="./learning-plan.html#sec-53">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 10｜正交化的理论、Hyperball 与争论</h3>
+      <p style="color:var(--fg); font-size:14.5px">正交化为何有效；Hyperball 的约束轴；Free Lunch 之争</p>
+      <div class="n">材料 <b>59–65</b>（7 条）　｜　检查点 <b>13</b>　｜　
+      <a href="./notes/59-65.html">笔记 59-65.md</a>　｜　
+      <a href="./learning-plan.html#sec-59">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 11｜苏炜杰的两篇与导师论文</h3>
+      <p style="color:var(--fg); font-size:14.5px">代理模型路线；Newton–Muon；谱 Wasserstein；双层优化双时间尺度</p>
+      <div class="n">材料 <b>66–70</b>（5 条）　｜　检查点 <b>14、15</b>　｜　
+      <a href="./notes/66-70.html">笔记 66-70.md</a>　｜　
+      <a href="./learning-plan.html#sec-66">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 12｜Scaling Law</h3>
+      <p style="color:var(--fg); font-size:14.5px">幂律、瓶颈语言、Max-Bottleneck、T^{-0.32} 开放问题</p>
+      <div class="n">材料 <b>71–78</b>（8 条）　｜　检查点 <b>16</b>　｜　
+      <a href="./notes/71-78.html">笔记 71-78.md</a>　｜　
+      <a href="./learning-plan.html#sec-71">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 13｜强化学习：从 GAE 到 DAPO / MaxRL</h3>
+      <p style="color:var(--fg); font-size:14.5px">优势估计的偏差-方差；KL 约束与裁剪；改目标的三种位置</p>
+      <div class="n">材料 <b>79–86</b>（8 条）　｜　检查点 <b>17</b>　｜　
+      <a href="./notes/79-86.html">笔记 79-86.md</a>　｜　
+      <a href="./learning-plan.html#sec-79">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 14｜训练不稳定性与 RL 目标设计</h3>
+      <p style="color:var(--fg); font-size:14.5px">Gradient Spike 定位；层间梯度异质性；目标函数的数学性质</p>
+      <div class="n">材料 <b>87–90</b>（4 条）　｜　检查点 <b>18</b>　｜　
+      <a href="./notes/87-90.html">笔记 87-90.md</a>　｜　
+      <a href="./learning-plan.html#sec-87">跳到计划</a></div>
+    </div><div class="card" style="margin:14px 0">
+      <h3 style="margin-bottom:6px">板块 15｜零阶优化与函数空间的牛顿法</h3>
+      <p style="color:var(--fg); font-size:14.5px">有限差分估计；MeZO 的显存论证；Fisher–Rao 度量与牛顿方向</p>
+      <div class="n">材料 <b>91–94</b>（4 条）　｜　检查点 <b>19、20</b>　｜　
+      <a href="./notes/91-94.html">笔记 91-94.md</a>　｜　
+      <a href="./learning-plan.html#sec-91">跳到计划</a></div>
+    </div>
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="./assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

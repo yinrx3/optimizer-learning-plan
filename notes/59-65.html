@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 59-65 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-59">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 59-65</h1>
+        <div class="sub">正交化的理论、Hyperball 与争论</div>
+        <div class="meta">材料 59–65　｜　检查点 13　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/59-65.md" target="_blank" rel="noopener">59-65.md 源文件</a></div></div>
+<h1 id="正交化的理论hyperball-与争论">59-65｜正交化的理论、Hyperball 与争论</h1>
+<blockquote>
+<p>材料 59–65　｜　对应检查点 13</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>59</strong></td>
+<td>动手：实现 Muon 与 Shampoo</td>
+<td>总表第 59 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>60</strong></td>
+<td>Liu, Su et al. — Muon is Scalable for LLM Training</td>
+<td>总表第 60 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>61</strong></td>
+<td>Bernstein &amp; Newhouse — Orthogonal Gradient Descent（Stiefel 流形）</td>
+<td>总表第 61 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>62</strong></td>
+<td>Understanding Gradient Orthogonalization via Non-Euclidean Trust-Region</td>
+<td>总表第 62 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>63</strong></td>
+<td>Wen et al. — Hyperball Optimization</td>
+<td>总表第 63 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>64</strong></td>
+<td>苏剑林 — AdamW 的 Weight RMS 的渐近估计（上） ｜ （下）</td>
+<td>总表第 64 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>65</strong></td>
+<td>Xiao et al. — Hyperball May Not Be a Free Lunch</td>
+<td>总表第 65 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-13两篇论文的分歧点在归因">⛳ 检查点 13｜两篇论文的分歧点在”归因”</h2>
+<ol type="1">
+<li>正方与反方各自的主张是什么？</li>
+<li>什么是”双向参数对齐”实验？</li>
+<li>反方为什么说 Hyperball “不是免费午餐”？</li>
+<li>为什么”只调名义 lr 就能复现”这个事实，足以反驳”存在额外几何优势”？</li>
+<li>这个结论是否推翻 Hyperball 的实用价值？给出你的理由。</li>
+<li>反方对实践使用 Hyperball 提出的警告是什么？</li>
+<li><strong>面试题</strong>：如果两篇论文结论相反，你怎么判断该信哪个？（提示：看实验设计能否排除竞争解释）</li>
+<li><strong>延伸</strong>：这一争论如何直接引出第 66-67 行的理论工作？（提示：需要一个能判断”正交化是否最优”的框架）</li>
+<li>综述的<strong>算力成本表（Tab. 8）</strong>本身想论证什么？——约 1073 GPU 小时这个数字，对”如何做公平比较”意味着什么？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

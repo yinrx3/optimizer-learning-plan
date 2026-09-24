@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 53-58 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-53">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 53-58</h1>
+        <div class="sub">Shampoo、K-FAC 与 Muon 的实现</div>
+        <div class="meta">材料 53–58　｜　检查点 12　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/53-58.md" target="_blank" rel="noopener">53-58.md 源文件</a></div></div>
+<h1 id="shampook-fac-与-muon-的实现">53-58｜Shampoo、K-FAC 与 Muon 的实现</h1>
+<blockquote>
+<p>材料 53–58　｜　对应检查点 12</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>53</strong></td>
+<td>Gupta, Koren &amp; Singer — Shampoo</td>
+<td>总表第 53 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>54</strong></td>
+<td>Martens &amp; Grosse — K-FAC</td>
+<td>总表第 54 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>55</strong></td>
+<td>苏剑林 — 从 Hessian 近似看自适应学习率优化器</td>
+<td>总表第 55 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>56</strong></td>
+<td>Keller Jordan — Muon 代码 + 原始博客</td>
+<td>总表第 56 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>57</strong></td>
+<td>苏剑林 — 流形上的最速下降：3. Muon + Stiefel ｜ 4. Muon + 谱球面 ｜ 5. 对偶梯度下降</td>
+<td>总表第 57 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>58</strong></td>
+<td>Amsel et al. — The Polar Express: Optimal Matrix Sign Methods</td>
+<td>总表第 58 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-12一处典型的数学与工程取舍">⛳ 检查点 12｜一处典型的数学与工程取舍</h2>
+<ol type="1">
+<li>什么是矩阵符号函数 <span class="math">\mathrm{msgn}(X)</span>？它与极分解什么关系？</li>
+<li>为什么 SVD 不适合放在训练内循环？</li>
+<li>Newton–Schulz 迭代只用矩阵乘法，代价是什么？</li>
+<li>为什么可以只做<strong>少量几步</strong>而不求精确？</li>
+<li>Polar Express 的”极小极大优化”在选择系数时最小化什么？</li>
+<li>bfloat16 下做 NS 迭代会遇到什么问题？Polar Express 怎么处理的？</li>
+<li><strong>面试题</strong>：如果给你一个新的矩阵优化器，你怎么判断它的”每步开销是否可接受”？</li>
+<li><strong>动手</strong>：实现 NS 迭代与 <code>torch.linalg.svd</code>，比较结果的接近程度、耗时，以及<strong>只跑 3 步 vs 5 步</strong>的差异。</li>
+<li><strong>延伸</strong>：第 69 行 Newton–Muon 需要算 <span class="math">\mathrm{msgn}(G(ZZ^\top)^{-1})</span>——多了个右预条件，这对 NS 迭代的实现有什么影响？</li>
+<li>NS 迭代解决的问题是”回避分解”，散布矩阵求逆解决的是”把分解做快”——请各举一个使用场景。</li>
+<li>为什么”理论迭代次数更少”可能反而更慢？这个现象对二阶方法的工程落地意味着什么？</li>
+<li>Lion 是通过程序搜索发现的。请复述这个搜索的完整逻辑（元语言 → 搜索器 → 产物）。</li>
+<li><strong>面试题</strong>：如果有人说”自动设计的优化器一定比人设计的好”，你会追问哪两个问题？（提示：搜索成本、跨架构可迁移性）</li>
+<li>综述说 Muon 和 Kron 与”自适应标量家族”的损失穿越轨迹<strong>本质上不同</strong>。这个”不同”在数学上是什么？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

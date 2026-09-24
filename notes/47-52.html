@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 47-52 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-47">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 47-52</h1>
+        <div class="sub">优化器设计 = 不同范数下的最速下降</div>
+        <div class="meta">材料 47–52　｜　检查点 11　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/47-52.md" target="_blank" rel="noopener">47-52.md 源文件</a></div></div>
+<h1 id="优化器设计-不同范数下的最速下降">47-52｜优化器设计 = 不同范数下的最速下降</h1>
+<blockquote>
+<p>材料 47–52　｜　对应检查点 11</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>47</strong></td>
+<td>课程 §4.3.1 优化器设计 = 不同范数下的最速下降</td>
+<td>总表第 47 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>48</strong></td>
+<td>同上：<span class="math">\ell_\infty</span> → sign-SGD</td>
+<td>总表第 48 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>49</strong></td>
+<td>同上：谱范数 → Muon</td>
+<td>总表第 49 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>50</strong></td>
+<td>课程 §4.3.2 Shampoo 与 Muon 的近似 Hessian 视角</td>
+<td>总表第 50 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>51</strong></td>
+<td>Bernstein &amp; Newhouse — Old Optimizer, New Norm: An Anthology</td>
+<td>总表第 51 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>52</strong></td>
+<td>同上：Kronecker 分解 → Shampoo</td>
+<td>总表第 52 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-11全表最重要的检查点">⛳ 检查点 11｜全表最重要的检查点</h2>
+<ol type="1">
+<li><strong>“为什么 Muon 要做正交化？”</strong></li>
+<li><strong>“Adam 和二阶方法有什么关系？”</strong></li>
+<li><strong>“Muon 和 Shampoo 有什么关系？”</strong></li>
+<li><strong>“为什么 <span class="math">\ell_\infty</span> 范数给出 sign-SGD？”</strong></li>
+<li>自己推一遍”<span class="math">\ell_\infty</span> 的对偶是 <span class="math">\ell_1</span>“，再推矩阵版 <span class="math">1\to\infty</span> 的情形。</li>
+<li>为什么”换范数”能恢复部分二阶信息？用 PSD 锥上的范数几何解释。</li>
+<li><strong>面试题</strong>：如果让你设计一个新优化器，你会从”选哪个范数”还是”用哪个 Hessian 近似”入手？两者能兼得吗？</li>
+<li><strong>延伸</strong>：第 65-66 行的 Hyperball 之争，与这里的范数视角是同一件事吗？</li>
+<li>用综述的判据（是否显式逼近真曲率）给下列方法分类：SGD、Adam、Adan、Shampoo、K-FAC、Sophia。</li>
+<li>为什么 Shampoo 按综述的判据属于”一阶”？它和 Adam 在什么意义上同族？</li>
+<li>“经验 Fisher 捕捉的是梯度方差”——请说明这句话的含义，以及它与”真 Fisher 捕捉曲率”的差别。</li>
+<li><strong>面试题</strong>：如果面试官说”Muon 和 Shampoo 是一回事”，你怎么回应才既准确又不显得抬杠？</li>
+<li><strong>延伸（接检查点 16 与 18）</strong>：综述说 Kronecker 类方法的补救方向是”用 model-distribution sampling 估真 Fisher + 结构化预条件子”。这个方向与第 66 行苏炜杰的”代理模型”路线是同一类做法吗？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

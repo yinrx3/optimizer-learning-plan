@@ -21,12 +21,34 @@
 
 | 部分 | 内容 |
 |---|---|
-| **总表** | 94 条材料，按阅读顺序排列。每条含「先看什么 / 材料在哪 / 学习什么」 |
-| **检查点** | 19 个自测关卡，插在关键节点。每个含 3–4 段核心洞察 + 6–10 道自测题（含面试级问题） |
+| **总表** | 99 条材料，按阅读顺序排列。每条含「先看什么 / 材料在哪 / 学习什么 / **对应综述哪几节**」 |
+| **15 个板块** | 总表按阅读依赖切成的板块。每个板块给出主题、材料范围、对应检查点与笔记入口 |
+| **检查点** | 20 个自测关卡，插在关键节点。每个含 3–4 段核心洞察 + 若干自测题（含面试级问题），共 **225 道题** |
+| **notes/** | 15 篇分板块笔记，每篇只放该范围的材料清单与自测题，其余留空供记录 |
 | **教育/理论支线** | 深度学习理论（Grokking、表示学习、对称性、位置编码） |
 | **本地材料索引** | 手头 PDF 对应总表第几行 |
 | **前置自查** | 数学端与深度学习端分别列出自查项，并标注「什么时候用得到」 |
-| **三条主干线索** | 范数→几何→优化器 / Fisher 信息→二阶方法 / 步子该迈多大 |
+| **三条主干线索** | 范数→几何→优化器 / Fisher 信息→二阶方法 / 步子该迈多大 / 三个正交的设计轴 |
+
+### 15 个板块
+
+| # | 板块 | 材料 | 检查点 |
+|:-:|---|:-:|:-:|
+| 1 | 基础：优化问题与 SGD 的定位 | 1–9 | 1 |
+| 2 | 动量 | 10–13 | 2 |
+| 3 | 自适应步长：AdaGrad / sign-SGD / RMSProp | 14–17 | 3 |
+| 4 | Adam、AdamW 与收敛性之争 | 18–27 | 4、5、6 |
+| 5 | 三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD） | 28–30 | 7、8 |
+| 6 | 学习率调度与 warmup | 31–37 | 9 |
+| 7 | μP、超参迁移与有效学习率 | 38–46 | 10 |
+| 8 | 优化器设计 = 不同范数下的最速下降 | 47–52 | 11 |
+| 9 | Shampoo、K-FAC 与 Muon 的实现 | 53–58 | 12 |
+| 10 | 正交化的理论、Hyperball 与争论 | 59–65 | 13 |
+| 11 | 苏炜杰的两篇与导师论文 | 66–70 | 14、15 |
+| 12 | Scaling Law | 71–78 | 16 |
+| 13 | 强化学习：从 GAE 到 DAPO / MaxRL | 79–86 | 17 |
+| 14 | 训练不稳定性与 RL 目标设计 | 87–90 | 18 |
+| 15 | 零阶优化与函数空间的牛顿法 | 91–94 | 19、20 |
 
 ### 覆盖范围
 
@@ -35,6 +57,7 @@
 - **矩阵优化器与几何**：Shampoo、K-FAC、Muon、Newton–Muon、Hyperball、各向同性曲率模型、谱 Wasserstein 流
 - **Scaling Law**：Kaplan、Chinchilla、多重幂律、Max-Bottleneck 原理
 - **强化学习**：GAE、TRPO、PPO、GRPO、DAPO、R²VPO、TailRL、MaxRL
+- **零阶优化**：有限差分估计、MeZO 与显存高效微调
 - **深度学习理论**：Grokking、lazy training、隐式正则、G-CNN、几何深度学习、RoPE
 
 ---
@@ -55,24 +78,35 @@
 
 另一条独立路径从 Fisher 信息出发，对角近似恰好给出 Adam，Kronecker 分解给出 Shampoo。两条路在 $\beta = 0$ 时汇合。
 
+另有一份配套的 **72 页优化方法综述精读**（arXiv:2604.12968v1），逐节讲解 Sec 1–6，见站点上的「优化方法综述精读」页。
+
 ---
+
+## 文件说明
+
+| 文件 / 目录 | 内容 |
+|---|---|
+| `学习与追踪清单.md` | 主文件：总表 + 20 个检查点 + 附录 |
+| `学习计划索引.md` | 按 15 个板块的索引 |
+| `notes/` | 15 篇分板块笔记（Markdown，可直接批注） |
+| `综述精读-优化方法演化.md` | 配套综述的逐节讲解 |
+| `web/` | 构建产物（静态站，含 20 个页面） |
+| `build-all.ps1` | 一键重建网页 |
+| `build-web.js` | 组装 HTML 模板（node，不含 pandoc 调用） |
+| `math-to-span.lua` | Pandoc 过滤器，把公式原样交给浏览器端 KaTeX |
+| `.survey-chunks/` | 构建脚本与中间产物（`sections.json` 是板块定义的单一来源） |
 
 ## 本地构建
 
-需要 [Pandoc](https://pandoc.org/) 与 Node.js。
+需要 [Pandoc](https://pandoc.org/) 与 Node.js。在仓库根目录执行：
 
 ```powershell
-# 1) 用 pandoc 生成 HTML 片段（math-to-span.lua 负责让公式原样交给浏览器端 KaTeX）
-pandoc 学习与追踪清单.md -f gfm+tex_math_dollars+pipe_tables -t html5 `
-  --lua-filter math-to-span.lua --syntax-highlighting=none -o web/.tmp/plan.body.html
-pandoc 学习与追踪清单.md -f gfm+tex_math_dollars+pipe_tables -t html5 `
-  --lua-filter math-to-span.lua --syntax-highlighting=none -s --toc --toc-depth=2 -o web/.tmp/plan.toc.html
-
-# 2) 组装成静态页
-node build-web.js
+.\build-all.ps1
 ```
 
-产物在 `web/`，纯静态、无服务器依赖。
+它会依次：生成 `notes/*.md` → 在总表插入板块标记 → 用 pandoc 生成 HTML 片段 → 用 node 组装 `web/` → 校验断链。
+
+> **为什么分两步**：沙箱禁止 node 通过管道 spawn 子进程，所以 pandoc 必须由 PowerShell 调用，node 只负责读片段与套模板。
 
 > **为什么要用 Lua 过滤器**：Pandoc 自带的 TeX 解析器会拒绝 `\lVert`、`\textstyle` 等写法。过滤器把公式原样输出成 `<span class="math">`，交给浏览器端的 KaTeX 渲染，完全绕开这个限制。
 

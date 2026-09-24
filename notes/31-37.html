@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 31-37 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-31">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 31-37</h1>
+        <div class="sub">学习率调度与 warmup</div>
+        <div class="meta">材料 31–37　｜　检查点 9　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/31-37.md" target="_blank" rel="noopener">31-37.md 源文件</a></div></div>
+<h1 id="学习率调度与-warmup">31-37｜学习率调度与 warmup</h1>
+<blockquote>
+<p>材料 31–37　｜　对应检查点 9</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>31</strong></td>
+<td>课程 §4.4.1 学习率调度</td>
+<td>总表第 31 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>32</strong></td>
+<td>课程 §4.4.1 中的 warmup 与 river-valley</td>
+<td>总表第 32 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>33</strong></td>
+<td>Wen et al. — Understanding WSD: A River Valley Loss Landscape View（ICLR 2025）</td>
+<td>总表第 33 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>34</strong></td>
+<td>Li et al. — Visualizing the Loss Landscape of Neural Nets</td>
+<td>总表第 34 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>35</strong></td>
+<td>Goyal et al. — Accurate, Large Minibatch SGD（ImageNet in 1 Hour）</td>
+<td>总表第 35 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>36</strong></td>
+<td>Bergsma et al. — Straight to Zero</td>
+<td>总表第 36 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>37</strong></td>
+<td>Dremov et al. — Training Dynamics of the Cooldown Stage in WSD</td>
+<td>总表第 37 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-9调度形状从哪来">⛳ 检查点 9｜调度形状从哪来</h2>
+<ol type="1">
+<li>写出 linear / inverse-sqrt / cosine / WSD 四种调度的公式。</li>
+<li>为什么训练最早期需要 warmup？</li>
+<li>用偏差-方差语言解释”峰值加衰减”为什么最优。</li>
+<li>river-valley 图景说的是什么？它如何推出”衰减必须放在后期”？</li>
+<li>既然 <code>sqrt</code>、<code>lowered linear</code>、线性到零都近优，超参搜索的预算该怎么分配？</li>
+<li>WSD 的”稳”阶段为什么不能省？直接用 cosine 有什么不同？</li>
+<li><strong>面试题</strong>：为什么大模型训练普遍用 warmup，而小模型不一定需要？</li>
+<li><strong>延伸</strong>：第 36 行”直接线性衰减到零”与第 37 行的 bias–variance 解释相容吗？为什么”衰减到零”不是必须的？</li>
+<li><strong>动手</strong>：照综述 Tab. 4 的做法，为你关心的两三个优化器各扫 5 档学习率（基准的 0.1×–10×），画出各自的安全区间。</li>
+<li>综述指出<strong>不同优化器的”舒适区”截然不同</strong>（有的只偏好保守 lr，有的在小 lr 下就收敛困难）。这与本章”调度形状从哪来”是同一个问题的两种问法吗？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

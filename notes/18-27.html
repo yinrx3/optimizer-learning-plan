@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 18-27 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-18">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 18-27</h1>
+        <div class="sub">Adam、AdamW 与收敛性之争</div>
+        <div class="meta">材料 18–27　｜　检查点 4、5、6　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/18-27.md" target="_blank" rel="noopener">18-27.md 源文件</a></div></div>
+<h1 id="adamadamw-与收敛性之争">18-27｜Adam、AdamW 与收敛性之争</h1>
+<blockquote>
+<p>材料 18–27　｜　对应检查点 4、5、6</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>18</strong></td>
+<td>课程 §4.2.4 Adam</td>
+<td>总表第 18 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>19</strong></td>
+<td>Kingma &amp; Ba — Adam</td>
+<td>总表第 19 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>20</strong></td>
+<td>课程 §4.2.5 权重衰减与 AdamW</td>
+<td>总表第 20 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>21</strong></td>
+<td>Loshchilov &amp; Hutter — Decoupled Weight Decay（AdamW）</td>
+<td>总表第 21 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>22</strong></td>
+<td>课程 §4.2.6 Adam 的收敛性讨论</td>
+<td>总表第 22 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>23</strong></td>
+<td>Reddi et al. — On the Convergence of Adam and Beyond</td>
+<td>总表第 23 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>24</strong></td>
+<td>Défossez et al. — A Simple Convergence Proof of Adam and Adagrad</td>
+<td>总表第 24 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>25</strong></td>
+<td>Wilson et al. — The Marginal Value of Adaptive Gradient Methods</td>
+<td>总表第 25 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>26</strong></td>
+<td>动手：手写 SGD / 动量 / Adam / AdamW</td>
+<td>总表第 26 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>27</strong></td>
+<td>动手：复现 “Adam + L2” vs “AdamW” 对照</td>
+<td>总表第 27 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-4adam-的真正来历理解-adam-的钥匙">⛳ 检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</h2>
+<ol type="1">
+<li>写出 Adam 的完整更新式，标出 <span class="math">m_t</span>、<span class="math">v_t</span>、<span class="math">\hat m_t</span>、<span class="math">\hat v_t</span>。</li>
+<li>从 sign-SGD 出发，把这个推导完整写一遍。</li>
+<li>为什么需要偏差修正？不修正会怎样？</li>
+<li>推一遍 <span class="math">\mathbb{E}[m^t]=(1-\beta_1^t)\,g</span>（假设每步梯度是同一向量的无偏估计）。</li>
+<li><span class="math">\beta_1=0.9</span>、<span class="math">\beta_2=0.999</span>：两者的有效记忆窗口分别是多少步？为什么分母需要更长的记忆？</li>
+<li>如果把 <span class="math">\beta_2</span> 设成 <span class="math">0.9</span>（与 <span class="math">\beta_1</span> 相同），训练会有什么变化？</li>
+<li>Adam 的预条件子 <span class="math">M_t</span> 长什么样？按综述的判据，它属于<strong>一阶</strong>还是<strong>二阶</strong>？为什么？</li>
+<li>K-FAC 的 <span class="math">M_t</span> 属于一阶还是二阶？为什么？（注意：它和 Shampoo 都用了 Kronecker 分解）</li>
+<li>写出二阶预条件子的一般形式 <span class="math">M_t=\hat H_t+\gamma I</span>，并说明阻尼因子 <span class="math">\gamma</span> 的作用。</li>
+<li>自适应学习率的通用分解式 <span class="math">\theta_{t+1}=\theta_t-\eta_t\,\phi(g_{1:t})/\psi(g_{1:t})</span> 中，AdaGrad、RMSprop、Adam 各自的 <span class="math">\phi</span> 与 <span class="math">\psi</span> 是什么？</li>
+</ol>
+<h2 id="检查点-5面试高频adam-l2-与-adamw-的区别">⛳ 检查点 5｜面试高频：Adam + L2 与 AdamW 的区别</h2>
+<ol type="1">
+<li>用公式说清”Adam + L2”与”AdamW”差在哪一项。</li>
+<li>为什么 L2 正则进入 EMA 后，<span class="math">\hat m</span> 与 <span class="math">\hat v</span> 就不再是”纯梯度信息”了？</li>
+<li>AdamW 的衰减项为什么也乘了 <span class="math">\eta_t</span>？</li>
+<li>写出”Adam + L2”的完整更新式，标出 <span class="math">\lambda w^t</span> 被 <span class="math">\sqrt{\hat v}</span> 缩放的那一步。</li>
+<li>如果某个参数的梯度一直很小（<span class="math">\hat v\approx 0</span>），在”Adam + L2”下它受到的衰减会怎样？这是好事还是坏事？</li>
+<li><strong>面试题</strong>：AdamW 是”更好的正则化”还是”更正确的正则化”？两者有区别吗？</li>
+<li><strong>动手</strong>：跑第 27 行的对照实验，把两条曲线画在一张图上，解释差异出现的位置（早期还是后期？为什么？）。</li>
+<li><strong>延伸</strong>：如果不用 L2 而用 weight decay 的另一种定义（直接乘 <span class="math">(1-\eta\lambda)</span>），与 AdamW 的加法形式在什么条件下等价？</li>
+<li>分布式场景下场景变换的形式是 <span class="math">\mathcal T(\tilde g_t)=\mathcal C(\tilde g_t)</span>。<span class="math">\mathcal C(\cdot)</span> 为什么必须是<strong>有损</strong>的？无损压缩不行吗？</li>
+</ol>
+<h2 id="检查点-6一个真实存在的矛盾">⛳ 检查点 6｜一个真实存在的矛盾</h2>
+<ol type="1">
+<li>复述 Reddi 定理的条件与结论。</li>
+<li>默认超参 <span class="math">0.9/0.999</span> 满足那个条件吗？</li>
+<li>AMSGrad 是怎么修的？</li>
+<li>既然有反例，为什么大家还在用 Adam？给出三条理由。</li>
+<li>Wilson 那篇说自适应方法泛化不一定更好——这与上面几点冲突吗？</li>
+<li><strong>面试题</strong>：如果有人问你”Adam 收敛吗”，你会怎么回答才既准确又不误导？</li>
+<li><strong>延伸</strong>：Défossez 那篇（第 24 行）在<strong>不改更新规则</strong>的前提下证明了收敛——这意味着 Reddi 的反例被推翻了吗？</li>
+<li><strong>RMSprop 为什么在 100→300 epoch 出现性能回退？</strong> “未校正的平方梯度 EMA”这个描述对应什么数学结构？</li>
+<li>为什么那些用<strong>复杂预条件/正交化</strong>的方法在 100 epoch 后收益递减？这说明了什么？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

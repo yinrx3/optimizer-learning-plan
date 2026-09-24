@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 91-94 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-91">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 91-94</h1>
+        <div class="sub">零阶优化与函数空间的牛顿法</div>
+        <div class="meta">材料 91–94　｜　检查点 19、20　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/91-94.md" target="_blank" rel="noopener">91-94.md 源文件</a></div></div>
+<h1 id="零阶优化与函数空间的牛顿法">91-94｜零阶优化与函数空间的牛顿法</h1>
+<blockquote>
+<p>材料 91–94　｜　对应检查点 19、20</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>91</strong></td>
+<td>选修：课程 §4.5 零阶优化</td>
+<td>总表第 91 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>92</strong></td>
+<td>Malladi et al. — MeZO</td>
+<td>总表第 92 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>93</strong></td>
+<td>Zhang et al. — Revisiting ZO for Memory-Efficient LLM Fine-Tuning</td>
+<td>总表第 93 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>94</strong></td>
+<td>maybeRead/ Li, Wang, Giaretta &amp; Azizan（MIT） — Newton Matching for Generative Modeling</td>
+<td>总表第 94 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-19全表终测">⛳ 检查点 19｜全表终测</h2>
+<ol type="1">
+<li><strong>范数 → 几何 → 优化器</strong>：选范数 = 选几何 = 选算法（第 46-50 行）</li>
+<li><strong>Fisher 信息 → 二阶方法</strong>：Adam（对角）、Shampoo（Kronecker）、Newton–Muon（牛顿型）、Newton Matching（函数空间）</li>
+<li><strong>步子该迈多大</strong>：<span class="math">\eta_t\le 1/L</span> → 调度形状 → 权重范数与有效学习率 → Hyperball 之争 → RL 里的 clipping</li>
+</ol>
+<h2 id="检查点-20三个正交的设计轴本表与综述的真正接口">⛳ 检查点 20｜三个正交的设计轴：本表与综述的真正接口</h2>
+<ol type="1">
+<li>用一句话说清「范数轴」与「算子轴」各自回答什么问题。</li>
+<li>一个优化器的完整说明需要回答哪三个问题？</li>
+<li>Muon 在三问中哪一问最强？Shampoo 呢？</li>
+<li>为什么说「范数轴有定理、算子轴没有定理」？这个差别对你使用它们有什么影响？</li>
+<li>用三问分析 MeZO 与 LoRA：它们各自只在哪一问上做了改动？这解释了它们的什么行为？</li>
+<li>综述说 Shampoo「捕捉的是梯度方差而非曲率」——请说明两把尺子为什么会给出不同分类。</li>
+<li><strong>面试题</strong>：如果让你设计一个新优化器，你会先动三问中的哪一问？为什么？</li>
+<li><strong>面试题</strong>：导师问你「综述里最值得做的是哪一个缺口」，你怎么答？（提示：说出「假设不成立」比「现象未理解」更有力）</li>
+<li><strong>延伸（回到检查点 11）</strong>：课程 §4.3 说「Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同，所以两条路汇合」。用三轴语言重新表述这句话，并指出它在什么意义上是极限陈述。</li>
+<li><strong>范数 → 几何 → 优化器</strong>：换最速下降里的范数，依次得到 SGD（<span class="math">\ell_2</span>）、sign-SGD（<span class="math">\ell_\infty</span>）、Muon（谱范数）。第 46-48 行是这个链条的核心。</li>
+<li><strong>Fisher 信息 → 二阶方法</strong>：对角 Fisher 近似给出 Adam（第 50 行）；Kronecker 分解给出 Shampoo（第 50-52 行）；牛顿型重建给出 Newton–Muon（第 69 行）与 Newton Matching（第 90 行）。</li>
+<li><strong>步子该迈多大</strong>：从 <span class="math">\eta_t\le 1/L</span>（第 6 行）→ 调度形状（第 31-37 行）→ 权重范数与有效学习率（第 42-44 行）→ Hyperball 之争（第 59-60 行）；RL 那边是同一个问题的另一种问法（clipping，第 76-82 行）。</li>
+<li><strong>三个正交的设计轴</strong>（检查点 20）：<strong>信息从哪来</strong>（FO / ZO）、<strong>在哪个范数下最速下降</strong>（<span class="math">\ell_2</span> / <span class="math">\ell_\infty</span> / 谱范数）、<strong>参数被约束在什么集合上</strong>（欧氏 / 球面 / 低秩 / Stiefel）。<strong>任何优化器都是这三问的一组答案</strong>；而综述自承的三个缺口，恰好都是两根轴拉扯的产物。</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 28-30 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-28">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 28-30</h1>
+        <div class="sub">三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</div>
+        <div class="meta">材料 28–28f、29–30　｜　检查点 7、8　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/28-30.md" target="_blank" rel="noopener">28-30.md 源文件</a></div></div>
+<h1 id="三篇待处理的论文综述-adam-动力学-加速-sgd">28-30｜三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</h1>
+<blockquote>
+<p>材料 28–30　｜　对应检查点 7、8</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>28</strong></td>
+<td>processing/ Zhang et al. — Evolution of Optimization Methods（2026 综述）</td>
+<td>总表第 28 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>28b</strong></td>
+<td>同上综述：第一遍（框架）</td>
+<td>总表第 28b 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>28c</strong></td>
+<td>同上综述：第二遍（口径校准 + 实证对照）</td>
+<td>总表第 28c 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>28d</strong></td>
+<td>同上综述：第三遍（缺口清单）</td>
+<td>总表第 28d 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>28e</strong></td>
+<td>同上综述：第二遍（按主线深入，每条 3–5 小时）</td>
+<td>总表第 28e 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>28f</strong></td>
+<td>同上综述：第三遍（当字典用）+ 跳过清单</td>
+<td>总表第 28f 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>29</strong></td>
+<td>processing/ Barakat &amp; Bianchi — Adam 的收敛与动力学</td>
+<td>总表第 29 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>30</strong></td>
+<td>processing/ Chen, Na &amp; Kolar — Convergence Analysis of Accelerated SGD Under the Growth Condition（<em>Math. of OR</em> 49(4):2492–2526, 2024）</td>
+<td>总表第 30 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-7一条可迁移的方法论">⛳ 检查点 7｜一条可迁移的方法论</h2>
+<ol type="1">
+<li>什么是 ODE 逼近法？为什么可以用它分析离散算法？</li>
+<li>“插值过程弱收敛到 ODE 解”是什么意思？“弱”指什么？</li>
+<li>Łojasiewicz 不等式在证明里起什么作用？</li>
+<li>课程 §4.1 用光滑性给出 <span class="math">\eta_t\le 1/L</span>；Barakat &amp; Bianchi 用稳定性条件——这两个条件的关系是什么？</li>
+<li>为什么常步长下只能证明”收敛到稳定点”，而递减步长能给出更强的结论？</li>
+<li>条件中心极限定理在这里回答什么问题？（提示：算法末期的波动分布）</li>
+<li><strong>动手</strong>：你手写的 Adam 与论文里的算法是否数值完全一致？若不一致，差在哪一项？</li>
+<li><strong>延伸</strong>：这套方法能否用在 Muon 上？（提示：想想第 69 行为什么要另建一套谱 Wasserstein 几何——因为 Muon 的更新不是普通梯度流）</li>
+<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
+<li>为什么”理论迭代次数更少”不等于”实际更快”？说出这两个量的关系。</li>
+<li><strong>面试题</strong>：给你一个二阶优化器，你怎么判断它的瓶颈在”迭代次数”还是在”每步延迟”？</li>
+</ol>
+<h2 id="检查点-8噪声有多大才谈得上加速">⛳ 检查点 8｜噪声有多大，才谈得上”加速”</h2>
+<ol type="1">
+<li>写出增长条件的表达式。它与”有界方差”假设的区别在哪？</li>
+<li>为什么说增长条件比有界方差更贴近实际训练？</li>
+<li>论文分析了哪四种加速方法？</li>
+<li>为什么”乘性噪声大”会让某些加速方法失去加速？</li>
+<li>DAM+ 为什么比 NAM/RMM 更稳健？直觉上它做对了什么？</li>
+<li>常数步长下为什么只能收敛到”邻域”？邻域大小由什么决定？</li>
+<li>tail-averaged 方案在做什么？为什么会改善速率？</li>
+<li><strong>面试题</strong>：如果有人说”用 Nesterov 加速就能比 SGD 快”，你会追问什么？</li>
+<li><strong>延伸（重要）</strong>：把增长条件与第 6 检查点”Adam 在最坏情况下不收敛”对照——<strong>这两种”理论结论与实践不符”的情形，成因一样吗？</strong></li>
+<li><strong>延伸</strong>：本检查点的”邻域”和第 42–44 行的”有效学习率”都在描述”训练最后停在哪”。它们是对同一个现象的不同刻画吗？</li>
+<li>用传递函数写出 EMA 动量的频域形式，说明 <span class="math">\beta</span> 对应什么。</li>
+<li>为什么”高频有害”只在训练后期成立？前期为什么需要高频？</li>
+<li><strong>延伸</strong>：把检查点 9 的”峰值 + 衰减”调度画成频域上的截止频率曲线，它应该是什么形状？</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

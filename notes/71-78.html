@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 71-78 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-71">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 71-78</h1>
+        <div class="sub">Scaling Law</div>
+        <div class="meta">材料 71–78　｜　检查点 16　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/71-78.md" target="_blank" rel="noopener">71-78.md 源文件</a></div></div>
+<h1 id="scaling-law">71-78｜Scaling Law</h1>
+<blockquote>
+<p>材料 71–78　｜　对应检查点 16</p>
+</blockquote>
+<h2 id="材料">材料</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>材料</th>
+<th>在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>71</strong></td>
+<td>Kaplan et al. — Scaling Laws for Neural Language Models</td>
+<td>总表第 71 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>72</strong></td>
+<td>processing/ Drusvyatskiy &amp; Xiao — Stochastic Optimization with Decision-Dependent Distributions（<em>Math. of OR</em> 48(2):954–998, 2023）</td>
+<td>总表第 72 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>73</strong></td>
+<td>Hoffmann et al. — Chinchilla</td>
+<td>总表第 73 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>74</strong></td>
+<td>Rosenfeld et al. — A Constructive Prediction of the Generalization Error</td>
+<td>总表第 74 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>75</strong></td>
+<td>Bahri et al. — Explaining Neural Scaling Laws</td>
+<td>总表第 75 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>76</strong></td>
+<td>邹嘉轩等 — Effective Frontiers: A Unification of Neural Scaling Laws</td>
+<td>总表第 76 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>77</strong></td>
+<td>Ren et al. — Transferable Hypersphere Optimization</td>
+<td>总表第 77 行</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>78</strong></td>
+<td>可选：Schaeffer et al. — Are Emergent Abilities of LLMs a Mirage?</td>
+<td>总表第 78 行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查点-16两篇-scaling-law-为什么不矛盾">⛳ 检查点 16｜两篇 scaling law 为什么不矛盾</h2>
+<ol type="1">
+<li>Kaplan 与 Chinchilla 的结论差异是什么？</li>
+<li>什么是”活跃瓶颈”？三个瓶颈分别对应什么？</li>
+<li>Effective Frontier <span class="math">k_\star</span> 是什么意思？</li>
+<li>为什么可约损失由长尾分布的<strong>尾部概率质量</strong>决定？</li>
+<li>用瓶颈语言解释：为什么数据量增大到某一点后，扩模型才开始划算？</li>
+<li><strong>面试题</strong>：“Kaplan 和 Chinchilla 谁错了？”——你会怎么回答？</li>
+<li><span class="math">\eta^*\propto T^{-0.32}</span> 这个指数从哪来？</li>
+<li><strong>延伸</strong>：第 74 行”涌现能力可能是度量选择的产物”这一说法，与 scaling law 的幂律图景矛盾吗？</li>
+<li><strong>延伸</strong>：第 75 行用 Fisher 信息把学习速度分解为漂移+噪声，这与本检查点的”三种瓶颈”是互补还是重复？</li>
+<li>为什么说 <span class="math">C</span>（优化）与 <span class="math">N</span>、<span class="math">D</span> 不同——它不是外生给定的？给出实证依据。</li>
+<li>Kron 与 Muon 在超参鲁棒性上的差别，根源是什么？</li>
+<li><strong>面试题</strong>：如果目标是”换一个模型宽度也能沿用同一套超参”，你有哪两条完全不同的技术路线？（提示：重参数化 vs 几何约束）</li>
+<li>综述为什么要明确声明 <strong>60M Llama 只是 architectural proxy</strong>？这个声明在方法学上防住了什么批评？</li>
+<li>为什么”<strong>优化器排行榜</strong>”在不指定架构和配方时是一个<strong>不适定问题</strong>？举一个综述里的具体证据。</li>
+</ol>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>
