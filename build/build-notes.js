@@ -11,7 +11,7 @@ const lines = fs.readFileSync(PLAN, 'utf8').replace(/^\uFEFF/, '').split(/\r?\n/
 // ---------- 1) 解析总表行 ----------
 const rows = [];  // {no, title, where, line}
 const CP = /^###\s*⛳\s*检查点\s*(\d+)[｜|]\s*(.+?)\s*$/;
-const ROW = /^\|\s*\*\*(\d+[a-f]?)\*\*\s*\|/;
+const ROW = /^\|\s*(?:<!--SEC:\d+-->)?\s*\*\*(\d+[a-f]?)\*\*\s*\|/;
 const Q = /^(\d+)\.\s+(.*)$/;
 
 const clean = (s) => s.split('**').join('').split(String.fromCharCode(96)).join('').trim();

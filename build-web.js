@@ -64,6 +64,9 @@ nav.toc .rng{display:block; font-size:11.5px; color:var(--muted); margin-top:3px
 nav.toc a.notes{display:inline-block; margin-top:5px; margin-right:5px; font-size:11.5px; padding:1px 8px; border-radius:20px;
   background:var(--accent-soft); color:var(--accent); border:1px solid rgba(138,90,43,.2)}
 nav.toc ul.toc-app{list-style:none; margin:0; padding:0}
+tr.sec-row td{background:var(--accent-soft); border-color:var(--line)}
+td.hide{display:none}
+tr.sec-row td h3.sec-anchor{margin:0; padding:0; background:none; border:none; font-size:17px}
 h3.sec-anchor{margin-top:66px; padding:12px 18px; border-radius:10px; background:var(--accent-soft);
   border-left:4px solid var(--accent); color:var(--accent); font-size:18px; scroll-margin-top:20px}
 h3.sec-anchor .rng{font-size:13px; color:var(--muted); font-weight:400; margin-left:10px}
@@ -181,31 +184,47 @@ const secToc = '<div class="toc-lead">按板块分目录（15 个）</div><ul cl
   + '<li><a href="#sec-appendix">兴趣支线 · 材料位置 · 数学工具 · 主干线索 · 跟踪对象</a></li>'
   + '<li><a href="./index.html">← 返回首页</a></li></ul>';
 
-// 正文里为每个板块第一行材料插入锚点标题
-// 依据 md 里插入的 <!--SEC:N--> 标记（比正则匹配表格单元格可靠）
+// 正文里为每个板块插入锚点标题行
+// 标记由 build/mark-plan-sections.js 写在【表格单元格内部】：<td><!--SEC:N--><strong>N</strong></td>
+// 这里把它展开成一行标题：标题放该行第一格并跨列，其余格加 class="hide" 由 CSS 隐藏。
+// 必须作为表格的一行——插到 <table> 外面或表头与数据行之间会切断表格。
 function injectAnchors(html) {
+  const countRows = (h) => (h.match(/<strong>\d+[a-f]?<\/strong>/g) || []).length;
+  const before = countRows(html);
   let out = html;
   let ok = 0;
   for (let i = 0; i < SECTIONS.length; i++) {
     const s = SECTIONS[i];
     const mark = '<!--SEC:' + s.from + '-->';
-    if (!out.includes(mark)) { console.log('  ⚠ 未找到板块标记: ' + s.from + '（' + s.name + '）'); continue; }
-    const tag = '<h3 class="sec-anchor" id="sec-' + s.from + '">板块 ' + (i + 1) + '｜' + s.name
+    if (!out.includes(mark)) { console.log('  [warn] missing section mark: ' + s.from); continue; }
+    const heading = '<h3 class="sec-anchor" id="sec-' + s.from + '">板块 ' + (i + 1) + '｜' + s.name
       + ' <span class="rng">材料 ' + rangeLabel(s) + '　检查点 ' + s.cps.join('、') + '</span></h3>';
-    out = out.replace(mark, tag);
+    const cols = SECTIONS.cols || 4;
+    const empties = new Array(cols - 1).fill('<td class="hide"></td>').join('');
+
+    // 只匹配"首格内含标记"的表格行。<td[^>]*> 与 [\s\S]*? 都有界，
+    // 不会像 <tr>[\s\S]*?</tr> 那样跨行回溯、也不会整行替换掉材料行。
+    const re = new RegExp('<tr([^>]*)>\\s*<td([^>]*)>' + mark + '([\\s\\S]*?)</tr>');
+    if (!re.test(out)) { console.log('  [warn] mark not in first cell: ' + s.from); continue; }
+    out = out.replace(re, function (rowHtml, trAttrs, tdAttrs, rest) {
+      const titleRow = '<tr class="sec-row"><td colspan="' + cols + '">' + heading + '</td>' + empties + '</tr>';
+      const keepRow = '<tr' + trAttrs + '><td' + tdAttrs + '>' + rest;
+      return titleRow + keepRow;
+    });
     ok++;
   }
-  if (out.includes('<!--SEC-APPENDIX-->')) {
-    out = out.replace('<!--SEC-APPENDIX-->', '<h3 class="sec-anchor" id="sec-appendix">附录与速查</h3>');
-  } else {
-    console.log('  ⚠ 未找到附录标记');
-  }
-  // 清掉可能残留的其它标记
+  const apx = '<!--SEC-APPENDIX-->';
+  const apTag = '<h3 class="sec-anchor" id="sec-appendix">附录与速查</h3>';
+  if (out.includes(apx)) out = out.split(apx).join(apTag);
+  else console.log('  [warn] missing appendix mark');
   out = out.replace(/<!--SEC[^>]*-->/g, '');
-  console.log('  板块锚点插入 ' + ok + '/' + SECTIONS.length);
+
+  // 硬校验：材料行一个都不能少（曾因整行替换吞掉第一个材料行）
+  const after = countRows(out);
+  if (after !== before) throw new Error('material rows changed: ' + before + ' -> ' + after);
+  console.log('  板块锚点插入 ' + ok + '/' + SECTIONS.length + '（材料行 ' + after + ' 行守恒）');
   return out;
 }
-
 fs.writeFileSync(path.join(OUT, 'learning-plan.html'), page({
   title: '优化器理论学习计划 — 殷润轩',
   toc: secToc,

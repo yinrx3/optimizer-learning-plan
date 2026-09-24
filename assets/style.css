@@ -39,6 +39,9 @@ nav.toc .rng{display:block; font-size:11.5px; color:var(--muted); margin-top:3px
 nav.toc a.notes{display:inline-block; margin-top:5px; margin-right:5px; font-size:11.5px; padding:1px 8px; border-radius:20px;
   background:var(--accent-soft); color:var(--accent); border:1px solid rgba(138,90,43,.2)}
 nav.toc ul.toc-app{list-style:none; margin:0; padding:0}
+tr.sec-row td{background:var(--accent-soft); border-color:var(--line)}
+td.hide{display:none}
+tr.sec-row td h3.sec-anchor{margin:0; padding:0; background:none; border:none; font-size:17px}
 h3.sec-anchor{margin-top:66px; padding:12px 18px; border-radius:10px; background:var(--accent-soft);
   border-left:4px solid var(--accent); color:var(--accent); font-size:18px; scroll-margin-top:20px}
 h3.sec-anchor .rng{font-size:13px; color:var(--muted); font-weight:400; margin-left:10px}
