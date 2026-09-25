@@ -14,7 +14,7 @@
 <div class="masthead">
     <h1>优化器理论学习计划</h1>
     <div class="sub">从零开始 · 优化器理论 / Scaling Law / 深度学习理论</div>
-    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 99 条材料 / 15 个板块 / 20 个检查点 / 225 道自测题</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 100 条材料 / 15 个板块 / 20 个检查点 / 235 道自测题</div>
   </div>
 <h1 id="优化器理论学习-阅读顺序总表">优化器理论学习 — 阅读顺序总表</h1>
 <blockquote>
@@ -1275,6 +1275,12 @@
 <td><a href="https://arxiv.org/abs/2607.22444">arXiv:2607.22444</a></td>
 <td>⭐ <strong>与上篇对照读</strong>：双向参数对齐实验表明主要机制只是隐式状态相关 lr 调度，梯度方向无额外几何优势 ｜📖 综述 §4.3.1（“安全边际窄”的实证）；§5</td>
 </tr>
+<tr>
+<td style="text-align: center;"><strong>65b</strong></td>
+<td>Peng, Zhang, Wang, Qi, Shi &amp; Gao — <strong>Leveraging Flatness to Improve Information-Theoretic Generalization Bounds for SGD</strong>（ICLR 2025）</td>
+<td><a href="https://arxiv.org/abs/2601.01465">arXiv:2601.01465</a> ｜ <a href="https://github.com/peng-ze/omniscient-bounds">代码</a></td>
+<td>⭐ <strong>本文补齐了本表”平坦度只知道要平、不知道要平在哪”的空缺</strong>。结论一句话：<strong>泛化更好 ⟺ 最终权重协方差的大方差方向，正好落在损失景观曲率小的方向上</strong>——平坦度不只是”平”，还要”平在对的方向”。手法叫 <strong>omniscient trajectory</strong>，本质是<strong>把优化挪进期望里</strong>（<span class="math">\inf_\Sigma \mathbb{E}_W[f] \to \mathbb{E}_W[\inf_\Sigma f]</span>），让扰动协方差能依赖具体的 <span class="math">W</span>，估计量随之无偏。副产品：凸-Lipschitz 有界问题上把 GD 的极小极大超额风险从 <span class="math">\Omega(1)</span> 改进到 <span class="math">O(1/\sqrt n)</span>。⚠️ <strong>读法</strong>：只读摘要 + §1 + §3.2 + §3.4，跳过 §2 与附录证明。⚠️ <strong>元数据陷阱</strong>：arXiv 显示 2026-01 上传但标注 ICLR 2025——引用写 <strong>ICLR 2025</strong> ｜📖 综述 §3.2.6（平坦极小值与 SAM 家族）；§2.2（各向异性）</td>
+</tr>
 </tbody>
 </table>
 <h3 id="检查点-13两篇论文的分歧点在归因">⛳ 检查点 13｜两篇论文的分歧点在”归因”</h3>
@@ -1672,8 +1678,98 @@
 <li><strong>对照题</strong>：clipping 与 sign 更新都在”抑制梯度幅值的影响”，但一个引入偏置、一个不引入。为什么？</li>
 <li><strong>延伸</strong>：这四种手段里，哪一种与”检查点 10 的有效学习率”是同一个机理？</li>
 </ol>
-<p><strong>关于 MaxRL 的追加自测（第 86 行）</strong></p>
+<p><strong>关于泛化理论的补充（第 65b 行，ICLR 2025）</strong></p>
+<blockquote>
+<p><strong>核心洞察 ⑤：平坦度不只是”要平”，还要”平在对的方向”</strong> 这一节补上本表原来的空缺：前面所有关于平坦度/锐度的讨论（第 34 行的损失景观可视化、第 63–65 行的 Hyperball 之争）都只到”要找平坦极小值”为止，<strong>没有人问”平在哪”</strong>。这篇文章给了答案。</p>
+<p><strong>结论可记成一句</strong>：泛化更好，当且仅当<strong>最终权重协方差的大方差方向对应损失景观中曲率小的方向</strong>。 - <strong>权重协方差</strong> = 独立训练多个模型后，各次输出权重的协方差； - 所谓”对齐”就是：<strong>在尖锐（高曲率）方向上输出几乎不动，在平坦方向上才允许大幅波动</strong>。</p>
+<p>📌 <strong>方向别搞反</strong>：条件是”协方差在<strong>大曲率</strong>方向上的分量<strong>小</strong>”。换句直觉的话：<strong>如果多次训练的权重漂移主要发生在平坦方向，那这个模型泛化会更好。</strong> 📌 <strong>它与 SAM 家族不是一回事</strong>：SAM 要”走过去”（找平坦极小值，见综述 §3.2.6），本文要”测出来”（衡量输出分布方向与曲率方向的一致性）。<strong>同一个”平坦”，一个当优化目标，一个当可度量的几何量。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ⑥：为什么现有的信息论界抓不到平坦度</strong> 信息论泛化界（互信息 / PAC-Bayes 那一族）是两项之和：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>项</th>
+<th>依赖什么</th>
+<th>性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>轨迹项</strong></td>
+<td>梯度的方差</td>
+<td><strong>隐式</strong>的平坦度度量——要附加条件（如近似零损失）才能逼近 Hessian 迹</td>
+</tr>
+<tr>
+<td><strong>平坦度项</strong></td>
+<td>Hessian 的迹</td>
+<td><strong>显式</strong>的平坦度度量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>失败机制</strong>（本文 Figure 1）：改变 batch size / 学习率来调平坦度时，真实泛化误差下降，而<strong>轨迹项反而上升</strong>，两项相加后整个界与真实泛化错位。 <span class="math">\Rightarrow</span> <strong>这是检查点 1 那条”目标函数只是代理”的具体兑现</strong>：界是代理，真实泛化是另一件事，两者可以反向变化。 <strong>推论</strong>：想让界反映平坦度的好处，必须让<strong>整条界显式依赖平坦度</strong>，而不是让它藏在轨迹项的梯度方差里。</p>
+</blockquote>
+<blockquote>
+<p><strong>核心洞察 ⑦：关键技术 —— 把优化挪进期望里</strong> 这是全文唯一需要真正理解的数学动作，而且很”数学系”：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>旧写法</th>
+<th>新写法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>形式</td>
+<td><span class="math">\inf_\Sigma \mathbb{E}_W[f(W;\Sigma)]</span></td>
+<td><span class="math">\mathbb{E}_W[\inf_\Sigma f(W;\Sigma)]</span></td>
+</tr>
+<tr>
+<td>扰动协方差</td>
+<td><span class="math">\Sigma</span> 与 <span class="math">W</span> <strong>无关</strong>（独立高斯）</td>
+<td><span class="math">\Sigma</span> 可依赖 <span class="math">W</span>，乃至依赖全部随机性</td>
+</tr>
+<tr>
+<td>后果</td>
+<td>无法利用任何一个具体 <span class="math">W</span> 的性质</td>
+<td>可利用该 <span class="math">W</span> 实例的 Hessian，界更紧</td>
+</tr>
+<tr>
+<td>估计</td>
+<td>需采样多个 <span class="math">W</span> 做”经验风险最小化”，样本少时<strong>过拟合 → 估计有负偏</strong></td>
+<td><span class="math">\frac1k\sum_i \inf_{\Sigma^i} f(W^i;\Sigma^i)</span> 是<strong>无偏</strong>估计</td>
+</tr>
+</tbody>
+</table>
+<p><strong>交换的合法性来自”让扰动不再独立”</strong>：原技术用独立高斯，所以条件在任何 <span class="math">W</span> 上 <span class="math">\Sigma</span> 都一样——这正是它无法适配 <span class="math">W</span> 的原因。把扰动改成依赖 <span class="math">W</span>（直至依赖全部随机性），交换就等价。这就是 “omniscient”（全知）这个名字的来历。</p>
+<p>🎯 <strong>这个技巧本身比结论更值得学</strong>：它是纯粹的”把 <span class="math">\inf</span> 与 <span class="math">\mathbb{E}</span> 换序”，与 SGD 无关，因此可与其他界技术自由组合（本文正是这么用的）。<strong>这是”分析手法”层面的收获，而不是又一条关于优化器的结论。</strong></p>
+</blockquote>
+<p><strong>自测（泛化理论补充）</strong></p>
 <ol start="14" type="1">
+<li>用一句话说出这篇文章的核心结论，并解释”对齐”（alignment）指的是什么对齐。</li>
+<li>权重协方差是怎么算出来的？为什么需要<strong>独立训练多个模型</strong>？</li>
+<li>轨迹项与平坦度项各依赖什么？为什么轨迹项”隐式”地反映平坦度？</li>
+<li><strong>换序题（最关键）</strong>：<span class="math">\inf_\Sigma \mathbb{E}_W[f(W;\Sigma)]</span> 与 <span class="math">\mathbb{E}_W[\inf_\Sigma f(W;\Sigma)]</span> 哪个更紧？为什么？</li>
+<li>为什么让扰动<strong>不再独立</strong>，就等价于把优化挪进期望里？</li>
+<li>为什么 <span class="math">\mathbb{E}_W[\inf_\Sigma f]</span> 的样本均值估计是<strong>无偏</strong>的，而 <span class="math">\inf_\Sigma \mathbb{E}_W[f]</span> 的经验版本容易有负偏？</li>
+<li><strong>对照题</strong>：SAM 家族的”找平坦极小值”与本文的”衡量方向对齐”，是同一件事吗？各自需要什么、输出什么？</li>
+<li>本文在凸-Lipschitz 有界问题上把 GD 的率从 <span class="math">\Omega(1)</span> 改进到 <span class="math">O(1/\sqrt n)</span>。这个改进意味着”记忆-泛化权衡”被绕开了吗？请谨慎作答。</li>
+<li><strong>面试题</strong>：如果导师问你”为什么现有泛化界低估了平坦度的作用”，你会用哪两句话回答？</li>
+<li><strong>延伸（接检查点 1）</strong>：本文的失败机制（真实泛化下降而界上升）与检查点 1 的”目标函数只是代理”是同一个问题吗？</li>
+</ol>
+<p><strong>关于 MaxRL 的追加自测（第 86 行）</strong></p>
+<ol start="24" type="1">
 <li>为什么说”终局二值反馈”下模型隐含了一个似然？这个似然定义在什么空间上？</li>
 <li>“期望回报 RL 只是似然的一阶近似”——这里的”一阶”是指对什么量做展开？</li>
 <li>MaxRL 用”采样算力”索引目标函数，这意味着什么？算力越大目标越接近什么？</li>

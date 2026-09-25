@@ -779,6 +779,11 @@
 <td>Xiao et al. — Hyperball May Not Be a Free Lunch</td>
 <td>总表第 65 行</td>
 </tr>
+<tr>
+<td style="text-align: center;"><strong>65b</strong></td>
+<td>Peng, Zhang, Wang, Qi, Shi &amp; Gao — Leveraging Flatness to Improve Information-Theoretic Generalization Bounds for SGD（ICLR 2025）</td>
+<td>总表第 65b 行</td>
+</tr>
 </tbody>
 </table>
 <h2 id="检查点-13两篇论文的分歧点在归因">⛳ 检查点 13｜两篇论文的分歧点在”归因”</h2>
@@ -1030,6 +1035,16 @@
 <li>为什么 sign 更新能保证”整个学习率区间都有安全基线”？它付出了什么？</li>
 <li><strong>对照题</strong>：clipping 与 sign 更新都在”抑制梯度幅值的影响”，但一个引入偏置、一个不引入。为什么？</li>
 <li><strong>延伸</strong>：这四种手段里，哪一种与”检查点 10 的有效学习率”是同一个机理？</li>
+<li>用一句话说出这篇文章的核心结论，并解释”对齐”（alignment）指的是什么对齐。</li>
+<li>权重协方差是怎么算出来的？为什么需要<strong>独立训练多个模型</strong>？</li>
+<li>轨迹项与平坦度项各依赖什么？为什么轨迹项”隐式”地反映平坦度？</li>
+<li><strong>换序题（最关键）</strong>：<span class="math">\inf_\Sigma \mathbb{E}_W[f(W;\Sigma)]</span> 与 <span class="math">\mathbb{E}_W[\inf_\Sigma f(W;\Sigma)]</span> 哪个更紧？为什么？</li>
+<li>为什么让扰动<strong>不再独立</strong>，就等价于把优化挪进期望里？</li>
+<li>为什么 <span class="math">\mathbb{E}_W[\inf_\Sigma f]</span> 的样本均值估计是<strong>无偏</strong>的，而 <span class="math">\inf_\Sigma \mathbb{E}_W[f]</span> 的经验版本容易有负偏？</li>
+<li><strong>对照题</strong>：SAM 家族的”找平坦极小值”与本文的”衡量方向对齐”，是同一件事吗？各自需要什么、输出什么？</li>
+<li>本文在凸-Lipschitz 有界问题上把 GD 的率从 <span class="math">\Omega(1)</span> 改进到 <span class="math">O(1/\sqrt n)</span>。这个改进意味着”记忆-泛化权衡”被绕开了吗？请谨慎作答。</li>
+<li><strong>面试题</strong>：如果导师问你”为什么现有泛化界低估了平坦度的作用”，你会用哪两句话回答？</li>
+<li><strong>延伸（接检查点 1）</strong>：本文的失败机制（真实泛化下降而界上升）与检查点 1 的”目标函数只是代理”是同一个问题吗？</li>
 <li>为什么说”终局二值反馈”下模型隐含了一个似然？这个似然定义在什么空间上？</li>
 <li>“期望回报 RL 只是似然的一阶近似”——这里的”一阶”是指对什么量做展开？</li>
 <li>MaxRL 用”采样算力”索引目标函数，这意味着什么？算力越大目标越接近什么？</li>

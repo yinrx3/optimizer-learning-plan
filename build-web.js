@@ -232,7 +232,7 @@ fs.writeFileSync(path.join(OUT, 'learning-plan.html'), page({
   masthead: `<div class="masthead">
     <h1>优化器理论学习计划</h1>
     <div class="sub">从零开始 · 优化器理论 / Scaling Law / 深度学习理论</div>
-    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 99 条材料 / 15 个板块 / 20 个检查点 / 225 道自测题</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 100 条材料 / 15 个板块 / 20 个检查点 / 235 道自测题</div>
   </div>`,
   body: injectAnchors(read('plan.body.html')),
 }));
@@ -272,7 +272,7 @@ fs.writeFileSync(path.join(OUT, 'survey.html'), page({
     tocRaw: true,
     masthead: `<div class="masthead">
       <h1>学习计划索引</h1>
-      <div class="sub">99 条材料按阅读依赖切成 15 个板块</div>
+      <div class="sub">100 条材料按阅读依赖切成 15 个板块</div>
       <div class="meta">每个板块：材料清单 + 自测检查点 + 对应笔记 + 该读综述哪几节</div>
     </div>`,
     body: `<h2 id="s0">板块总览</h2><div class="secgrid">` + SECTIONS.map((s, i) =>
@@ -365,8 +365,8 @@ fs.writeFileSync(path.join(OUT, 'index.html'), `<!DOCTYPE html>
 <div class="cards">
   <a class="card" href="./sections.html">
     <h3>按板块浏览（15 个）→</h3>
-    <p>把 99 条材料按阅读依赖切成 15 个板块，每个板块给出主题、材料范围、对应检查点与笔记入口。</p>
-    <div class="n">99 条材料 ｜ 20 个检查点 ｜ 225 道自测题</div>
+    <p>把 100 条材料按阅读依赖切成 15 个板块，每个板块给出主题、材料范围、对应检查点与笔记入口。</p>
+    <div class="n">100 条材料 ｜ 20 个检查点 ｜ 235 道自测题</div>
   </a>
   <a class="card" href="./learning-plan.html">
     <h3>进入学习计划 →</h3>
