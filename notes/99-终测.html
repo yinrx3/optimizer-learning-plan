@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笔记 99-终测 — 殷润轩</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="../index.html">← 返回首页</a>
+        <div class="toc-lead">本板块</div><ul class="toc-app">
+        <li><a href="../learning-plan.html#sec-99">学习计划中的对应位置</a></li>
+        <li><a href="./index.html">全部笔记</a></li></ul>
+        <div class="toc-lead">其他板块</div><ul class="toc-app"><li><a href="./1-9.html">1-9</a></li><li><a href="./10-13.html">10-13</a></li><li><a href="./14-17.html">14-17</a></li><li><a href="./18-27.html">18-27</a></li><li><a href="./28-30.html">28-30</a></li><li><a href="./31-37.html">31-37</a></li><li><a href="./38-46.html">38-46</a></li><li><a href="./47-52.html">47-52</a></li><li><a href="./53-58.html">53-58</a></li><li><a href="./59-65.html">59-65</a></li><li><a href="./66-70.html">66-70</a></li><li><a href="./71-78.html">71-78</a></li><li><a href="./79-86.html">79-86</a></li><li><a href="./87-90.html">87-90</a></li><li><a href="./91-94.html">91-94</a></li><li><a href="./28-综述阅读路线.html">28-综述阅读路线</a></li><li><a href="./99-终测.html">99-终测</a></li></ul></nav>
+<main>
+<div class="masthead"><h1>笔记 99-终测</h1>
+        <div class="sub">终测：全表综合验收（检查点 19）</div>
+        <div class="meta">材料 99–99　｜　检查点 19　｜　
+        <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/99-终测.md" target="_blank" rel="noopener">99-终测.md 源文件</a></div></div>
+<h1 id="终测全表综合验收检查点-19">99-终测｜全表综合验收（检查点 19）</h1>
+<blockquote>
+<p>这一篇不属于任何材料板块：它是<strong>全部 15 个板块读完后的综合自检</strong>。答不出来就回到对应板块的笔记。</p>
+</blockquote>
+<blockquote>
+<p><strong>能闭卷回答下面五个问题，这份材料就算读通了。</strong></p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 42%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>问题</th>
+<th style="text-align: center;">答案在哪一行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td><strong>Adam 为什么叫”二阶方法”？</strong></td>
+<td style="text-align: center;">48（对角 Fisher 近似）</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>Muon 为什么要正交化？</strong></td>
+<td style="text-align: center;">47（谱范数最速下降，对偶是核范数）</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td><strong>Hyperball 到底做了什么？争论点在哪？</strong></td>
+<td style="text-align: center;">41–43、58–59</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td><strong>为什么最优 lr 会随模型宽度变化？</strong></td>
+<td style="text-align: center;">37–39（μP）</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td><strong>Kaplan 和 Chinchilla 谁错了？</strong></td>
+<td style="text-align: center;">69（都没错，是不同瓶颈下的均衡解）</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td><strong><span class="math">T^{-0.32}</span> 这个指数为什么是这个值？</strong></td>
+<td style="text-align: center;">70（<strong>开放问题，没有答案</strong>）</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td><strong>为什么要 warmup？为什么最优调度是峰值加衰减？</strong></td>
+<td style="text-align: center;">31–36（偏差-方差权衡）</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td><strong>“调 lr”到底在调什么？</strong></td>
+<td style="text-align: center;">41–44（有效学习率）</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td><strong>clipping 与学习率衰减是同一件事吗？</strong></td>
+<td style="text-align: center;">74–80（都是”步长该迈多大”）</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td><strong>双时间尺度为什么必要？</strong></td>
+<td style="text-align: center;">64（外层不能等内层收敛）</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td><strong>有个工业界撞到、理论界还没答的问题是什么？</strong></td>
+<td style="text-align: center;">80（层间梯度异质性）</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td><strong>为什么 SGD 在大学习率下”稳”，却依然不是好选择？</strong></td>
+<td style="text-align: center;">检查点 10（稳定性与有效性是两个独立的轴）</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td><strong>“经验 Fisher”与”真 Fisher”的区别是什么？它如何决定了 Shampoo 的归类？</strong></td>
+<td style="text-align: center;">检查点 11（EFIM 捕捉方差而非曲率）</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td><strong>控制步长的手段有几种？各自的代价是什么？</strong></td>
+<td style="text-align: center;">检查点 17（衰减 / clipping / sign / 几何约束）</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td><strong>优化器状态占多少显存？为什么”显存墙”的算术是 <span class="math">2\times</span> 参数？</strong></td>
+<td style="text-align: center;">检查点 1（Adam 的 <span class="math">m_t,v_t</span>）</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td><strong>什么是”不受约束的环境变量”——换句话说，什么会掩盖优化器之间的差异？</strong></td>
+<td style="text-align: center;">检查点 18（架构的约束强度）</td>
+</tr>
+<tr>
+<td style="text-align: center;">17</td>
+<td><strong>综述说未来应推进”结构化矩阵更新”。用课程 §4.3 的范数视角，解释为什么这是一个有理论根据的方向。</strong></td>
+<td style="text-align: center;">检查点 20（几何轴）</td>
+</tr>
+<tr>
+<td style="text-align: center;">18</td>
+<td><strong>有人说”优化器研究是工程，不是数学”。用综述 Sec 3.1 的框架反驳。</strong></td>
+<td style="text-align: center;">检查点 20（两条轴的分工）</td>
+</tr>
+<tr>
+<td style="text-align: center;">19</td>
+<td><strong>导师问你”这份综述最大的弱点是什么”，你怎么答？</strong></td>
+<td style="text-align: center;">检查点 19 之后（综述的定位）</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td><strong>严格网格搜索需要约 1073 GPU 小时。这对独立研究者意味着什么？有没有更省的方法？</strong></td>
+<td style="text-align: center;">检查点 13（算力成本披露）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心验收标准</strong></p>
+<blockquote>
+<p><strong>能画出第 46-50 行那条”换范数就换优化器”的链条。</strong> <span class="math display">\ell_2\to\text{SGD},\qquad \ell_\infty\to\text{sign-SGD},\qquad \text{谱范数}\to\text{Muon}</span> 以及另一条：<strong>对角 Fisher <span class="math">\to</span> Adam，Kronecker <span class="math">\to</span> Shampoo</strong>，而 Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同。</p>
+</blockquote>
+<p><strong>三条贯穿全表的主线（能复述就算通过）</strong></p>
+<ol type="1">
+<li><strong>范数 → 几何 → 优化器</strong>：选范数 = 选几何 = 选算法（第 46-50 行）</li>
+<li><strong>Fisher 信息 → 二阶方法</strong>：Adam（对角）、Shampoo（Kronecker）、Newton–Muon（牛顿型）、Newton Matching（函数空间）</li>
+<li><strong>步子该迈多大</strong>：<span class="math">\eta_t\le 1/L</span> → 调度形状 → 权重范数与有效学习率 → Hyperball 之争 → RL 里的 clipping</li>
+</ol>
+<p><strong>如果只能记住一句话</strong></p>
+<blockquote>
+<p><strong>现代优化器的设计，本质是在最速下降里选一个范数；而这个范数背后，是对”参数是什么几何对象”的回答。</strong></p>
+</blockquote>
+<p><strong>最后：动手清单自检</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox" />手写过 SGD / 动量 / Adam / AdamW，且与 <code>torch.optim</code> 数值对齐</label></li>
+<li><label><input type="checkbox" />复现过 “Adam + L2” vs “AdamW” 的差异</label></li>
+<li><label><input type="checkbox" />记录过名义 lr / 权重范数 / 有效 lr，并看到二者分道扬镳</label></li>
+<li><label><input type="checkbox" />实现过 Muon 与 Shampoo，并验证 <span class="math">\beta=0</span> 时二者相同</label></li>
+<li><label><input type="checkbox" />用 Newton–Schulz 迭代近似过矩阵符号函数，与 SVD 对比</label></li>
+<li><label><input type="checkbox" />画出过不同优化器的更新矩阵<strong>奇异值分布</strong></label></li>
+<li><label><input type="checkbox" />自己拟合过一条 scaling law 幂律并报出指数</label></li>
+<li><label><input type="checkbox" />从综述里<strong>读出并复述</strong>至少三个”论文自承的 open problem”（这是找题目最直接的训练）</label></li>
+<li><label><input type="checkbox" />把某个优化器<strong>逐项填进综述 Eq.(7) 的算子分解</strong>（<span class="math">\mathcal E</span> / <span class="math">\mathcal T</span> / <span class="math">\phi</span> / <span class="math">M_t</span> / <span class="math">P_\Theta</span>），并说出哪一项是这个算法的真正创新点</label></li>
+<li><label><input type="checkbox" />解释清楚<strong>为什么”架构的影响有时超过优化器本身”</strong>，并举出综述里的具体证据</label></li>
+<li><label><input type="checkbox" />设计一个实验检验”<strong>架构对优化器轨迹的影响是否超过算法本身</strong>”，并写清要控制哪些变量</label></li>
+</ul>
+<hr />
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="../assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

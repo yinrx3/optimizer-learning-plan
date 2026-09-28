@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/53-58.md" target="_blank" rel="noopener">53-58.md 源文件</a></div></div>
 <h1 id="shampook-fac-与-muon-的实现">53-58｜Shampoo、K-FAC 与 Muon 的实现</h1>
 <blockquote>
-<p>材料 53–58　｜　对应检查点 12</p>
+<p>材料 53–58　｜　本块题目 13 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -70,7 +70,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-12一处典型的数学与工程取舍">⛳ 检查点 12｜一处典型的数学与工程取舍</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 12｜一处典型的数学与工程取舍</strong></p>
 <ol type="1">
 <li>什么是矩阵符号函数 <span class="math">\mathrm{msgn}(X)</span>？它与极分解什么关系？</li>
 <li>为什么 SVD 不适合放在训练内循环？</li>
@@ -80,7 +81,6 @@
 <li>bfloat16 下做 NS 迭代会遇到什么问题？Polar Express 怎么处理的？</li>
 <li><strong>面试题</strong>：如果给你一个新的矩阵优化器，你怎么判断它的”每步开销是否可接受”？</li>
 <li><strong>动手</strong>：实现 NS 迭代与 <code>torch.linalg.svd</code>，比较结果的接近程度、耗时，以及<strong>只跑 3 步 vs 5 步</strong>的差异。</li>
-<li><strong>延伸</strong>：第 69 行 Newton–Muon 需要算 <span class="math">\mathrm{msgn}(G(ZZ^\top)^{-1})</span>——多了个右预条件，这对 NS 迭代的实现有什么影响？</li>
 <li>NS 迭代解决的问题是”回避分解”，散布矩阵求逆解决的是”把分解做快”——请各举一个使用场景。</li>
 <li>为什么”理论迭代次数更少”可能反而更慢？这个现象对二阶方法的工程落地意味着什么？</li>
 <li>Lion 是通过程序搜索发现的。请复述这个搜索的完整逻辑（元语言 → 搜索器 → 产物）。</li>

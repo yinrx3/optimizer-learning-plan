@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/38-46.md" target="_blank" rel="noopener">38-46.md 源文件</a></div></div>
 <h1 id="μp超参迁移与有效学习率">38-46｜μP、超参迁移与有效学习率</h1>
 <blockquote>
-<p>材料 38–46　｜　对应检查点 10</p>
+<p>材料 38–46　｜　本块题目 10 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -85,21 +85,22 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-10本计划最关键的一问">⛳ 检查点 10｜本计划最关键的一问</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 8｜噪声有多大，才谈得上”加速”</strong></p>
 <ol type="1">
+<li><strong>延伸（重要）</strong>：把增长条件与第 6 检查点”Adam 在最坏情况下不收敛”对照——<strong>这两种”理论结论与实践不符”的情形，成因一样吗？</strong></li>
+<li><strong>延伸</strong>：本检查点的”邻域”和第 42–44 行的”有效学习率”都在描述”训练最后停在哪”。它们是对同一个现象的不同刻画吗？</li>
+</ol>
+<p><strong>检查点 10｜本计划最关键的一问</strong></p>
+<ol start="3" type="1">
 <li>写出有效学习率的定义式，并解释它与角更新幅度 AUS 的关系。</li>
 <li>为什么权重范数会在训练中持续增长？</li>
 <li>“隐式学习率衰减”具体指什么？</li>
 <li>三条峰值相差 2.4 倍的名义调度，为什么角更新幅度曲线几乎重合？</li>
-<li>由此说明：Hyperball 固定权重范数，实质上是在消除哪一项？</li>
 <li>为什么说”调 lr”这个动作本身可能是被误导的？</li>
 <li><strong>面试题</strong>：如果只能记录一个量来诊断训练，你会记名义 lr 还是有效 lr？为什么？</li>
 <li><strong>延伸</strong>：累积学习率 <span class="math">\int\eta_t\,dt</span> 作为一个”守恒量”，对跨模型规模迁移超参有什么用处？（接第 38-40 行的 μP）</li>
 <li><strong>动手</strong>：跑第 45 行的实验，把名义 lr 与有效 lr 画在同一张图上，标出它们开始分道扬镳的位置。</li>
-<li>从更新式出发，说明为什么 Adam 在 10× lr 下会”结构性崩溃”而 SGD 只是振荡。</li>
-<li>AdamW 在 10× lr 下是 0.2640（约等于随机猜），请解释这个数字为什么如此极端。</li>
-<li><strong>面试题</strong>：如果让你给一个不熟悉优化器的人解释”为什么不能随便放大 Adam 的学习率”，你会用哪个数学事实？</li>
-<li><strong>对照题（重要）</strong>：SGD 在大 lr 下”可用”，但它真的更好吗？请同时给出 A 轴（稳定性）与 B 轴（有效性）的证据。</li>
 </ol>
 
 </main>

@@ -15,7 +15,7 @@ lines = lines
   .filter((l) => !/^<!--SEC/.test(l.trim()))
   .map((l) => l.replace(/<!--SEC:\d+-->/g, '').replace(/<!--SEC-APPENDIX-->/g, ''));
 
-const ROW = /^(\|\s*)\*\*(\d+[a-f]?)\*\*(\s*\|)/;
+const ROW = /^(\|\s*)\*\*(\d+[a-z]?)\*\*(\s*\|)/;
 const wanted = new Set(S.map((s) => String(s.from)));
 let inserted = 0;
 for (let i = 0; i < lines.length; i++) {

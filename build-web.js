@@ -20,7 +20,9 @@ function tocOf(f) {
   const m = html.match(/<nav id="TOC"[\s\S]*?<\/nav>/);
   return m ? m[0] : '';
 }
-const SECTIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'sections.json'), 'utf8'));
+const SECTIONS_ALL = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'sections.json'), 'utf8'));
+// 材料板块（用于正文锚点与导航）。tech:true 的两篇（综述阅读路线、终测）不占材料位置
+const SECTIONS = SECTIONS_ALL.filter((s) => !s.tech);
 const rangeLabel = (s) => (s.from === 28 ? '28–28f、29–30' : s.from + '–' + s.to);
 
 const CSS = `
@@ -173,13 +175,16 @@ ${KATEX_JS.replace(/\.\/assets\//g, P + 'assets/')}
 }
 
 // ---------- 板块导航（学习计划页用） ----------
+const techToc = SECTIONS_ALL.filter((s) => s.tech).map((s) =>
+  '<li><a class="p" href="./notes/' + s.f.replace('.md', '.html') + '"><b>附</b>' + s.name + '</a>'
+  + '<span class="rng">不属材料板块</span></li>').join('');
 const secToc = '<div class="toc-lead">按板块分目录（15 个）</div><ul class="sectoc">'
   + SECTIONS.map((s, i) =>
     '<li><a class="p" href="#sec-' + s.from + '"><b>板块 ' + (i + 1) + '</b>' + s.name + '</a>'
     + '<span class="rng">材料 ' + rangeLabel(s) + '　检查点 ' + s.cps.join('、') + '</span>'
     + '<a class="notes" href="./notes/index.html#' + s.f.replace('.md', '') + '">笔记</a>'
     + '<a class="notes" href="./notes/' + s.f.replace('.md', '.html') + '">单页</a></li>'
-  ).join('') + '</ul>'
+  ).join('') + techToc + '</ul>'
   + '<div class="toc-lead">附录与速查</div><ul class="toc-app">'
   + '<li><a href="#sec-appendix">兴趣支线 · 材料位置 · 数学工具 · 主干线索 · 跟踪对象</a></li>'
   + '<li><a href="./index.html">← 返回首页</a></li></ul>';

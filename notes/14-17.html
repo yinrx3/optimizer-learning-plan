@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/14-17.md" target="_blank" rel="noopener">14-17.md 源文件</a></div></div>
 <h1 id="自适应步长adagrad-sign-sgd-rmsprop">14-17｜自适应步长：AdaGrad / sign-SGD / RMSProp</h1>
 <blockquote>
-<p>材料 14–17　｜　对应检查点 3</p>
+<p>材料 14–17　｜　本块题目 9 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -60,7 +60,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-3自适应方法的本质">⛳ 检查点 3｜自适应方法的本质</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 3｜自适应方法的本质</strong></p>
 <ol type="1">
 <li>写出 AdaGrad 与 RMSProp 的更新式，指出唯一的形式差别。</li>
 <li>AdaGrad 的累积平方和为什么让步长衰减到零？</li>
@@ -68,14 +69,9 @@
 <li>若每步梯度近似相同（如最小二乘），AdaGrad 的有效步长约是多少？RMSProp 呢？</li>
 <li>稀疏梯度场景下，AdaGrad 的累积项为什么反而有用？</li>
 <li>把 <span class="math">\beta</span> 调大或调小，分别对应”记忆更长/更短”——各自适合什么训练阶段？</li>
-<li><strong>面试题</strong>：为什么 Adam 要在分母加 <span class="math">\epsilon</span>？只为了防除零吗？</li>
-<li><strong>延伸</strong>：如果不用逐元素缩放，而是对整个梯度向量做一次归一化，会得到什么？（提示：这就是第 49 行 sign-SGD 与谱范数的区别）</li>
 <li>把”自适应”按空间粒度从粗到细排一遍，每一级各举一个算法。</li>
 <li>为什么”换成谱范数”等价于”把适应粒度提到矩阵级”？</li>
 <li>综述说逐层方法假设”层内梯度一致有界”——请构造一个反例场景说明它为什么不成立。</li>
-<li><strong>延伸（接检查点 18）</strong>：如果异质性发生在层内部，LayerClip 能修吗？需要什么粒度的工具？</li>
-<li><strong>面试题</strong>：Adam 与 RMSProp + 动量的区别到底是什么？（提示：差别在”动量作用在哪个量上”）</li>
-<li><strong>延伸</strong>：第 50 行会用”对角 Fisher 近似”再推出一次 Adam——两种推导给出的算法完全一样吗？</li>
 </ol>
 
 </main>

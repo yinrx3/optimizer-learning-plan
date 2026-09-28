@@ -30,11 +30,22 @@ console.log('=== notes/ ===');
 const notesDir = path.join(ROOT, 'notes');
 if (fs.existsSync(notesDir)) {
   const fs2 = fs.readdirSync(notesDir);
-  const md = fs2.filter((f) => f.endsWith('.md')).length;
-  const html = fs2.filter((f) => f.endsWith('.html')).length;
-  console.log('  md ' + md + ' 个，html ' + html + ' 个');
-  if (md !== 15) bad.push('notes md 数量应为 15，实为 ' + md);
-  if (html !== 16) bad.push('notes html 数量应为 16，实为 ' + html);
+  const md = fs2.filter((f) => f.endsWith('.md'));
+  const html = fs2.filter((f) => f.endsWith('.html'));
+  console.log('  md ' + md.length + ' 个，html ' + html.length + ' 个（应为 md 数 + 1 个合订页）');
+  // 与工作区对照：数量必须一致，且每个 md 都要有对应 html
+  const src = 'C:\\Users\\yinrx\\Desktop\\carefulreading\\notes';
+  if (fs.existsSync(src)) {
+    const want = fs.readdirSync(src).filter((f) => f.endsWith('.md'));
+    if (want.length !== md.length) bad.push('notes md 数量与工作区不一致：仓库 ' + md.length + ' / 工作区 ' + want.length);
+    const missing = want.filter((f) => !md.includes(f));
+    if (missing.length) bad.push('仓库缺 notes md：' + missing.join(', '));
+    for (const f of want) {
+      const h = f.replace(/\.md$/, '.html');
+      if (!html.includes(h)) bad.push('缺对应 html：' + h);
+    }
+  }
+  if (html.length !== md.length + 1) bad.push('notes html 数量应为 md 数 + 1（合订页），实为 ' + html.length);
 } else bad.push('缺 notes/ 目录');
 
 console.log('');

@@ -23,6 +23,10 @@ const S = [
   { f: '79-86.md', name: '强化学习：从 GAE 到 DAPO / MaxRL',          from: 79, to: 86, cps: [17],       note: '优势估计的偏差-方差；KL 约束与裁剪；改目标的三种位置' },
   { f: '87-90.md', name: '训练不稳定性与 RL 目标设计',                from: 87, to: 90, cps: [18],       note: 'Gradient Spike 定位；层间梯度异质性；目标函数的数学性质' },
   { f: '91-94.md', name: '零阶优化与函数空间的牛顿法',                from: 91, to: 94, cps: [19, 20],   note: '有限差分估计；MeZO 的显存论证；Fisher–Rao 度量与牛顿方向' },
+  // 以下两篇不属任何材料板块：综述的阅读任务分散在多个板次之后，
+  // 单独成篇；终测是全表综合验收。
+  { f: '28-综述阅读路线.md', name: '综述阅读路线（五个遍次，各有前置）', from: 28, to: 28, cps: [], note: '材料 28 与 28g–28k：先扫目录，框架遍→预条件的谱→稳定性与范数→缺口清单→当字典用', tech: true },
+  { f: '99-终测.md', name: '终测：全表综合验收（检查点 19）', from: 99, to: 99, cps: [19], note: '全部板块读完后的综合自检：20 行终测表 + 三条主线 + 三个设计轴 + 动手清单', tech: true },
 ];
 
 fs.writeFileSync(OUTJSON, JSON.stringify(S, null, 2), 'utf8');
@@ -38,17 +42,27 @@ out.push('## 板块总览');
 out.push('');
 out.push('| 板块 | 范围 | 主题 | 材料 | 检查点 | 题目 | 笔记 |');
 out.push('|:-:|:-:|---|:-:|:-:|:-:|:-:|');
-S.forEach((s, i) => {
+S.filter((s) => !s.tech).forEach((s, i) => {
   const no = i + 1;
   const notes = fs.existsSync(path.join(ROOT, 'notes', s.f)) ? '[`' + s.f + '`](notes/' + s.f + ')' : '—';
   out.push('| **' + no + '** | ' + s.from + '–' + s.to + ' | ' + s.name + ' | ' + (s.to - s.from + 1) + ' 条 | ' + s.cps.join('、') + ' | — | ' + notes + ' |');
+});
+out.push('');
+out.push('> ⚠️ **板块 4 的 28b–28f 已移除**：综述的阅读任务原先全挂在材料 28 处，但那时还没学 Adam / Shampoo / Muon，读不动 Sec 3.1。现在改成按前置知识分散，见下面的「两篇特殊笔记」。');
+out.push('');
+out.push('### 两篇特殊笔记（不属任何材料板块）');
+out.push('');
+out.push('| 笔记 | 是什么 |');
+out.push('|------|------|');
+S.filter((s) => s.tech).forEach((s) => {
+  out.push('| [`' + s.f + '`](notes/' + s.f + ') | ' + s.note + ' |');
 });
 out.push('');
 out.push('---');
 out.push('');
 out.push('## 各板块速览');
 out.push('');
-S.forEach((s, i) => {
+S.filter((s) => !s.tech).forEach((s, i) => {
   out.push('### 板块 ' + (i + 1) + '｜' + s.name);
   out.push('');
   out.push('材料 **' + s.from + '–' + s.to + '**　｜　检查点 **' + s.cps.join('、') + '**　｜　笔记 `notes/' + s.f + '`');

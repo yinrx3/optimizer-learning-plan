@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/91-94.md" target="_blank" rel="noopener">91-94.md 源文件</a></div></div>
 <h1 id="零阶优化与函数空间的牛顿法">91-94｜零阶优化与函数空间的牛顿法</h1>
 <blockquote>
-<p>材料 91–94　｜　对应检查点 19、20</p>
+<p>材料 91–94　｜　本块题目 2 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -60,27 +60,14 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-19全表终测">⛳ 检查点 19｜全表终测</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 1｜为什么神经网络训练不是经典优化问题</strong></p>
 <ol type="1">
-<li><strong>范数 → 几何 → 优化器</strong>：选范数 = 选几何 = 选算法（第 46-50 行）</li>
-<li><strong>Fisher 信息 → 二阶方法</strong>：Adam（对角）、Shampoo（Kronecker）、Newton–Muon（牛顿型）、Newton Matching（函数空间）</li>
-<li><strong>步子该迈多大</strong>：<span class="math">\eta_t\le 1/L</span> → 调度形状 → 权重范数与有效学习率 → Hyperball 之争 → RL 里的 clipping</li>
+<li>综述把 <strong>ZO 方法的复兴</strong>归因于显存墙。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
 </ol>
-<h2 id="检查点-20三个正交的设计轴本表与综述的真正接口">⛳ 检查点 20｜三个正交的设计轴：本表与综述的真正接口</h2>
-<ol type="1">
-<li>用一句话说清「范数轴」与「算子轴」各自回答什么问题。</li>
-<li>一个优化器的完整说明需要回答哪三个问题？</li>
-<li>Muon 在三问中哪一问最强？Shampoo 呢？</li>
-<li>为什么说「范数轴有定理、算子轴没有定理」？这个差别对你使用它们有什么影响？</li>
-<li>用三问分析 MeZO 与 LoRA：它们各自只在哪一问上做了改动？这解释了它们的什么行为？</li>
-<li>综述说 Shampoo「捕捉的是梯度方差而非曲率」——请说明两把尺子为什么会给出不同分类。</li>
-<li><strong>面试题</strong>：如果让你设计一个新优化器，你会先动三问中的哪一问？为什么？</li>
-<li><strong>面试题</strong>：导师问你「综述里最值得做的是哪一个缺口」，你怎么答？（提示：说出「假设不成立」比「现象未理解」更有力）</li>
-<li><strong>延伸（回到检查点 11）</strong>：课程 §4.3 说「Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同，所以两条路汇合」。用三轴语言重新表述这句话，并指出它在什么意义上是极限陈述。</li>
-<li><strong>范数 → 几何 → 优化器</strong>：换最速下降里的范数，依次得到 SGD（<span class="math">\ell_2</span>）、sign-SGD（<span class="math">\ell_\infty</span>）、Muon（谱范数）。第 46-48 行是这个链条的核心。</li>
-<li><strong>Fisher 信息 → 二阶方法</strong>：对角 Fisher 近似给出 Adam（第 50 行）；Kronecker 分解给出 Shampoo（第 50-52 行）；牛顿型重建给出 Newton–Muon（第 69 行）与 Newton Matching（第 90 行）。</li>
-<li><strong>步子该迈多大</strong>：从 <span class="math">\eta_t\le 1/L</span>（第 6 行）→ 调度形状（第 31-37 行）→ 权重范数与有效学习率（第 42-44 行）→ Hyperball 之争（第 59-60 行）；RL 那边是同一个问题的另一种问法（clipping，第 76-82 行）。</li>
-<li><strong>三个正交的设计轴</strong>（检查点 20）：<strong>信息从哪来</strong>（FO / ZO）、<strong>在哪个范数下最速下降</strong>（<span class="math">\ell_2</span> / <span class="math">\ell_\infty</span> / 谱范数）、<strong>参数被约束在什么集合上</strong>（欧氏 / 球面 / 低秩 / Stiefel）。<strong>任何优化器都是这三问的一组答案</strong>；而综述自承的三个缺口，恰好都是两根轴拉扯的产物。</li>
+<p><strong>检查点 14｜一个可以迁移到别处的研究套路</strong></p>
+<ol start="2" type="1">
+<li><strong>延伸</strong>：第 90 行 Newton Matching 也用牛顿方向，但它在函数空间——两处的”牛顿”是同一个意思吗？</li>
 </ol>
 
 </main>

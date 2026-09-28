@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/18-27.md" target="_blank" rel="noopener">18-27.md 源文件</a></div></div>
 <h1 id="adamadamw-与收敛性之争">18-27｜Adam、AdamW 与收敛性之争</h1>
 <blockquote>
-<p>材料 18–27　｜　对应检查点 4、5、6</p>
+<p>材料 18–27　｜　本块题目 35 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -90,8 +90,20 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-4adam-的真正来历理解-adam-的钥匙">⛳ 检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 1｜为什么神经网络训练不是经典优化问题</strong></p>
 <ol type="1">
+<li>一个 7B 模型，FP32 训练下参数、Adam 状态各占多少 GB？换成 bf16 混合精度后各占多少？</li>
+<li><strong>面试题</strong>：如果显存是硬约束，你会先砍激活值还是先砍优化器状态？各自的代价是什么？</li>
+</ol>
+<p><strong>检查点 3｜自适应方法的本质</strong></p>
+<ol start="3" type="1">
+<li><strong>面试题</strong>：为什么 Adam 要在分母加 <span class="math">\epsilon</span>？只为了防除零吗？</li>
+<li><strong>面试题</strong>：Adam 与 RMSProp + 动量的区别到底是什么？（提示：差别在”动量作用在哪个量上”）</li>
+<li><strong>延伸</strong>：第 50 行会用”对角 Fisher 近似”再推出一次 Adam——两种推导给出的算法完全一样吗？</li>
+</ol>
+<p><strong>检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</strong></p>
+<ol start="6" type="1">
 <li>写出 Adam 的完整更新式，标出 <span class="math">m_t</span>、<span class="math">v_t</span>、<span class="math">\hat m_t</span>、<span class="math">\hat v_t</span>。</li>
 <li>从 sign-SGD 出发，把这个推导完整写一遍。</li>
 <li>为什么需要偏差修正？不修正会怎样？</li>
@@ -103,8 +115,8 @@
 <li>写出二阶预条件子的一般形式 <span class="math">M_t=\hat H_t+\gamma I</span>，并说明阻尼因子 <span class="math">\gamma</span> 的作用。</li>
 <li>自适应学习率的通用分解式 <span class="math">\theta_{t+1}=\theta_t-\eta_t\,\phi(g_{1:t})/\psi(g_{1:t})</span> 中，AdaGrad、RMSprop、Adam 各自的 <span class="math">\phi</span> 与 <span class="math">\psi</span> 是什么？</li>
 </ol>
-<h2 id="检查点-5面试高频adam-l2-与-adamw-的区别">⛳ 检查点 5｜面试高频：Adam + L2 与 AdamW 的区别</h2>
-<ol type="1">
+<p><strong>检查点 5｜面试高频：Adam + L2 与 AdamW 的区别</strong></p>
+<ol start="16" type="1">
 <li>用公式说清”Adam + L2”与”AdamW”差在哪一项。</li>
 <li>为什么 L2 正则进入 EMA 后，<span class="math">\hat m</span> 与 <span class="math">\hat v</span> 就不再是”纯梯度信息”了？</li>
 <li>AdamW 的衰减项为什么也乘了 <span class="math">\eta_t</span>？</li>
@@ -113,10 +125,9 @@
 <li><strong>面试题</strong>：AdamW 是”更好的正则化”还是”更正确的正则化”？两者有区别吗？</li>
 <li><strong>动手</strong>：跑第 27 行的对照实验，把两条曲线画在一张图上，解释差异出现的位置（早期还是后期？为什么？）。</li>
 <li><strong>延伸</strong>：如果不用 L2 而用 weight decay 的另一种定义（直接乘 <span class="math">(1-\eta\lambda)</span>），与 AdamW 的加法形式在什么条件下等价？</li>
-<li>分布式场景下场景变换的形式是 <span class="math">\mathcal T(\tilde g_t)=\mathcal C(\tilde g_t)</span>。<span class="math">\mathcal C(\cdot)</span> 为什么必须是<strong>有损</strong>的？无损压缩不行吗？</li>
 </ol>
-<h2 id="检查点-6一个真实存在的矛盾">⛳ 检查点 6｜一个真实存在的矛盾</h2>
-<ol type="1">
+<p><strong>检查点 6｜一个真实存在的矛盾</strong></p>
+<ol start="24" type="1">
 <li>复述 Reddi 定理的条件与结论。</li>
 <li>默认超参 <span class="math">0.9/0.999</span> 满足那个条件吗？</li>
 <li>AMSGrad 是怎么修的？</li>
@@ -124,8 +135,17 @@
 <li>Wilson 那篇说自适应方法泛化不一定更好——这与上面几点冲突吗？</li>
 <li><strong>面试题</strong>：如果有人问你”Adam 收敛吗”，你会怎么回答才既准确又不误导？</li>
 <li><strong>延伸</strong>：Défossez 那篇（第 24 行）在<strong>不改更新规则</strong>的前提下证明了收敛——这意味着 Reddi 的反例被推翻了吗？</li>
-<li><strong>RMSprop 为什么在 100→300 epoch 出现性能回退？</strong> “未校正的平方梯度 EMA”这个描述对应什么数学结构？</li>
-<li>为什么那些用<strong>复杂预条件/正交化</strong>的方法在 100 epoch 后收益递减？这说明了什么？</li>
+</ol>
+<p><strong>检查点 7｜一条可迁移的方法论</strong></p>
+<ol start="31" type="1">
+<li><strong>动手</strong>：你手写的 Adam 与论文里的算法是否数值完全一致？若不一致，差在哪一项？</li>
+</ol>
+<p><strong>检查点 10｜本计划最关键的一问</strong></p>
+<ol start="32" type="1">
+<li>从更新式出发，说明为什么 Adam 在 10× lr 下会”结构性崩溃”而 SGD 只是振荡。</li>
+<li>AdamW 在 10× lr 下是 0.2640（约等于随机猜），请解释这个数字为什么如此极端。</li>
+<li><strong>面试题</strong>：如果让你给一个不熟悉优化器的人解释”为什么不能随便放大 Adam 的学习率”，你会用哪个数学事实？</li>
+<li><strong>对照题（重要）</strong>：SGD 在大 lr 下”可用”，但它真的更好吗？请同时给出 A 轴（稳定性）与 B 轴（有效性）的证据。</li>
 </ol>
 
 </main>

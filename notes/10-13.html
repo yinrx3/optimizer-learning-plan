@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/10-13.md" target="_blank" rel="noopener">10-13.md 源文件</a></div></div>
 <h1 id="动量">10-13｜动量</h1>
 <blockquote>
-<p>材料 10–13　｜　对应检查点 2</p>
+<p>材料 10–13　｜　本块题目 9 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -60,7 +60,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-2动量到底在做什么">⛳ 检查点 2｜动量到底在做什么</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 2｜动量到底在做什么</strong></p>
 <ol type="1">
 <li>写出 SGD-M 的更新式，并说明 <span class="math">g^t</span> 与 <span class="math">m^t</span> 的关系。</li>
 <li>为什么 EMA 能让梯度估计更准？这个论证依赖什么前提？</li>
@@ -69,6 +70,11 @@
 <li>动量同时能缓解”方差”和”病态条件数”——哪个是深度学习里的主要作用？为什么？</li>
 <li>如果相邻两步的参数点相差很远（学习率过大），动量的 EMA 会带来什么后果？</li>
 <li><strong>动手</strong>：跑第 8 行的实验 A′（EMA vs 原始梯度），解释为什么 EMA 曲线整体低于原始梯度曲线。</li>
+</ol>
+<p><strong>检查点 8｜噪声有多大，才谈得上”加速”</strong></p>
+<ol start="8" type="1">
+<li>用传递函数写出 EMA 动量的频域形式，说明 <span class="math">\beta</span> 对应什么。</li>
+<li>为什么”高频有害”只在训练后期成立？前期为什么需要高频？</li>
 </ol>
 
 </main>

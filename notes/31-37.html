@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/31-37.md" target="_blank" rel="noopener">31-37.md 源文件</a></div></div>
 <h1 id="学习率调度与-warmup">31-37｜学习率调度与 warmup</h1>
 <blockquote>
-<p>材料 31–37　｜　对应检查点 9</p>
+<p>材料 31–37　｜　本块题目 11 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -75,8 +75,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="检查点-9调度形状从哪来">⛳ 检查点 9｜调度形状从哪来</h2>
+<h2 id="自测">自测</h2>
+<p><strong>检查点 8｜噪声有多大，才谈得上”加速”</strong></p>
 <ol type="1">
+<li><strong>延伸</strong>：把检查点 9 的”峰值 + 衰减”调度画成频域上的截止频率曲线，它应该是什么形状？</li>
+</ol>
+<p><strong>检查点 9｜调度形状从哪来</strong></p>
+<ol start="2" type="1">
 <li>写出 linear / inverse-sqrt / cosine / WSD 四种调度的公式。</li>
 <li>为什么训练最早期需要 warmup？</li>
 <li>用偏差-方差语言解释”峰值加衰减”为什么最优。</li>

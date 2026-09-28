@@ -41,7 +41,7 @@ foreach ($f in @($PLAN, $SURVEY, $LUA)) {
 
 # ---------- 1) notes/*.md ----------
 Write-Host "`n[1/5] notes"
-Invoke-Step "build-notes.js" { node (Join-Path $R 'build\build-notes.js') }
+Invoke-Step "rebuild-notes-v2.js" { node (Join-Path $R 'build\rebuild-notes-v2.js') }
 
 # ---------- 2) 板块标记 ----------
 Write-Host "`n[2/5] section markers"
