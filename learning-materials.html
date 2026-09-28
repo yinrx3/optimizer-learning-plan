@@ -1,0 +1,3040 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基础知识（学习材料）— 殷润轩</title>
+<link rel="stylesheet" href="./katex/katex.min.css">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="toc"><a class="backlink" href="./index.html">← 返回首页</a><h2>目录</h2><nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#学习材料数学系转-ai-的完整路线" id="toc-学习材料数学系转-ai-的完整路线">学习材料（数学系转 AI 的完整路线）</a>
+<ul>
+<li><a href="#一依赖关系图先看这张" id="toc-一依赖关系图先看这张">一、依赖关系图（先看这张）</a></li>
+<li><a href="#二cs285深度强化学习你选定的主课" id="toc-二cs285深度强化学习你选定的主课">二、CS285：深度强化学习（你选定的主课）</a></li>
+<li><a href="#三机器学习基础cs285-的前置" id="toc-三机器学习基础cs285-的前置">三、机器学习基础（CS285 的前置）</a></li>
+<li><a href="#四深度学习" id="toc-四深度学习">四、深度学习</a></li>
+<li><a href="#五大语言模型" id="toc-五大语言模型">五、大语言模型</a></li>
+<li><a href="#六强化学习基础与理论cs285-之前-并行" id="toc-六强化学习基础与理论cs285-之前-并行">六、强化学习基础与理论（CS285 之前 / 并行）</a></li>
+<li><a href="#七与本仓库其他页面的关系" id="toc-七与本仓库其他页面的关系">七、与本仓库其他页面的关系</a></li>
+</ul></li>
+</ul>
+</nav></nav>
+<main>
+<div class="masthead">
+    <h1>基础知识</h1>
+    <div class="sub">学习材料：机器学习 · 深度学习 · 大语言模型 · 强化学习</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 机器学习主线 = Stanford CS229（Tengyu Ma 讲义）｜ 链接逐条实测</div>
+  </div>
+<h1 id="学习材料数学系转-ai-的完整路线">学习材料（数学系转 AI 的完整路线）</h1>
+<blockquote>
+<p><strong>背景</strong>：数学系本科，微积分/线性代数/概率/最优化扎实；<strong>深度学习与机器学习语境基本空白</strong>。 <strong>目标</strong>：系统学 机器学习 → 深度学习 → 大语言模型 → 强化学习。 <strong>用法</strong>：先看依赖关系图，判断自己站在哪一格，再按那个板块往下读。<strong>不要跳格</strong>。 本页材料均为<strong>公开可访问</strong>；标注 📄 的有免费合法 PDF / 在线 HTML，标注 🧪 的有公开作业或代码框架。</p>
+</blockquote>
+<hr />
+<h2 id="一依赖关系图先看这张">一、依赖关系图（先看这张）</h2>
+<p>数学系学生最容易犯的错是<strong>直接冲 LLM 或 RL</strong>——那两条线都建立在前面的东西上，跳过去只会每一页都卡。</p>
+<pre><code>【第 0 层】数学基础          ← 你已有的：微积分 / 线代 / 概率 / 最优化
+     │
+     ├──────────────────────────────┐
+     ▼                              ▼
+【第 1 层】机器学习基础         【第 1 层&#39;】深度学习入门
+  **CS229 讲义合订本**             CS231n / d2l / UDL
+  （Tengyu Ma 维护，见 3.0）        张量、反向传播、
+  经典模型、偏差-方差、              CNN / RNN / 注意力
+  正则化、核方法、学习理论
+  ＋ 动手用 CS189 公开作业框架
+     │                              │
+     └──────────┬───────────────────┘
+                ▼
+        【第 2 层】深度学习进阶
+          CS182 / CS224n / 理论（NTK、Double Descent）
+                │
+       ┌────────┴────────┐
+       ▼                 ▼
+【第 3 层】大语言模型    【第 3 层&#39;】深度强化学习
+  CS336 / CS25            **CS285（你选的主课）**
+  Transformer、            MDP、策略梯度、Q-learning、
+  预训练、对齐、推理        Model-based、Offline RL
+       │                 │
+       └────────┬────────┘
+                ▼
+        【第 4 层】交叉地带
+          LLM 的 RL（RLHF / PPO / GRPO / DPO）</code></pre>
+<blockquote>
+<p>⚠️ <strong>一条来自 CS285 官方 syllabus 的硬提醒</strong>（原文见下）：CS285 的先修是 <strong>CS189 或同等机器学习课</strong>， 并假定你熟悉<strong>强化学习、数值优化、机器学习</strong>三者。<strong>它要的是机器学习底子，不是数学底子。</strong> 所以「机器学习基础」那一层对你不是可选项。</p>
+</blockquote>
+<hr />
+<h2 id="二cs285深度强化学习你选定的主课">二、CS285：深度强化学习（你选定的主课）</h2>
+<p><strong>官方主页</strong>：https://rail.eecs.berkeley.edu/deeprlcourse/ （课程代号 <strong>CS 185/285</strong>，授课 <strong>Sergey Levine</strong>）</p>
+<h3 id="为什么选它是对的">为什么选它是对的</h3>
+<ul>
+<li><strong>讲义/作业/讨论课/项目全部公开</strong>，且更新到当前学期；</li>
+<li>它是<strong>深度</strong> RL 的事实标准课——把 RL 的经典结论（MDP、Bellman、策略梯度）与深度学习实践接起来；</li>
+<li><strong>末尾直接讲到 LLM RL</strong>（Lecture 14），与你已有的 PPO/GRPO/MaxRL 那条线接得上；</li>
+<li>作业是<strong>编程作业</strong>（PyTorch），不是选择题——自学最需要的就是这个。</li>
+</ul>
+<h3 id="官方要求原文摘录-翻译">官方要求（原文摘录 + 翻译）</h3>
+<blockquote>
+<p><strong>Prerequisites</strong>: <a href="https://eecs189.org/">CS189</a> or equivalent is a prerequisite for the course. This course will assume some familiarity with reinforcement learning, numerical optimization, and machine learning. For introductory material on RL and MDPs, see the <a href="https://inst.eecs.berkeley.edu/~cs188/archive/sp24/">CS188 EdX course</a>, starting with <em>Markov Decision Processes I</em>, as well as Chapters 3 and 4 of <a href="http://incompleteideas.net/book/the-book-2nd.html">Sutton &amp; Barto</a>.</p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>链接已替换</strong>：syllabus 原文里给的是 <code>www.eecs189.org</code>、<code>ai.berkeley.edu</code>、<code>webdocs.cs.ualberta.ca/~sutton/book/the-book.html</code>。 其中 <strong>Sutton 那个旧地址已 404</strong>，现官网是 <a href="http://incompleteideas.net/book/the-book-2nd.html">incompleteideas.net/book/the-book-2nd.html</a>； <code>ai.berkeley.edu</code> 根域还在，但旧课程子路径（<code>/home.html</code>、<code>/lecture_videos.html</code>、<code>/reinforcement.html</code>）<strong>全部 404</strong>，故改指 CS188 现行站点。 文字未改，只换了失效链接。</p>
+</blockquote>
+<p><strong>翻译</strong>：先修是 <strong>CS189 或同等课程</strong>。本课假定你熟悉<strong>强化学习、数值优化、机器学习</strong>。 RL 与 MDP 的入门材料见 <strong>CS188 EdX 课程</strong>（从 <em>Markov Decision Processes I</em> 开始），以及 <strong>Sutton &amp; Barto 第 3、4 章</strong>。</p>
+<blockquote>
+<p><strong>Homeworks</strong>: There will be five homeworks. For each homework, we will post a PDF on the front page and starter code on <a href="https://github.com/berkeleydeeprlcourse/homework_spring2026">Github</a>.</p>
+</blockquote>
+<p><strong>翻译</strong>：共 <strong>5 次作业</strong>；每次在主页发 PDF，<strong>starter code 在 GitHub</strong>。</p>
+<h3 id="讲次与作业全表25-讲-5-次作业-10-次讨论课">讲次与作业全表（25 讲 + 5 次作业 + 10 次讨论课）</h3>
+<p>页面上所有 slides 均为 PDF，可直接打开。<strong>25 讲的讲义 PDF 已逐条实测</strong>（HTTP 206 + <code>%PDF</code> 文件头，单份 <strong>1.1–6.4 MB</strong>）——文件偏大，打开会慢一点，但链接全部有效。</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">周</th>
+<th>主题</th>
+<th>讲义</th>
+<th>作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>课程介绍 &amp; 模仿学习</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-1.pdf">Lec 1 介绍</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-2.pdf">Lec 2 行为克隆</a></td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw1.pdf">HW1 模仿学习</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>模仿学习 &amp; RL 基础</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-1.pdf">Sec 1 PyTorch 教程</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-3.pdf">Lec 3 行为克隆 II</a> ｜ <strong><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-4.pdf">Lec 4 RL 基础</a></strong></td>
+<td>HW1</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>策略梯度 &amp; Actor-Critic</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-2-1.pdf">Sec 2-1 概率复习</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-2-2.pdf">Sec 2-2 分布漂移</a> ｜ <strong><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-5.pdf">Lec 5 策略梯度</a></strong> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-6.pdf">Lec 6 Actor-Critic</a></td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw2.pdf">HW2 策略梯度</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>基于值的 RL</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-3.pdf">Sec 3</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-7.pdf">Lec 7 值方法</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-8.pdf">Lec 8 Q-learning 实践</a></td>
+<td>HW1、HW2</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>进阶策略梯度</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-4.pdf">Sec 4 DQN 与 SAC</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-9.pdf">Lec 9 进阶 PG I</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-10.pdf">Lec 10 进阶 PG II</a></td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw3.pdf">HW3 Q-Learning 与 Actor-Critic</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td>变分推断</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-5.pdf">Sec 5</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-11.pdf">Lec 11 变分推断</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-12.pdf">Lec 12 RL 中的 VI</a></td>
+<td>HW2、HW3</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td>收尾 VI &amp; <strong>LLM RL</strong></td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-6.pdf">Sec 6</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-13.pdf">Lec 13 控制即推断</a> ｜ <strong><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-14.pdf">Lec 14 LLM RL</a></strong></td>
+<td><strong><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw4.pdf">HW4 LLM RL</a></strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td>基于模型的 RL</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-7.pdf">Sec 7 IRL 与 LLM RL</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-15.pdf">Lec 15 MBRL I</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-16.pdf">Lec 16 MBRL II</a></td>
+<td>HW3、HW4</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td>Offline RL</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-8.pdf">Sec 8</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-17.pdf">Lec 17 Offline RL I</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-18.pdf">Lec 18 Offline RL II</a></td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/homeworks/hw5.pdf">HW5 Offline RL</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>探索 &amp; RL 理论</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/sections/section-9.pdf">Sec 9</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-19.pdf">Lec 19 探索</a> ｜ <strong><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-20.pdf">Lec 20 RL 理论</a></strong></td>
+<td>HW4、HW5</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td>期中复习</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-21.pdf">Lec 21 复习 I</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-22.pdf">Lec 22 复习 II</a></td>
+<td>HW5</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>进阶探索 &amp; 多任务 RL</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-23.pdf">Lec 23 进阶探索</a> ｜ <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-24.pdf">Lec 24 多任务 RL</a></td>
+<td>HW5</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>开放问题</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-25.pdf">Lec 25 挑战与开放问题</a></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>作业代码框架</strong>：https://github.com/berkeleydeeprlcourse/homework_spring2026</p>
+<p><strong>期末项目（官方给了两个默认选题，可当自学项目）</strong>： - <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/misc/offline_to_online_rl_default_final_project.pdf">Offline-to-Online RL</a> - <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/misc/llm_rl_default_final_project.pdf"><strong>LLM RL</strong></a> ← 与你已有的 PPO/GRPO/MaxRL 那条线直接接上 - <a href="https://rail.eecs.berkeley.edu/deeprlcourse/static/misc/final_project_outline.pdf">项目提纲模板</a></p>
+<p><strong>录像</strong>：2023 秋季版在 <a href="https://www.youtube.com/playlist?list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps">YouTube 播放列表</a>。 （当前学期的录像只对 Berkeley 学生开放，但 2023 版的讲义与内容基本对应。）</p>
+<p><strong>其他入口</strong>：<code>/deeprlcourse/resources</code> 有往期版本、相关课程与推荐教材。</p>
+<h3 id="先修链你现在站在哪一格">先修链：你现在站在哪一格</h3>
+<p>CS285 官方只要求一件事——<strong>CS189 或同等</strong>。把它展开成一条链：</p>
+<pre><code>你已有：微积分 / 线代 / 概率 / 最优化          ← 第 0 层，够了
+   ↓ 缺
+机器学习基础（**CS229 讲义合订本**，见 3.0）    ← 第 1 层，必须先补
+   ↓ 缺
+RL 与 MDP 的语言                              ← 第 2 层，官方指定两处入门：
+   · CS188 EdX「Markov Decision Processes I」
+   · Sutton &amp; Barto 第 3、4 章
+   ↓
+CS285                                         ← 第 3 层，你选的主课</code></pre>
+<blockquote>
+<p>⚠️ <strong>别跳过第 1、2 层。</strong> CS285 从 Lec 4 开始默认你懂「正则化 / 偏差-方差 / 基本 ML 术语」， 并且<strong>直接进入 MDP</strong>。数学系学生跳进去，通常在第 4–5 讲的符号里就卡住了，而不是卡在数学上。</p>
+</blockquote>
+<h3 id="最短路径只想照着做的话看这五步">最短路径（只想照着做的话，看这五步）</h3>
+<ol type="1">
+<li><strong>机器学习</strong>：读 <strong>CS229 讲义合订本</strong>（3.0，一本到底），作业用 <strong>CS189 公开作业框架</strong>练手。</li>
+<li><strong>深度学习</strong>：选 <strong>一门</strong> 主课做完作业（推荐 CS231n），配一本教材（推荐 d2l 或 Understanding Deep Learning）。</li>
+<li><strong>强化学习理论</strong>：Sutton &amp; Barto <strong>第 3、4 章</strong>（官方指定入门）→ <strong>CS285 Lec 4–8</strong>。</li>
+<li><strong>LLM</strong>：<strong>CS336</strong> 为主线（含 5 次作业）；时间不够就只做 A1 + A2。</li>
+<li><strong>回头看这页的「未能核实」小节</strong>——里面标出的死链与陷阱，别踩。</li>
+</ol>
+<blockquote>
+<p>📌 每一步的”选哪本 / 做哪份作业”都写在对应板块的 <strong>判断</strong> 里，不用自己再挑。</p>
+</blockquote>
+<h3 id="与你的优化器主线怎么接">与你的优化器主线怎么接</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>CS285 的位置</th>
+<th>接你已有的什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lec 14 LLM RL + HW4</strong></td>
+<td>你在学的 PPO / GRPO / DAPO / MaxRL、R²VPO、TailRL 那条线</td>
+</tr>
+<tr>
+<td><strong>Lec 20 RL Theory</strong></td>
+<td>你数学背景的主场：sample complexity、regret bound、exploration</td>
+</tr>
+<tr>
+<td><strong>Lec 9–10 进阶策略梯度</strong></td>
+<td>TRPO 的 KL 约束 ≈ 你在「检查点 17」整理的”控制步长的四种手段”</td>
+</tr>
+<tr>
+<td><strong>Lec 11–13 变分推断 / 控制即推断</strong></td>
+<td>泛化理论那条支线的方法论（造代理模型 → 求最优）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="自学算力官方给的选项">自学算力（官方给的选项）</h3>
+<p>CS285 作业是编程作业，需要 GPU（不重，但要有）。官方 sponsor 是 <a href="https://modal.com">Modal</a>，页面上也列了别的选择。 ⚠️ 具体价格会变，<strong>以官网为准</strong>，这里不抄数字。</p>
+<h3 id="读-cs285-的正确顺序针对你的情况">读 CS285 的正确顺序（针对你的情况）</h3>
+<ol type="1">
+<li><strong>先补两章 Sutton &amp; Barto（第 3、4 章）</strong>——把 MDP 与动态规划的语言建立起来。这是官方指定的入门材料。</li>
+<li><strong>Lec 4 → 5 → 6 → 7 → 8</strong>（RL 基础 → 策略梯度 → Actor-Critic → 值方法）是主干，<strong>这五讲要精读</strong>。</li>
+<li><strong>HW1 → HW2 → HW3</strong> 必须动手做。不做作业等于没学。</li>
+<li><strong>Lec 14（LLM RL）+ HW4</strong> 是你最该认真做的一段——它与你的优化器/RL 主线重合。</li>
+<li>Lec 17–20（Offline RL、探索、RL 理论）可以放后面；<strong>Lec 20 RL 理论</strong>对数学背景的人价值最高。</li>
+</ol>
+<blockquote>
+<p>📌 <strong>一个判断</strong>：CS285 的门槛是「<strong>CS189 或同等</strong>」。如果你直接跳进去，会在 Lec 4 之前就开始卡（它默认你知道什么是正则化、什么是偏差-方差、什么是核方法）。<strong>建议先把下面「机器学习基础」那层过一遍再开始 CS285</strong>，否则前两周会消耗掉全部耐心。</p>
+</blockquote>
+<hr />
+<h2 id="三机器学习基础cs285-的前置">三、机器学习基础（CS285 的前置）</h2>
+<blockquote>
+<p><strong>这一节是 CS285 的先修。</strong> CS285（Berkeley CS285 Deep Reinforcement Learning）官方列出的前置要求是「<strong>CS189 或同等</strong>」（CS 189 / EECS 189，Berkeley <em>Introduction to Machine Learning</em>）。因此本节的目标不是泛泛地”学点机器学习”，而是<strong>达到 CS189 的水平</strong>：能用矩阵/概率语言读懂监督学习、正则化、偏差-方差、核方法、EM、PCA，并能用 Python/NumPy 把算法写出来跑通。CS189 官方主页明确写「If you lack preparation in these areas, you are likely to struggle」。下面的资料按”<strong>由浅入深</strong>”排序，不是按重要性排序。</p>
+</blockquote>
+<blockquote>
+<p><strong>核验说明</strong>：本节 33 条链接均在 2026-09-28 用 HTTP 请求实际打开确认（HTML 核对 HTTP 200 + 页面标题/正文；PDF 核对 HTTP 200 + <code>Content-Type: application/pdf</code>）。📄 = 有免费合法 PDF 或在线 HTML；🧪 = 有公开作业或代码框架；🔒 = 作业/讲义需校内登录。表内编号在本节内连续（1–33）。</p>
+</blockquote>
+<hr />
+<h3 id="打基础的主线已定cs229-官方讲义合订本tengyu-ma-维护">3.0 打基础的主线（已定）：CS229 官方讲义合订本（Tengyu Ma 维护）</h3>
+<p><strong>主线就用这一本，不要再挑。</strong> 这是 Stanford <strong>CS229《Machine Learning》</strong> 的官方讲义合订本：<strong>Andrew Ng 著、Tengyu Ma 更新维护</strong>——Tengyu Ma 是 CS229 的现任授课教师（Spring 2019–2023、2026），这套讲义就是他那门课的正式教材。</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>项目</th>
+<th>链接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>合订本 PDF（主线，一本通读）</strong> 📄</td>
+<td><a href="https://cs229.stanford.edu/main_notes.pdf">cs229.stanford.edu/main_notes.pdf</a></td>
+<td><strong>5.4 MB</strong>，实测可下（HTTP 206，<code>Content-Type: application/pdf</code>，总长 5,355,993 字节）。<strong>从第 1 页读到最后一页</strong></td>
+</tr>
+<tr>
+<td>分章 PDF（更新版，2021 Fall） 📄</td>
+<td><a href="https://cs229.stanford.edu/notes2021fall/cs229-notes1.pdf">notes1</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes2.pdf">notes2</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes3.pdf">notes3</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes4.pdf">notes4</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes5.pdf">notes5</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes6.pdf">notes6</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes8.pdf">notes8</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes9.pdf">notes9</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes10.pdf">notes10</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes11.pdf">notes11</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes12.pdf">notes12</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes13.pdf">notes13</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes14.pdf">notes14</a></td>
+<td>想按章打印 / 做笔记时用这些。<strong>实测 <code>notes2021fall/</code> 是有讲义的最新目录</strong>：编号 <strong>1–6、8–14 存在</strong>（缺 7）</td>
+</tr>
+<tr>
+<td>课程主页（当前学期）</td>
+<td><a href="https://cs229.stanford.edu/">cs229.stanford.edu</a></td>
+<td>排课表、作业节奏、TA 复习课（线代 / 概率 / Python）的官方入口</td>
+</tr>
+<tr>
+<td>授课教师主页</td>
+<td><a href="https://ai.stanford.edu/~tengyuma/">ai.stanford.edu/~tengyuma</a></td>
+<td>Tengyu Ma 主页，Teaching 一栏列明他教 CS229（2019–2023、2026）与 CS229T 统计学习理论</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>为什么就用这一本打基础</strong>： 1. <strong>它把数学写成机器学习</strong>——你已有的线代 / 概率 / 最优化在这里被重新组织成「假设类 → 经验风险 → 正则化 → 泛化」的语言，这正是你缺的那一层； 2. <strong>它同时覆盖 CS285 的先修要求</strong>——CS285 要的是「CS189 或同等」的机器学习底子，这本合订本的水平与之相当； 3. <strong>它是免费官方 PDF，一门课一本到底</strong>，不用在十几门课之间挑，符合”不要搞复杂”。</p>
+<p>⚠️ <strong>一个已知的坑</strong>：旧版目录 <code>notes2020fall/</code>、<code>notes2022fall/</code>、<code>notes2023fall/</code>、<code>notes/</code> <strong>全部 404</strong>（实测）。要用分章 PDF 就用 <code>notes2021fall/</code>，或者直接用上面的合订本。</p>
+<p><strong>配套的作业怎么办</strong>：CS229 的作业本体挂在 Canvas / Ed 上，<strong>需要 Stanford 账号，不公开</strong>。所以打基础这条线的<strong>练习就用下面 3.2 表里的 CS189 公开作业框架</strong>（Berkeley，NumPy 手写实现，公开可下）——讲义跟 CS229、动手跟 CS189，这是免费条件下最完整的组合。</p>
+</blockquote>
+<hr />
+<h3 id="先补什么数学系缺的是机器学习语言不是数学">3.1 先补什么（数学系缺的是”机器学习语言”，不是数学）</h3>
+<p>你的微积分 / 线代 / 概率 / 最优化已经覆盖了 CS189 要求的全部数学。真正缺的是<strong>机器学习的记号体系与话语</strong>：什么是假设类、什么是经验风险、什么是正则化、什么是偏差-方差、什么是超参数、什么是交叉验证。这一小节只放三条：两份把数学翻译成 ML 记号的官方讲义，一条零门槛的直觉热身。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>CS229 线性代数复习 + 概率论复习</strong>（Stanford CS229 课程 staff notes）📄</td>
+<td><a href="https://cs229.stanford.edu/section/cs229-linalg.pdf">linalg.pdf</a> · <a href="https://cs229.stanford.edu/section/cs229-prob.pdf">prob.pdf</a></td>
+<td>CS229 官方 section notes：一份把线代重新按”ML 要用的那部分”讲一遍（矩阵求导、正定、特征分解、SVD），一份把概率按”ML 要用的那部分”讲一遍（条件期望、常见分布、指数族、MGF、不等式）</td>
+<td>这是从”数学系线代/概率”切换到”机器学习线代/概率”的最短路径；两份都是 CS229 官方讲义，和后面所有课程记号一致</td>
+<td>两份 notes，各约 30 页；免费公开</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Convex Optimization Overview（Part I &amp; II）</strong>（Stanford CS229 官方 section notes）📄</td>
+<td><a href="https://cs229.stanford.edu/section/cs229-cvxopt.pdf">Part I</a> · <a href="https://cs229.stanford.edu/section/cs229-cvxopt2.pdf">Part II</a></td>
+<td>CS229 官方补充讲义：凸集/凸函数、Lagrange 对偶、KKT 条件，以及它们在 SVM、正则化、最大熵里的具体使用</td>
+<td>你已会最优化，但 ML 里的对偶与 KKT 是”带着具体模型用”的；这两份讲义把抽象定理直接落到 SVM 与正则化上，是后面读 ESL / PRML 第 3、7、12 章的钥匙</td>
+<td>两份 notes；免费公开</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>MIT 6.S191：Introduction to Deep Learning</strong>（MIT，Alexander Amini / Ava Amini）📄🧪</td>
+<td><a href="https://introtodeeplearning.com/">主页</a> · <a href="https://github.com/MITDeepLearning/introtodeeplearning">代码仓库</a></td>
+<td>MIT 的深度学习速成课：基础、序列模型、视觉、生成模型、强化学习、LLM、并行训练</td>
+<td>门槛最低、更新最快、全部材料 MIT 许可证开源；<strong>它恰好有 Lecture 5「Deep Reinforcement Learning」</strong>，可以作为你进入 CS285 之前的一次”预习式热身”，先对 RL 的术语有印象</td>
+<td>9 讲（2026）+ 3 个软件实验；材料全公开；<strong>公开作业/代码 ✓</strong>（Lab 1/2/3 均为 Colab notebook，MIT 许可证）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：#1 与 #2 是”成本最低、收益最高”的三份 PDF——它们不是新知识，而是<strong>同一批数学的另一种写法</strong>。先把这三份读完（一天量级），后面 CS189/CS229 的讲义就不会有记号障碍。<strong>#3 只是热身，不要把它当成主课</strong>。</p>
+</blockquote>
+<hr />
+<h3 id="主线课程选一门做完作业">3.2 主线课程（选一门，做完作业）</h3>
+<p>这是本节的核心。<strong>讲义用 CS229（见 3.0 的合订本），动手用 CS189 的公开作业框架</strong>——只看视频不做作业等于没学。CS189 与 CS285 同属 Berkeley 体系，术语与作业形式（NumPy 手写实现）衔接最紧；CS229 的讲义更偏向概率/统计视角，对数学背景的人更”顺眼”。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td><strong>Berkeley CS189/289A：Introduction to Machine Learning（官方课程站，当前学期）</strong>🧪</td>
+<td><a href="https://eecs189.org/">eecs189.org</a> · <a href="https://eecs189.org/fa26/">Fall 2026</a> · <a href="https://eecs189.org/fa25/">Fall 2025</a></td>
+<td>Berkeley 的机器学习主课，CS285 官方认可的前置课；覆盖概率与优化、聚类与隐变量模型、降维、回归与分类、神经网络与现代架构</td>
+<td><strong>这就是 CS285 要求的”CS189 或同等”本体</strong>；课程站公开讲义页、讨论课页、作业说明、往年学期存档，且 Fall 2025 有公开的完整讲座录像播放列表</td>
+<td>一学期课程；<strong>Fall 2025：26 讲 + 12 次讨论 + 5 次作业</strong>（作业 1–5，含多部分），期中 + 期末；讲座录像公开 ✓</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Berkeley CS189 官方教学大纲与资源页</strong>🧪</td>
+<td><a href="https://eecs189.org/fa25/syllabus/">Fall 2025 大纲</a> · <a href="https://eecs189.org/fa25/resources/">Fall 2025 资源页</a> · <a href="https://eecs189.org/fa25/calendar/">课程日历</a></td>
+<td>官方 syllabus（评分、作业政策、先修）+ 资源页（数学复习、NumPy/Pandas/Matplotlib 教程、推荐教材、往年课程链接）</td>
+<td>资源页是官方给的”补课清单”：<code>gwthomas/math4ml.pdf</code>（ML 数学复习）、MIT 18.06 线代录像、DS100 教材等都列在上面；照着官方清单补最不容易走偏</td>
+<td>1 份 syllabus + 1 页资源清单；全部公开</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Berkeley CS189/289A：官方课程目录页（含先修要求）</strong></td>
+<td><a href="https://www2.eecs.berkeley.edu/Courses/CS189/">EECS CS 189 课程页</a></td>
+<td>Berkeley EECS 的课程目录条目：课程描述、学分、先修课（MATH 53 + MATH 54 + COMPSCI 70）、上课时间</td>
+<td>官方先修要求写得很明确——<strong>微积分 + 线代 + 概率与离散数学</strong>，正好是你的强项；对照它就能确认自己不需要补数学</td>
+<td>单页；公开</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Stanford CS229：Machine Learning（官方课程站 + 讲义合订本）</strong> 📄🔒</td>
+<td><a href="https://cs229.stanford.edu/main_notes.pdf"><strong>main_notes.pdf（合订本，本页主线）</strong></a> · <a href="https://cs229.stanford.edu/">cs229.stanford.edu</a> · <a href="https://web.stanford.edu/class/cs229/">web.stanford.edu/class/cs229</a></td>
+<td>Stanford 的机器学习主课：监督学习（生成式/参数/非参数、神经网络）、无监督学习（聚类、降维）、学习理论、强化学习与控制。<strong>合订本 = Andrew Ng 著、Tengyu Ma 更新的官方全套讲义</strong></td>
+<td>本页<strong>指定的打基础教材</strong>（见 3.0）；覆盖面和 CS189 高度重叠但<strong>更强调概率视角与学习理论</strong>（偏差-方差、误差分析），对数学背景的人友好；网站保留了 2020–2026 全部往期版本入口</td>
+<td>一门课（当前为 Spring 2026 版本）；合订本 PDF <strong>5.4 MB</strong>，实测可下；⚠️ 当前学期的作业与部分材料<strong>需 Stanford 账号</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>CS229 Autumn 2018 官方课程表（讲义 + 4 次 problem set 全索引）</strong>📄</td>
+<td><a href="https://cs229.stanford.edu/syllabus-autumn2018.html">syllabus-autumn2018.html</a></td>
+<td>Andrew Ng 时代最经典的一版 CS229 课程表：20 讲，逐讲列出讲义 PDF、section notes、补充讲义与作业安排</td>
+<td><strong>这是自学 CS229 最该用的一页</strong>：它是官方页面，把整套讲义（notes1–notes13、深度学习、决策树、集成）按讲课顺序编排好，并标注了每次 problem set 的布置/截止日期</td>
+<td>20 讲 + 4 次 problem set（A0–A4）+ 学期项目（proposal / milestone / poster / final writeup）+ 期中考</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>CS229 官方分章讲义（2021 Fall 更新版，可直接下载的 PDF）</strong> 📄</td>
+<td><a href="https://cs229.stanford.edu/notes2021fall/cs229-notes1.pdf">notes1 监督学习</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes4.pdf">notes4 学习理论</a> · <a href="https://cs229.stanford.edu/notes2021fall/cs229-notes12.pdf">notes12 强化学习与控制</a> · <a href="https://cs229.stanford.edu/notes2020fall/notes2020fall/deep_learning_notes.pdf">深度学习讲义</a></td>
+<td>CS229 的正文讲义（与 3.0 的合订本同源，这里是单章文件）：线性/逻辑回归与 GLM、生成式学习、SVM 与核方法、学习理论、正则化与模型选择、感知机与在线学习、k-means / GMM / EM、因子分析、PCA、ICA、强化学习与控制、LQR/DDP/LQG、深度学习</td>
+<td><code>notes2021fall/</code> 是<strong>目前仍然有效的最新讲义目录</strong>（编号 1–6、8–14 实测存在；<code>notes2020fall/</code>、<code>notes2022fall/</code>、<code>notes2023fall/</code>、<code>notes/</code> 全部 404）；notes12 直接覆盖 RL 与 LQR，是你接 CS285 时最直接的一段</td>
+<td>13 份讲义 PDF（1–6、8–14）；免费公开</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>CS229 官方 section notes 与补充讲义</strong>📄</td>
+<td><a href="https://cs229.stanford.edu/section/gaussians.pdf">高斯分布</a> · <a href="https://cs229.stanford.edu/section/cs229-gaussian_processes.pdf">高斯过程</a> · <a href="https://cs229.stanford.edu/extra-notes/loss-functions.pdf">损失函数</a> · <a href="https://cs229.stanford.edu/extra-notes/boosting.pdf">Boosting</a> · <a href="https://cs229.stanford.edu/extra-notes/representer-function.pdf">Representer 定理</a> · <a href="https://cs229.stanford.edu/extra-notes/hoeffding.pdf">Hoeffding 不等式</a> · <a href="https://cs229.stanford.edu/materials/ML-advice.pdf">应用 ML 的建议</a></td>
+<td>CS229 官方补充讲义：多元高斯、高斯过程、±1 标签下的损失函数、Boosting 与弱学习、Representer 定理、Hoeffding 不等式、调参实践建议</td>
+<td>这几份是”主讲的补丁”：Representer 定理解释了为什么核方法能只依赖核函数；Hoeffding 不等式是后面 PAC / 泛化界证明的第一块砖；ML-advice 是纯工程经验，帮你避免把工程问题当数学问题</td>
+<td>7 份短讲义；全部免费公开</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>CS229 往期作业索引（2018–2020 官方课程表页）</strong>🔒</td>
+<td><a href="https://cs229.stanford.edu/syllabus-autumn2018.html">syllabus-autumn2018.html</a> · <a href="https://cs229.stanford.edu/syllabus-fall2020.html">syllabus-fall2020.html</a></td>
+<td>两版官方课程表上的作业条目：A0（数学/编程热身）、A1–A4（监督学习 → 核方法与学习理论 → 无监督与 EM → RL 与控制），含布置/截止日期与提交说明</td>
+<td>⚠️ <strong>重要提醒：作业本体（zip）挂在 Piazza/Gradescope 上，需要课程账号</strong>，公开页面只能看到作业的<strong>编号、主题与时间线</strong>，看不到题目</td>
+<td>每学期 5 次作业（A0–A4）；<strong>题目本体不公开（🔒）</strong></td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>CS189/289A Fall 2026 官方 GitHub 课程仓库</strong>🧪</td>
+<td><a href="https://github.com/BerkeleyML/fa26-student">github.com/BerkeleyML/fa26-student</a></td>
+<td>CS189 当前学期的官方学生仓库：讲义源码、notebook、作业框架与数据文件的官方分发点（挂在 eecs189.org 首页 “Github Repository” 链接上）</td>
+<td>官方明确把它作为课程内容仓库；是拿到<strong>作业代码框架</strong>的正规入口（而不是从第三方转载拿）</td>
+<td>随学期更新；仓库可公开访问</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>CS189 作业与讲义页（官方，逐讲可点开）</strong>🧪</td>
+<td><a href="https://eecs189.org/fa25/lecture/lec01/">Lecture 1 示例页</a> · <a href="https://eecs189.org/fa25/discussion/discussion_1/">Discussion 1 示例页</a> · <a href="https://eecs189.org/fa25/">Fall 2025 课程表</a></td>
+<td>课程表上每一讲、每一次讨论课都是一个独立页面，含讲义、板书、代码与阅读材料链接；作业条目给出 notebook 与 materials 的 Google Drive 链接</td>
+<td>这是<strong>用自己的话把 CS189 重讲一遍</strong>的最佳素材：讲义 + 讨论课（讨论课往往就是作业的铺垫与提示）成对出现</td>
+<td>每学期 26–27 讲 + 12 次讨论 + 5 次作业；页面全部公开</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断（按”讲义 + 动手”分工，不用二选一）</strong>： <strong>讲义主线 = #7–#11（CS229）</strong>，也就是 <strong>3.0 里那本合订本</strong>——你已选定用它打基础，概率视角与学习理论（notes4、Hoeffding、Representer）对数学背景最顺； <strong>动手主线 = #4/#5/#12/#13（CS189）</strong>——CS229 作业不公开，而 CS189 的作业框架、讨论课、讲义页全部公开，且它与 CS285 同出 Berkeley，NumPy 从零实现的训练方式可以直接迁移到 CS285 的编程作业。 <strong>不要两门都从头做作业</strong>：CS229 读讲义 + CS189 挑作业做，这是免费条件下唯一能同时拿到”完整讲义”和”能跑的作业”的组合。</p>
+</blockquote>
+<hr />
+<h3 id="教材">3.3 教材</h3>
+<p>四本必读 + 三本配套。<strong>先读 ISLR/ISLP 建立直觉，再用 ESL 补数学深度，PRML 补贝叶斯视角，Murphy 当长期案头参考。</strong> 标 📄 的有官方免费合法 PDF。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td><strong>ISLR / ISL：An Introduction to Statistical Learning</strong>（James, Witten, Hastie, Tibshirani）📄</td>
+<td><a href="https://www.statlearning.com/">官方站 statlearning.com</a> · <a href="https://www.statlearning.com/resources-first-edition">第 1 版资源页</a> · <a href="https://trevorhastie.github.io/ISLR/">作者页 trevorhastie.github.io/ISLR</a> · <a href="https://www.statlearning.com/s/ISLRSeventhPrinting.pdf"><strong>免费 PDF（第 1 版第 7 次印刷）</strong></a> · <a href="https://link.springer.com/book/10.1007/978-1-4614-7138-7">出版社（Springer，付费）</a></td>
+<td>统计学习的第一本入门书：线性回归、分类（逻辑回归/LDA/QDA/KNN）、重抽样（交叉验证/自助法）、模型选择与正则化（岭回归/Lasso）、非线性方法、树与集成、SVM、无监督学习</td>
+<td><strong>机器学习基础最省力的入口</strong>：写法刻意避开重数学，把”这个方法什么时候用、为什么会失效”讲透，正好补上数学系最缺的”方法直觉”；每章配 R 实验，动手门槛低</td>
+<td>第 1 版 10 章；<strong>免费合法 PDF ✓</strong>（官方站直接下载 15.9 MB）；官方 MOOC（edX，自定进度）配套</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>ISLR 第 2 版（with Applications in R，2021）</strong>（James, Witten, Hastie, Tibshirani）📄</td>
+<td><a href="https://www.statlearning.com/resources-second-edition">第 2 版资源页</a> · <a href="https://link.springer.com/book/10.1007/978-1-4614-7138-7">出版社（Springer，付费）</a></td>
+<td>ISLR 的第二版：新增深度学习、生存分析、多重检验三章，并在原有章节加入更多贝叶斯与高维内容</td>
+<td>比第 1 版多出第 10–13 章；<strong>官方资源页同时给出全部 13 章的讲义 slides PDF 与 R/Jupyter 实验代码（可自由下载）</strong>，即使正文 PDF 要从官方页面的下载按钮获取，slides + labs 也足够自学</td>
+<td>13 章；官方页提供<strong>全部章节 slides PDF</strong>（<code>web.stanford.edu/~hastie/ISLR2/Slides/</code>）+ R/Jupyter/Rmd 三套实验代码；正文 PDF 在官方站点提供免费下载</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>ISLP：An Introduction to Statistical Learning（with Applications in Python，2023）</strong>（James, Witten, Hastie, Tibshirani, Taylor）📄🧪</td>
+<td><a href="https://www.statlearning.com/resources-python">资源页</a> · <a href="https://intro-stat-learning.github.io/ISLP/">ISLP 官方文档站</a> · <a href="https://github.com/intro-stat-learning/ISLP_labs">ISLP Labs 代码仓库</a> · <a href="https://link.springer.com/book/10.1007/978-3-031-38747-0">出版社（Springer，付费）</a></td>
+<td>ISLR 的 Python 版：同样的统计学习内容，但所有实验改成 Python（numpy/pandas/scikit-learn/statsmodels/torch）</td>
+<td><strong>对你最合适的一版</strong>：你不写 R，而 CS189/CS285 全是 Python；官方文档站把 13 章 Lab 全部渲染成可在线阅读的 HTML，代码仓库可直接克隆运行</td>
+<td>13 章；官方文档站含全部 Lab 与数据集文档；<strong>公开实验代码 ✓</strong></td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>ESL：The Elements of Statistical Learning（2nd ed., 2009）</strong>（Hastie, Tibshirani, Friedman）📄</td>
+<td><a href="https://hastie.su.domains/ElemStatLearn/">官方书站 hastie.su.domains/ElemStatLearn</a> · <a href="https://hastie.su.domains/ElemStatLearn/download.html">下载页（官方）</a> · <a href="https://hastie.su.domains/ElemStatLearn/printings/ESLII_print12_toc.pdf.download.html"><strong>免费 PDF（第 12 次印刷，官方下载页入口）</strong></a> · <a href="https://link.springer.com/book/10.1007/978-0-387-84858-7">出版社（Springer，付费）</a></td>
+<td>统计学习的权威参考书（ISLR 的”进阶版”）：最小二乘与岭回归、Lasso 与 LARS、样条与小波、核方法与 SVM、模型推断与平均、Boosting、神经网络、无监督学习</td>
+<td><strong>数学系最该读的一本</strong>：推导完整、假设条件写清，你已有的线代/最优化/概率能直接对上；CS189 与 CS229 里的很多结论（偏差-方差分解、Lasso 的软阈值、SVM 对偶）在 ESL 里有严格版本</td>
+<td>18 章（约 745 页），另含习题与彩色图；<strong>免费合法 PDF ✓</strong>（作者官方下载页；注意该页跳转 Google Drive 下载，链接指向的文件名为 <code>ESLII_print12_toc.pdf</code>）</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>PRML：Pattern Recognition and Machine Learning</strong>（Christopher M. Bishop, 2006）📄</td>
+<td><a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>Microsoft Research 官方免费 PDF</strong></a> · <a href="https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/">Microsoft Research 出版物页</a></td>
+<td>贝叶斯视角的机器学习经典教材：概率分布、线性回归/分类、神经网络、核方法、稀疏核机（RVM/SVM）、图模型、EM 与变分推断、采样、连续隐变量、混合模型</td>
+<td><strong>补”贝叶斯/概率派”这条腿</strong>：ESL 是频率派统计视角，PRML 是贝叶斯视角，两本合起来才完整；概率图模型与变分推断那几章是理解现代生成模型的基础</td>
+<td>14 章（约 738 页）；<strong>免费合法 PDF ✓</strong>（Microsoft Research 官方页面直接提供，17.2 MB；Bishop 本人是 MSR 研究员）</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>PML 卷一：Probabilistic Machine Learning: An Introduction</strong>（Kevin P. Murphy, MIT Press 2022）📄🧪</td>
+<td><a href="https://probml.github.io/pml-book/book1.html">官方书站</a> · <a href="https://github.com/probml/pml-book/releases/latest/download/book1.pdf"><strong>免费 PDF（书站 “Draft pdf file” 链接）</strong></a> · <a href="https://probml.github.io/pml-book/solns-public.pdf">习题解答（非星号题）</a> · <a href="https://github.com/probml/pyprobml">配套代码 pyprobml</a></td>
+<td>现代概率机器学习的入门卷：概率基础 → 统计学 → 决策论 → 线性代数/优化 → 线性模型 → 逻辑回归 → 神经网络 → 无监督学习 → 图模型 → 蒙特卡洛/变分推断</td>
+<td><strong>最现代、最全覆盖的基础教材</strong>（2022 年，含深度学习）；每章习题有官方公开解答（非星号题），<strong>这对自学是决定性的</strong>；书里每个图都能点开对应的 Colab 代码</td>
+<td>20 章；<strong>免费合法 PDF ✓</strong>（CC-BY-NC-ND 许可，GitHub Releases 官方发布）；<strong>公开习题解答 ✓</strong>；<strong>公开代码 ✓</strong>（pyprobml，逐章 Colab notebook）</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>PML 卷二：Probabilistic Machine Learning: Advanced Topics</strong>（Kevin P. Murphy, MIT Press 2023）📄🧪</td>
+<td><a href="https://probml.github.io/pml-book/book2.html">官方书站</a> · <a href="https://github.com/probml/pml2-book/releases/latest/download/book2.pdf"><strong>免费 PDF（书站链接）</strong></a> · <a href="https://github.com/probml/pyprobml">配套代码（book2 章节）</a></td>
+<td>进阶卷：变分推断与 MCMC 的深入、图模型、稀疏与低秩方法、深度生成模型（VAE/GAN/流模型/扩散模型）、表示学习、因果推断等</td>
+<td>当你打牢基础后，这一卷是”从基础到研究前沿”的桥；CS285 后期涉及的变分推断、隐变量模型、生成模型的内容在这里有系统梳理</td>
+<td>30+ 章；<strong>免费合法 PDF ✓</strong>（CC-BY-NC-ND，GitHub Releases 官方发布）；<strong>公开代码 ✓</strong></td>
+</tr>
+<tr>
+<td>21</td>
+<td><strong>Understanding Machine Learning: From Theory to Algorithms</strong>（Shalev-Shwartz &amp; Ben-David, Cambridge 2014）📄</td>
+<td><a href="https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html"><strong>官方书站（HUJI，含免费 PDF 链接）</strong></a> · <a href="https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf"><strong>免费 PDF</strong></a> · <a href="https://www.cambridge.org/core/books/understanding-machine-learning/3059695661405D25673058E43C8BE2A6">出版社（Cambridge，付费）</a></td>
+<td>学习理论的教科书：PAC 学习框架、一致收敛、VC 维与 Sauer 引理、泛化界、Rademacher 复杂度、偏差-复杂度权衡、在线学习、后悔界、凸学习问题、SVM、Boosting</td>
+<td><strong>整份清单里最”数学系友好”的一本书</strong>：从定义、定理、证明开始，没有工程废话；第 3–6 章（PAC / VC / 一致收敛）、第 26 章（Rademacher）是 CS229 notes4 与 CS285 RL 理论部分的真正底座</td>
+<td>31 章 + 附录；<strong>免费合法 PDF ✓</strong>（作者官方书站直接提供）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断（读教材的顺序）</strong>：<strong>#16 ISLP（Python 版）→ #14/#15 ISLR 的关键章 → #17 ESL 的关键章（第 3、7、12 章）→ #18 PRML（第 3、7、8 章）→ #19 Murphy 卷一当案头参考</strong>。#21 与学习理论那一节（3.4）合起来读。<strong>#20 卷二现在不用碰</strong>，等 CS285 后期再回来。</p>
+</blockquote>
+<hr />
+<h3 id="学习理论-统计学习理论">3.4 学习理论 / 统计学习理论</h3>
+<p>CS285 的 RL 理论部分（Lec 20 等）以及 CS229 notes4 都假设你知道这些概念。<strong>如果你只挑一条</strong>：先把 #21 的第 3–6 章读完，再用 #22 COS 511 的 scribe notes 对每个概念补一份完整证明。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td><strong>Princeton COS 511：Theoretical Machine Learning（Rob Schapire, Spring 2018）</strong>📄🧪</td>
+<td><a href="https://www.cs.princeton.edu/courses/archive/spring18/cos511/">课程主页</a> · <a href="https://www.cs.princeton.edu/courses/archive/spring18/cos511/schedule.html">课程表与阅读</a> · <a href="https://www.cs.princeton.edu/courses/archive/spring18/cos511/assignments.html">作业页</a></td>
+<td>理论机器学习课：一致性模型、<strong>PAC 模型</strong>、Occam 剃刀、Chernoff/Hoeffding/McDiarmid 界、增长函数、<strong>VC 维与 Sauer 引理</strong>、样本复杂度上下界、<strong>Rademacher 复杂度</strong>、Boosting 与间隔理论、SVM 与核、在线学习（感知机/Winnow/加权多数）、镜像下降、最大熵、投资组合、博弈论</td>
+<td><strong>本节的”学习理论正课”</strong>：Schapire（AdaBoost 作者之一）讲的，每节课都有学生整理的 scribe notes 公开挂出，<strong>证明写得极详细</strong>；课程表还给出原始论文链接（Valiant 的 Theory of the Learnable、Vapnik–Chervonenkis 原文、Hoeffding 原文）</td>
+<td>24 讲（24 份公开 scribe notes PDF）+ <strong>7 次作业（公开题面与提示）</strong> + 期末项目；作业页标注每次作业主题（PAC / 样本复杂度与 VC 维 / Chernoff / Rademacher 与 Boosting / Boosting 与 SVM / 核与在线学习 / Winnow 与 Widrow-Hoff）；<strong>公开作业与提示 ✓</strong></td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>CMU 10-702 / 36-702：Statistical Machine Learning</strong>（Larry Wasserman &amp; Aarti Singh 版本）📄</td>
+<td><a href="http://www.cs.cmu.edu/~aarti/Class/10702_Spring13/">课程主页（Spring 2013）</a> · <a href="http://www.cs.cmu.edu/~aarti/Class/10702_Spring13/lectures.html">课程表</a> · <a href="http://www.cs.cmu.edu/~aarti/Class/10702_Spring13/syllabus.pdf">syllabus PDF</a> · <a href="http://www.cs.cmu.edu/~10702/">旧版主页（Lafferty &amp; Wasserman）</a></td>
+<td>CMU 的研究生统计机器学习课：极小极大估计、集中不等式、覆盖数、非参数回归/分类、稀疏与 Lasso、核方法与 RKHS、图模型、变分方法、学习理论</td>
+<td>它的<strong>统计视角</strong>是 COS 511（理论 CS 视角）的补集：同一个泛化问题，这边用极小极大风险与集中不等式讲。⚠️ 注意：课程笔记章节托管在 CMU Blackboard 上、官方页面注明不得分发，所以<strong>能公开拿到的主要是课程结构、讲义目录与 syllabus</strong>，不是完整讲义</td>
+<td>一学期课程（约 26 讲）；syllabus 与课程表公开；<strong>讲义正文不公开（挂在 Blackboard）</strong></td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>ESL 第 7 章「Model Assessment and Selection」+ 第 12 章「Support Vector Machines and Flexible Discriminants」</strong>（Hastie et al.）📄</td>
+<td>见 #17 的官方书站：<a href="https://hastie.su.domains/ElemStatLearn/">hastie.su.domains/ElemStatLearn</a>（含免费 PDF）</td>
+<td>ESL 里最直接对应”泛化理论”的两章：第 7 章讲偏差-方差分解、乐观偏差、交叉验证与自助法、VC 维与样本量、正则化路径；第 12 章讲最大间隔分类器、SVM 对偶与核技巧</td>
+<td>这两章是”理论 ↔︎ 实践”的接口：<strong>VC 维、结构风险最小化这些概念在 ESL 里的表述比纯理论课更贴近模型</strong>；读完 #21/#22 再回头看这一章，会有”原来工程上就是这么用的”的感觉</td>
+<td>ESL 第 7 章 + 第 12 章（约 120 页）；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>25</td>
+<td><strong>CS229 学习理论讲义（notes4）+ Hoeffding 不等式补充</strong>📄</td>
+<td><a href="https://cs229.stanford.edu/notes2020spring/cs229-notes4.pdf">notes4（学习理论）</a> · <a href="https://cs229.stanford.edu/extra-notes/hoeffding.pdf">Hoeffding 不等式</a></td>
+<td>CS229 的学习理论讲义：一致收敛、假设类有限时的样本复杂度界、无限假设类与 VC 维、误差界</td>
+<td><strong>最短的一版入门</strong>：把 PAC/VC 的核心结论在两三页内讲清，适合在啃 COS 511 之前先建立整体轮廓；两份都是官方讲义，与 #9 的其他 notes 记号一致</td>
+<td>2 份 notes；免费公开</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断（学习理论的最小闭环）</strong>：<strong>#25（轮廓）→ #21 第 3–6 章 + 第 26 章（严格定义与证明）→ #22 的 scribe notes（按主题补证明）+ #22 的 7 次作业（检验）</strong>。#23 只在你想换统计视角时看，注意其讲义不公开；#24 是回头看”理论怎么落到模型上”。</p>
+</blockquote>
+<hr />
+<h3 id="概率统计先修补充如果需要">3.5 概率统计先修补充（如果需要）</h3>
+<p>你已会概率论。只有当你想把<strong>概率论的严格版本</strong>再过一遍（例如为集中不等式、鞅、大偏差做准备）时才需要这一节。否则可以跳过。</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td><strong>Harvard Stat 110：Probability（Joe Blitzstein）</strong>📄</td>
+<td><a href="https://projects.iq.harvard.edu/stat110/home">官方课程站（projects.iq.harvard.edu/stat110）</a> · <a href="https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo"><strong>完整讲座录像（YouTube 播放列表）</strong></a></td>
+<td>Harvard 的概率论入门课：计数、条件概率与贝叶斯、随机变量与分布、期望、矩母函数、不等式、大数律与中心极限定理、马尔可夫链</td>
+<td><strong>讲得最好的概率入门课之一</strong>，且<strong>完整录像公开在 YouTube</strong>，教材就是下面的 #27；它的条件概率与期望直觉部分对后面理解 EM、重要性采样、策略梯度都有直接帮助</td>
+<td>约 34 讲；<strong>公开录像 ✓</strong>；⚠️ 课程站目前对自动化请求返回 403（见文末「未能核实的条目」），但播放列表可正常访问</td>
+</tr>
+<tr>
+<td>27</td>
+<td><strong>Introduction to Probability（Blitzstein &amp; Hwang，第 2 版）</strong></td>
+<td><a href="https://www.routledge.com/Introduction-to-Probability/Blitzstein-Hwang/p/book/9781138369917">出版社页（Routledge/CRC，付费）</a> · 配套课程见 #26</td>
+<td>Stat 110 的官方教材：把概率论用”讲故事 + 条件概率优先”的方式重讲一遍，配大量例题</td>
+<td>与 #26 的录像逐讲对应，是最容易坚持读完的一本概率书；⚠️ <strong>这本书只有付费版</strong>（第 1 版曾免费，现在出版方的免费版本页面已不可访问，见文末）</td>
+<td>13 章 + 大量习题；<strong>仅付费书</strong>（无官方免费 PDF）</td>
+</tr>
+<tr>
+<td>28</td>
+<td><strong>Introduction to Probability（Grinstead &amp; Snell，GNU FDL 自由教材）</strong>📄</td>
+<td><a href="https://math.dartmouth.edu/~prob/prob/prob.pdf"><strong>免费 PDF</strong></a></td>
+<td>Dartmouth 的概率论教材，采用 GNU 自由文档许可证发布：组合、概率测度、条件概率、离散/连续随机变量、期望、极限定理、马尔可夫链、蒙特卡洛方法</td>
+<td><strong>合法免费的概率论完整教材</strong>，可作为 #27 的零成本替代；蒙特卡洛与马尔可夫链两章对 CS285 特别对口</td>
+<td>12 章；<strong>免费合法 PDF ✓</strong>（GNU FDL）</td>
+</tr>
+<tr>
+<td>29</td>
+<td><strong>Math for Machine Learning（Garrett Thomas，Berkeley CS189 官方资源页推荐）</strong>📄</td>
+<td><a href="https://gwthomas.github.io/docs/math4ml.pdf"><strong>免费 PDF</strong></a></td>
+<td>Berkeley CS189 官方资源页列出的数学复习讲义：线性代数（向量空间、矩阵分解、矩阵求导、概率视角下的线代）、微积分（梯度、Jacobian、Hessian、矩阵微分）</td>
+<td><strong>正好是”数学系 → ML 记号”的桥梁</strong>：内容你都会，但写法是机器学习教材的写法（例如矩阵求导的布局约定、概率视角下的 SVD），能省下大量”符号不适应”的时间</td>
+<td>约 30 页；免费公开</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>本节未能核实的条目</strong>（为保证清单可用于公开场合，以下链接一律<strong>没有</strong>写进上表，只在此说明原因）</p>
+<ol type="1">
+<li><strong>Harvard Stat 110 课程站 <code>projects.iq.harvard.edu/stat110/home</code>（及同域子页面）</strong> — 每一次请求（浏览器 UA、<code>web_fetch</code>、直接 HTTP）都返回 <strong>HTTP 403 Access Denied</strong>，响应头显示是 Akamai 边缘节点拦截，判断为站点对非浏览器/非校园网来源的访问限制，而非链接失效。<strong>处理</strong>：表中保留了该 URL 但加了 ⚠️ 标注，并同时给出<strong>已核实可访问</strong>的 YouTube 完整讲座播放列表作为可用入口。</li>
+<li><strong>CS229 Autumn 2018 的讲义原始路径 <code>cs229.stanford.edu/notes/cs229-notes1.pdf</code>（及 notes2–notes13、<code>notes/cs229-notes-deep_learning.pdf</code> 等）</strong> — 全部返回 <strong>HTTP 404</strong>。虽然 2018 年的课程表页（#8）仍然指向这些路径，但服务器上文件已不存在。<strong>处理</strong>：表中改用<strong>已核实为 200 + <code>application/pdf</code></strong> 的 <code>notes2020spring/</code> 与 <code>section/</code> 路径（#9、#10），并在表格中说明了这一替换。</li>
+<li><strong>CS229 的 problem set 题目本体（A0–A4 的 zip）</strong> — 官方链接指向 <strong>Piazza 课程讨论区</strong>（<code>piazza.com/class/...?cid=...</code>），需课程成员账号，<strong>无法公开核实</strong>。<strong>处理</strong>：表中只把”作业索引（主题 + 时间线）“作为条目（#11）并明确标注 🔒 不公开，没有给出任何第三方转载的作业链接。</li>
+<li><strong>CS189 的作业解答与往年考试卷（<code>eecs189.org/docs/exams/*.pdf</code>、<code>eecs189.org/static/homeworks/hw01-sol.pdf</code> 等）</strong> — 搜索引擎索引里存在这些路径（如 <code>midf23.pdf</code>、<code>finalf23.pdf</code>、<code>finalf21.pdf</code>），但直接请求全部返回 <strong>HTTP 404</strong>，判断为站点已改版、旧路径失效。<strong>处理</strong>：未收录；表中只保留官方当前学期的作业页与课程仓库（#12、#13）作为作业与代码框架的入口。</li>
+<li><strong>ISLR 第 2 版正文 PDF 的直链</strong> — 官方第 2 版资源页（#15）提供的是 Squarespace 的下载按钮，直链不由 HTML 静态给出，我逐一尝试的若干猜测路径（<code>/s/ISLRv2_website.pdf</code>、<code>hastie.su.domains/ISLR2/ISLRv2_website.pdf</code> 等）全部 <strong>404</strong>。<strong>处理</strong>：表中给出<strong>已核实</strong>的第 1 版免费 PDF 直链（#14，15.9 MB，<code>application/pdf</code>）+ 第 2 版官方资源页（#15）+ 官方全部章节 slides 与实验代码；第 2 版正文 PDF 只说明”在官方页面上提供”，<strong>不给出未核实的直链</strong>。</li>
+<li><strong>CMU 10-702 的完整讲义</strong> — 官方页面明确写着课程笔记是 Wasserman 书稿章节、“available on Blackboard. DO NOT DISTRIBUTE THESE CHAPTERS”，属于<strong>有意不公开</strong>。<strong>处理</strong>：只收录公开的课程主页、课程表与 syllabus（#23），并标注讲义不公开。</li>
+<li><strong>Understanding Machine Learning 的官方习题解答</strong> — 未找到作者发布的官方解答集（GitHub 上的第三方解答仓库不属于官方来源，未收录）。<strong>处理</strong>：表中只标注该书有免费 PDF（#21），不声明有公开解答。</li>
+<li><strong>PML 卷二免费 PDF 的路径</strong> — 初次按卷一的路径规律猜测 <code>probml/pml-book/releases/latest/download/book2.pdf</code> 得到 <strong>404</strong>；实际卷二位于<strong>另一个仓库</strong> <code>probml/pml2-book</code>。<strong>处理</strong>：已在 #20 中给出核实通过的 <code>probml/pml2-book</code> 路径。此处记录，提醒不要套用卷一的路径规律。</li>
+<li><strong>CS229 2018 版决策树 / 集成 / 反向传播讲义（<code>cs229-notes-dt.pdf</code>、<code>cs229-notes-ensemble.pdf</code>、<code>cs229-notes-backprop.pdf</code>）</strong> — 2018 年课程表页（#8）列出了这三个主题并指向这些路径，但在当前服务器上逐一探测均返回 <strong>HTTP 404</strong>（该批讲义只在 2018 年目录下存在过，现已被移除）。<strong>处理</strong>：未收录其直链；决策树与集成方法可在 #17 ESL 第 8、9、10、15 章或 #19 Murphy 卷一对应章节读到，深度学习与反向传播可用<strong>已核实可访问</strong>的 <code>notes2020fall/notes2020fall/deep_learning_notes.pdf</code>（见 #9）。</li>
+</ol>
+<p><strong>本节核实过的全部链接一览（供复核）</strong></p>
+<ul>
+<li>CS189 官方站与档案：<code>eecs189.org/</code>、<code>eecs189.org/fa26/</code>、<code>eecs189.org/fa25/</code>、<code>eecs189.org/fa25/syllabus/</code>、<code>eecs189.org/fa25/resources/</code>、<code>eecs189.org/fa25/lecture/lec01/</code>、<code>eecs189.org/fa25/discussion/discussion_1/</code>、<code>www2.eecs.berkeley.edu/Courses/CS189/</code>、<code>github.com/BerkeleyML/fa26-student</code></li>
+<li>CS229：<code>cs229.stanford.edu/</code>、<code>web.stanford.edu/class/cs229/</code>、<code>cs229.stanford.edu/syllabus-autumn2018.html</code>、<code>syllabus-fall2020.html</code>、<code>notes2020spring/cs229-notes{1,4,12}.pdf</code>、<code>section/cs229-{linalg,prob,cvxopt,cvxopt2,gaussian_processes}.pdf</code>、<code>extra-notes/{loss-functions,boosting,representer-function,hoeffding}.pdf</code>、<code>materials/ML-advice.pdf</code></li>
+<li>教材：<code>hastie.su.domains/ElemStatLearn/</code>、<code>.../download.html</code>、<code>.../printings/ESLII_print12_toc.pdf.download.html</code>、<code>link.springer.com/book/10.1007/978-0-387-84858-7</code>、<code>statlearning.com/</code>、<code>.../resources-first-edition</code>、<code>.../resources-second-edition</code>、<code>.../resources-python</code>、<code>statlearning.com/s/ISLRSeventhPrinting.pdf</code>、<code>trevorhastie.github.io/ISLR/</code>、<code>intro-stat-learning.github.io/ISLP/</code>、<code>github.com/intro-stat-learning/ISLP_labs</code>、<code>microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf</code>、<code>microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/</code>、<code>probml.github.io/pml-book/</code>、<code>.../book1.html</code>、<code>.../book2.html</code>、<code>.../solns-public.pdf</code>、<code>github.com/probml/pml-book/releases/latest/download/book1.pdf</code>、<code>github.com/probml/pml2-book/releases/latest/download/book2.pdf</code>、<code>github.com/probml/pyprobml</code>、<code>cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html</code>、<code>.../understanding-machine-learning-theory-algorithms.pdf</code>、<code>cambridge.org/core/books/understanding-machine-learning/3059695661405D25673058E43C8BE2A6</code></li>
+<li>学习理论：<code>cs.princeton.edu/courses/archive/spring18/cos511/</code>、<code>.../schedule.html</code>、<code>.../assignments.html</code>、<code>.../scribe_notes/0212.pdf</code>、<code>.../scribe_notes/0305.pdf</code>、<code>cs.cmu.edu/~aarti/Class/10702_Spring13/</code>、<code>.../lectures.html</code>、<code>.../syllabus.pdf</code>、<code>cs.cmu.edu/~10702/</code></li>
+<li>概率与数学补充：<code>projects.iq.harvard.edu/stat110/home</code>（403，见说明）、<code>youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo</code>、<code>routledge.com/Introduction-to-Probability/Blitzstein-Hwang/p/book/9781138369917</code>、<code>math.dartmouth.edu/~prob/prob/prob.pdf</code>、<code>gwthomas.github.io/docs/math4ml.pdf</code>、<code>introtodeeplearning.com/</code>、<code>github.com/MITDeepLearning/introtodeeplearning</code></li>
+</ul>
+<hr />
+<h2 id="四深度学习">四、深度学习</h2>
+<blockquote>
+<p><strong>核验说明</strong>：本节 40 条链接均在 2026-09-28 用 HTTP 请求实际打开确认（HTML 核对 200 + 标题/正文；PDF 核对 206/200 + <code>%PDF</code> 文件头；arXiv 核对 abs 页与 API 标题作者）。📄 = 有免费合法 PDF 或在线 HTML；🧪 = 有公开作业或代码框架。 表内按<strong>由浅入深</strong>排列，编号在本节内连续（1–40）。</p>
+</blockquote>
+<h3 id="先建立直觉无公式门槛">4.1 先建立直觉（无公式门槛）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>MIT 6.S191：Introduction to Deep Learning</strong>（MIT，Alexander Amini / Ava Amini）📄🧪</td>
+<td><a href="https://introtodeeplearning.com/">主页</a> · <a href="https://github.com/MITDeepLearning/introtodeeplearning">代码仓库</a> · <a href="https://www.youtube.com/playlist?list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI">公开录像</a></td>
+<td>MIT 的「深度学习速成营」，一周一讲，覆盖基础、序列模型、视觉、生成模型、强化学习、LLM 与并行训练</td>
+<td>门槛最低、更新最快、全部材料以 MIT 许可证开源；讲师与嘉宾阵容强（如 Christopher Bishop 讲 AI for Science、Liquid AI 的 CTO Mathias Lechner 讲大规模并行训练）</td>
+<td>9 讲（2026）+ 3 个软件实验；<strong>公开作业 ✓</strong>（<a href="https://github.com/MITDeepLearning/introtodeeplearning/tree/master/lab1">Lab 1 音乐生成</a>、<a href="https://github.com/MITDeepLearning/introtodeeplearning/tree/master/lab2">Lab 2 人脸检测与算法偏见</a>、<a href="https://github.com/MITDeepLearning/introtodeeplearning/tree/master/lab3">Lab 3 微调 LLM</a>）；Colab 直接跑；<strong>公开录像 ✓</strong>（官方播放列表 90 个视频，含历年全部讲座）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>A Recipe for Training Neural Networks</strong>（Andrej Karpathy，2019）📄</td>
+<td><a href="https://karpathy.github.io/2019/04/25/recipe/">博客原文</a></td>
+<td>一篇长文，讲训练神经网络的标准流程：先看数据、搭骨架、验证初始 loss、过拟合单 batch、再加正则、最后调参</td>
+<td>全文没有一条公式，却句句针对「数学对但训练崩」的真实痛点；它补的正是数学训练不提供的那部分能力</td>
+<td>单篇长文（约 20 分钟读完）；免费公开</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Calculus on Computational Graphs: Backpropagation</strong>（Christopher Olah）📄</td>
+<td><a href="https://colah.github.io/posts/2015-08-Backprop/">colah.github.io</a></td>
+<td>用计算图语言重讲反向传播，强调「反向模式微分 = 动态规划 + 链式法则」，并对比前向模式</td>
+<td>讲清「为什么反向传播是 <span class="math">O(参数量)</span> 而不是 <span class="math">O(参数量²)</span>」的直觉，是理解自动微分两种模式的最佳入门短文</td>
+<td>单篇博客（含多张计算图）；免费公开</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：#1 用来在动手前拿到全局图景（哪里是卷积、哪里是注意力、哪里是现代 LLM）；#2 是「会不会做实验」的分水岭，#3 是「反向传播为什么便宜」的直觉。这三条都不需要新数学，但能避免后面把「工程问题」误当成「数学问题」。</p>
+</blockquote>
+<h3 id="主线课程选一门做完作业-1">4.2 主线课程（选一门，做完作业）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td><strong>Stanford CS231n：Deep Learning for Computer Vision</strong>（Stanford，Fei-Fei Li / Ehsan Adeli / Justin Johnson 等）📄🧪</td>
+<td><a href="https://cs231n.stanford.edu/">主页</a> · <a href="https://cs231n.stanford.edu/assignments.html">作业页</a> · <a href="https://cs231n.github.io/">课程笔记</a> · <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOmsNzYBMe0gJY2XS8AQ16">公开录像（2025）</a></td>
+<td>计算机视觉方向的深度学习主课，从线性分类器一路讲到扩散模型与 3D 视觉</td>
+<td>数学门槛与数学系背景完全匹配（只需微积分+线代+概率），且作业要求用 NumPy 手写反向传播，是「公式→代码」最扎实的一门</td>
+<td>18 讲（Spring 2026）+ 讨论课；<strong>3 次作业</strong>（A1 kNN/Softmax/全连接 12%、A2 BatchNorm/Dropout/卷积/可视化/RNN 图像描述 18%、A3 Transformer 图像描述/自监督/扩散/CLIP-DINO 15%）+ 期中 + 期末项目；<strong>公开作业 ✓</strong>（<a href="https://cs231n.github.io/assignments2026/assignment1/">A1</a>、<a href="https://cs231n.github.io/assignments2026/assignment2/">A2</a>、<a href="https://cs231n.github.io/assignments2026/assignment3/">A3</a> 讲义与 starter code 全公开）；框架 NumPy → PyTorch；<strong>公开录像 ✓</strong>（当年录像需 Stanford 登录，2025 版 18 个视频全公开）；<strong>免费在线讲义 ✓</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Stanford CS224n：NLP with Deep Learning</strong>（Stanford，Diyi Yang / Yejin Choi）📄🧪</td>
+<td><a href="https://web.stanford.edu/class/cs224n/">主页</a> · <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D">公开录像（Spring 2024）</a></td>
+<td>NLP 方向的深度学习主课，从词向量、RNN 到 Transformer / 预训练 / RLHF / 推理模型</td>
+<td>唯一一门把「张量求导」单独做成作业（A2）的课，正好补数学系学生最需要的向量化推导训练；默认期末项目是<strong>用 PyTorch 从零实现 GPT-2</strong></td>
+<td>约 19 讲（Winter 2026）；<strong>4 次作业</strong>（A1 词向量 6%、A2 神经网络基础+张量求导+依存句法 14%、A3 自注意力与 Transformer 14%、A4 大模型评测 14%）+ 期末项目（默认：实现 GPT-2 并做 3 个下游任务）；<strong>公开作业 ✓</strong>（<a href="https://web.stanford.edu/class/cs224n/assignments_w26/a1.zip">A1</a>、<a href="https://web.stanford.edu/class/cs224n/assignments_w26/a2.zip">A2</a>、<a href="https://web.stanford.edu/class/cs224n/assignments_w26/a3.zip">A3</a>、<a href="https://web.stanford.edu/class/cs224n/assignments_w26/a4.zip">A4</a> 代码包可直接下载）；框架 PyTorch；<strong>公开录像 ✓</strong>（2024 版 23 个视频）</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Berkeley CS182 / CS282A：Designing, Visualizing and Understanding Deep Neural Networks</strong>（UC Berkeley，Sergey Levine 等）📄🧪</td>
+<td><a href="https://cs182sp22.github.io/">课程主页（Spring 2022）</a> · <a href="https://www2.eecs.berkeley.edu/Courses/CS182/">Berkeley 官方课程目录</a></td>
+<td>Berkeley 的深度学习原理课，强调设计原则 + 可视化 + 理论保证，比 CS231n 更偏鲁棒性/分布偏移/生成模型/元学习</td>
+<td>把 ML 复习、矩阵微积分、优化单独成讲，最贴近「先补基础再上深度」的需求</td>
+<td>19 份讲义（17 讲 + 2 次期中复习）；<strong>4 次作业</strong>（HW1 神经网络与反向传播、HW2 RNN 与卷积、HW3 NLP、HW4 深度强化学习）；<strong>公开作业 ✓</strong>（<a href="https://github.com/cs182sp22/cs182_hw1_student">HW1</a>、<a href="https://github.com/cs182sp22/cs182_hw2_student">HW2</a>、<a href="https://github.com/cs182sp22/cs182_hw3_student">HW3</a> 为 GitHub 代码框架，HW4 为 Colab）；框架 PyTorch；<strong>录像不公开</strong>（仅 bCourses 校内）</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Berkeley CS182 归档版（Spring 2021，公开录像版）</strong>（UC Berkeley，Sergey Levine；Head uGSI Brandon Trabucco）📄🧪</td>
+<td><a href="https://cs182sp21.github.io/">课程主页</a> · <a href="https://youtube.com/playlist?list=PL_iWQOsE6TfVmKkQHucjPAoRtIJYt8a5A">公开录像播放列表</a></td>
+<td>同门课的 2021 年完整归档：讲义、讨论课（含解答）、作业、<strong>公开讲座录像</strong>全都在网上</td>
+<td>想真正跟着 CS182 上课，这是唯一有公开录像的版本；12 次讨论课带官方解答，等于一份免费的习题课讲义</td>
+<td>21 讲正课（+4 次嘉宾讲座）；12 次讨论课（<strong>讲义+解答全公开 ✓</strong>）；<strong>4 次作业</strong>（<a href="https://cs182sp21.github.io/static/homeworks/hw1.zip">HW1 zip</a>、<a href="https://github.com/cs182sp21/hw3_public">HW3</a>、<a href="https://github.com/cs182sp21/hw4_student">HW4</a>；HW2 的 sp21 仓库已失效，改用上面的 sp22 仓库）；<strong>公开录像 ✓</strong>（播放列表标题核实为 “Deep Learning: CS 182 Spring 2021”，共 66 个视频，含讲座与讨论课）</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>CMU 11-785：Introduction to Deep Learning</strong>（Carnegie Mellon University，Bhiksha Raj / Rita Singh）📄🧪</td>
+<td><a href="https://deeplearning.cs.cmu.edu/">课程主页</a> · <a href="https://deeplearning.cs.cmu.edu/F26/index.html">当前开课页（F26）</a> · <a href="https://deeplearning.cs.cmu.edu/S26/pages/tables/lectures_table.html">讲座表（S26）</a> · <a href="https://deeplearning.cs.cmu.edu/S26/pages/tables/assignments_table.html">作业表（S26）</a> · <a href="https://github.com/CMU-IDeeL/CMU-IDeeL.github.io">习题课/实验 Notebook 仓库</a></td>
+<td>CMU 的深度学习入门重课，从通用逼近定理、反向传播微积分讲到 CTC、Transformer、扩散、GNN、Hopfield/Boltzmann</td>
+<td>理论密度最高的一门（专设「神经网络作为通用逼近器」「反向传播的微积分」等讲次），并且每一讲都配公开 YouTube 录像 + slides PDF；作业 P1 部分强制手写 NumPy 前向/反向</td>
+<td>每学期 28 讲（Lecture 0 物流 + Lecture 1–28）+ 14 次 quiz；<strong>4 次作业、每次两阶段</strong>：HW1P1 从零实现并训练 MLP / HW1P2 音素状态标注；HW2P1 从零实现 CNN / HW2P2 人脸验证；HW3P1 从零实现 RNN、GRU、CTC 与 CTC 解码 / HW3P2 语音识别；HW4P1 从零实现注意力并训练 decoder-only Transformer / HW4P2 用编码器-解码器 Transformer 做语音识别（另有 Bonus：Adam/AdamW/BatchNorm/Dropout 与 Autograd 引擎 I/II）；<strong>13 个实验（Lab 1–13）+ HW Bootcamp ✓</strong>（Notebook 全公开）；<strong>公开录像 ✓</strong>（S26 全部 29 个讲座条目均附 YouTube 链接）；框架 PyTorch</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：<strong>只选一门做完作业</strong>，不要横着看五门。若想把「向量化反向传播」彻底补上，<strong>#4 CS231n 或 #8 CMU 11-785 最对症</strong>（两者都强制手写 NumPy 前向/反向）；若更关心 NLP / LLM 主线，<strong>#5 CS224n</strong> 的 A2 专练张量求导、默认项目就是自己实现 GPT-2；若希望讲次里就包含「矩阵微积分 + 优化」的复习，<strong>#6/#7 CS182</strong> 最合适，其中只有 <strong>#7（Sp21 归档）有公开录像</strong>，且讨论课带官方解答。</p>
+</blockquote>
+<h3 id="教材至少选一本通读">4.3 教材（至少选一本通读）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9</td>
+<td><strong>Deep Learning</strong>（Ian Goodfellow、Yoshua Bengio、Aaron Courville；MIT Press 2016）📄</td>
+<td><a href="https://www.deeplearningbook.org/">主页</a> · <a href="https://www.deeplearningbook.org/exercises.html">习题</a> · <a href="https://www.deeplearningbook.org/lecture_slides.html">配套讲义</a></td>
+<td>深度学习领域的第一本体系化教科书，三部分共 20 章：应用数学基础 / 现代实用深度网络 / 深度学习研究</td>
+<td>数学处理最正式的一本（概率图模型、配分函数、近似推断等章节别的教材里没有）；作者明确说明<strong>因与 MIT Press 的合同不提供 PDF</strong>，但 HTML 全文永久免费</td>
+<td>20 章、3 部分；<strong>免费在线 HTML ✓</strong>（无合法 PDF）；附习题页与讲义；成书于 2016，Transformer/扩散需另找（见 #10/#11）</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Dive into Deep Learning（d2l.ai）</strong>（Aston Zhang、Zack C. Lipton、Mu Li、Alex J. Smola；Cambridge University Press）📄</td>
+<td><a href="https://d2l.ai/">英文主页</a> · <a href="https://zh.d2l.ai/">中文版</a> · <a href="https://d2l.ai/d2l-en.pdf">官方 PDF</a> · <a href="https://github.com/d2l-ai/d2l-en">GitHub</a></td>
+<td>交互式深度学习教材：每一节都是可执行的 Jupyter Notebook，公式、图、代码、讨论绑在一起</td>
+<td>唯一能「边读边改超参立刻看结果」的教材；同一份内容有 PyTorch / NumPy-MXNet / JAX / TensorFlow 四种实现，适合对照理解框架抽象</td>
+<td>21 章 + 2 个附录（数学附录 11 节 + 工具附录 8 节）；<strong>免费在线 HTML ✓、官方 PDF ✓、中文版 ✓</strong>；全部代码可本地/Colab 运行</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Understanding Deep Learning</strong>（Simon J. D. Prince；MIT Press）📄</td>
+<td><a href="https://udlbook.github.io/udlbook/">主页</a> · <a href="https://github.com/udlbook/udlbook/releases/download/v5.0.3/UnderstandingDeepLearning_02_09_26_C.pdf">免费 PDF（第 5 次印刷，2026-02-09）</a> · <a href="https://github.com/udlbook/udlbook">Notebook 与配套资源</a></td>
+<td>2023 年后新写的深度学习教材，21 章从监督学习讲到扩散模型、GAN、NTK、对抗样本</td>
+<td>每章都从「问题设定 → 数学推导 → 可视化」重讲一遍，且完整 PDF 作者免费放出；是 Goodfellow 书在 2020 年代内容上的替代/补章</td>
+<td>21 章；<strong>免费 PDF ✓</strong>（约 22 MB，官方 GitHub Release）；另有 Jupyter Notebook、学生版习题解答册、slides</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>The Principles of Deep Learning Theory</strong>（Daniel A. Roberts、Sho Yaida、Boris Hanin；Cambridge University Press 2022）📄</td>
+<td><a href="https://deeplearningtheory.com/">主页</a> · <a href="https://arxiv.org/abs/2106.10165">免费草稿（arXiv）</a></td>
+<td>用统计物理/有效场论方法推导「深度网络到底在做什么」，给出深度-宽度比等定量结论</td>
+<td>面向「只想懂原理」的读者：作者明确说先修只需线代、微积分和非正式概率论，并把每一步推导都展开，是通往 NTK / 平均场理论最平缓的入口</td>
+<td>全书 1 部（对应一学期理论课）；<strong>免费 arXiv 草稿 ✓</strong>（2106.10165, v2）；官网另附讲座与勘误</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Neural Networks and Deep Learning</strong>（Michael Nielsen）📄</td>
+<td><a href="http://neuralnetworksanddeeplearning.com/">主页</a> · <a href="http://neuralnetworksanddeeplearning.com/chap2.html">第 2 章 反向传播</a></td>
+<td>免费的在线教材，第 2 章专门给出反向传播的完整四方程推导</td>
+<td>若想要一份「不用代码也能读懂」的反向传播推导，第 2 章是流传最广的一份；数学味比框架文档重</td>
+<td>6 章在线 HTML；免费</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：数学系学生<strong>最适合把 #11《Understanding Deep Learning》当主线通读</strong>——推导完整、覆盖到扩散模型、全文免费；用 <strong>#10 d2l 做可执行对照</strong>（唯一有中文版、能边跑边验证）。<strong>#9 Goodfellow</strong> 留作查正式定义与概率图模型部分的参考（但内容止于 2016，不要当作现代 DL 的主教材）。<strong>#12 PDLT</strong> 是这份清单里唯一的理论专著，先修恰好就是你已经有的线代 + 微积分 + 非正式概率论。</p>
+</blockquote>
+<h3 id="动手实现把公式变成代码">4.4 动手实现（把公式变成代码）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td><strong>Neural Networks: Zero to Hero</strong>（Andrej Karpathy）📄</td>
+<td><a href="https://karpathy.ai/zero-to-hero.html">课程主页</a></td>
+<td>从零手写神经网络的视频系列：micrograd → makemore（bigram/MLP/BatchNorm/WaveNet）→ GPT → Tokenizer</td>
+<td>每个数学量都对应到一行代码；特别是 “Becoming a Backprop Ninja” 一集要求不调用 <code>loss.backward()</code> 手推全部梯度</td>
+<td>8 个视频（约 13 小时）：micrograd 2h25m、makemore 5 集、GPT from scratch 1h56m、GPT Tokenizer 2h13m；列表标注 “ongoing”；公开视频 ✓</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>micrograd</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/micrograd">GitHub</a></td>
+<td>约 100 行的标量自动微分引擎 + 一个微型神经网络库（即 #14 第 1 集的成品代码）</td>
+<td>自动微分的全部核心（计算图、拓扑排序、链式法则、<code>backward()</code>）在这 100 行里一览无余，是理解 PyTorch autograd 的最短路径</td>
+<td>一个 Python 文件（<code>engine.py</code>）+ demo notebook；开源代码 ✓</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>makemore</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/makemore">GitHub</a></td>
+<td>字符级语言模型的教学实现，从 bigram 逐步做到 MLP、BatchNorm、WaveNet 结构</td>
+<td>把「训练一个语言模型」拆成可逐个消化的工程步骤，代码极短，适合第一次完整跑通训练/采样/评估</td>
+<td>按视频分集的多个 notebook + 数据集脚本；开源代码 ✓</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>nanoGPT</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/nanoGPT">GitHub</a></td>
+<td>约 300 行训练/微调 GPT-2 的极简仓库，可在单机复现 GPT-2 规模训练</td>
+<td>从「看懂反向传播」到「训练一个真能用的 Transformer」之间最干净的桥梁，也是 #5 CS224n 默认期末项目（自己实现 GPT-2）的极佳参照</td>
+<td><code>train.py</code> + <code>model.py</code> 两个核心文件，附多份复现配置；开源代码 ✓</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：这一组是「数学 → 代码」的转换器。<strong>先读 #15 micrograd 的 100 行</strong>（你会第一次看到链式法则被写成程序），再跟 #14 里 “Becoming a Backprop Ninja” 那一集手推一遍张量级梯度；此时再回头看 4.5 的向量化推导，记号与形状会同时到位。</p>
+</blockquote>
+<h3 id="矩阵微积分与自动微分数学系最该补的一块">4.5 矩阵微积分与自动微分（数学系最该补的一块）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>18</td>
+<td><strong>CS231n 反向传播讲义 Backpropagation</strong>（Stanford CS231n）📄</td>
+<td><a href="https://cs231n.github.io/optimization-2/">cs231n.github.io/optimization-2</a></td>
+<td>把反向传播讲成「实值电路中的梯度回流」：加/乘/max 门的局部梯度、分支处梯度累加、矩阵乘法 <span class="math">dW = dD·Xᵀ</span> 的维度分析</td>
+<td>数学系学生最缺的往往不是链式法则，而是<strong>向量化后的形状推理</strong>；核心技巧是「用维度分析重推 dW、dX」，结论无需背</td>
+<td>1 章在线讲义（含电路图与逐行代码）；免费 HTML ✓</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>Derivatives, Backpropagation, and Vectorization</strong>（Erik Learned-Miller；Stanford CS231n 讲义）📄</td>
+<td><a href="https://cs231n.stanford.edu/handouts/derivatives.pdf">handouts/derivatives.pdf</a></td>
+<td>一份专门讲「导数、反向传播与向量化」的 handout，从标量导数推到向量/矩阵情形</td>
+<td>与 #18 互补：讲义给直觉，这份给严格记号。想把 <span class="math">∂f/∂X</span>（矩阵对矩阵求导）写对的人应当精读</td>
+<td>PDF 讲义一份（已核实为真实 PDF）；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>Vector, Matrix, and Tensor Derivatives</strong>（Erik Learned-Miller；Stanford CS231n 讲义）📄</td>
+<td><a href="https://cs231n.stanford.edu/vecDerivs.pdf">vecDerivs.pdf</a></td>
+<td>系统整理向量/矩阵/张量求导的记号与链式法则，包括「张量对张量」的一般情形</td>
+<td>直接解决「维度对不上」：给出把张量展平、用雅可比统一处理的规范做法，是写自定义层的必备参考</td>
+<td>PDF 讲义一份；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>21</td>
+<td><strong>Linear Backprop Example</strong>（Stanford CS231n 讲义）📄</td>
+<td><a href="https://cs231n.stanford.edu/handouts/linear-backprop.pdf">handouts/linear-backprop.pdf</a></td>
+<td>一个完整的线性层反向传播算例，逐项推导 <span class="math">dW</span>、<span class="math">db</span>、<span class="math">dx</span></td>
+<td>篇幅极短但把「矩阵求导怎么落地」演示了一遍，适合做 CS231n A1/A2 前当热身</td>
+<td>PDF 讲义一份；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>Automatic differentiation in machine learning: a survey</strong>（Atılım Güneş Baydin、Barak A. Pearlmutter、Alexey Radul、Jeffrey M. Siskind；JMLR 18(153), 2018）📄</td>
+<td><a href="https://arxiv.org/abs/1502.05767">arXiv:1502.05767</a></td>
+<td>自动微分（AD）的权威综述：前向/反向模式、与符号微分和数值微分的区别、实现技术、ML 中的应用</td>
+<td>想真正理解 PyTorch/JAX 的 <code>grad</code> 为什么那样设计（而不是只会调用），这是标准起点</td>
+<td>43 页、5 图（JMLR 发表版）；免费 arXiv PDF ✓（另有 HTML 版）</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>The Simple Essence of Automatic Differentiation</strong>（Conal Elliott；ICFP 2018）📄</td>
+<td><a href="https://arxiv.org/abs/1804.00746">arXiv:1804.00746</a></td>
+<td>从函数式编程视角把反向模式 AD 推导成一个极简的通用构造（把「导数」看作线性映射的伴随）</td>
+<td>给出了一个比框架源码短得多的正确 AD 定义，对习惯抽象代数的读者非常对味；读完能自己写一个 autograd</td>
+<td>会议论文一篇；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>The Matrix Calculus You Need For Deep Learning</strong>（Terence Parr、Jeremy Howard）📄</td>
+<td><a href="https://explained.ai/matrix-calculus/">explained.ai/matrix-calculus</a> · <a href="https://arxiv.org/abs/1802.01528">arXiv:1802.01528</a></td>
+<td>「只讲深度学习用到的那部分矩阵微积分」的自学长文：从标量求导推到雅可比、链式法则与逐层求导</td>
+<td>定位精准：不追求一般理论，只保证你把反向传播里出现的每个导数算对，含大量逐项示例</td>
+<td>在线长文 + arXiv 版；免费 HTML / PDF ✓</td>
+</tr>
+<tr>
+<td>25</td>
+<td><strong>The Matrix Cookbook</strong>（Kaare Brandt Petersen、Michael Syskind Pedersen；Technical University of Denmark）📄</td>
+<td><a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">matrixcookbook.pdf</a></td>
+<td>矩阵代数与矩阵求导的公式速查手册（逆、迹、行列式、Kronecker 积等的导数公式）</td>
+<td>手推反向传播时查冷门公式，比翻教材快得多；也常被用作自动微分工具的测试基准</td>
+<td>公式手册（PDF，已核实为真实 PDF）；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>26</td>
+<td><strong>CS224n 矩阵微积分讲义（matrix calculus notes）</strong>（Stanford CS224n）📄</td>
+<td><a href="https://web.stanford.edu/class/cs224n/readings/gradient-notes.pdf">readings/gradient-notes.pdf</a></td>
+<td>CS224n 为 A2（张量求导）配套的矩阵微积分复习讲义</td>
+<td>与作业直接对齐：不必猜「要会哪些求导技巧」，讲义范围就是作业范围</td>
+<td>PDF 讲义一份；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>27</td>
+<td><strong>CS224n 讲义 3：Backpropagation and Neural Network Basics</strong>（Stanford CS224n）📄</td>
+<td><a href="https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes03-neuralnets.pdf">readings/cs224n-2019-notes03-neuralnets.pdf</a></td>
+<td>神经网络基础与反向传播的完整课程笔记（含前向/反向的矩阵形式推导）</td>
+<td>把「神经元 → 损失 → 梯度」写成干净的矩阵公式，和 #18 一起看可同时拿到直觉与形式化</td>
+<td>PDF 课程笔记一份；免费 PDF ✓</td>
+</tr>
+<tr>
+<td>28</td>
+<td><strong>d2l 自动微分与反向传播两章</strong>（d2l.ai）📄</td>
+<td><a href="https://d2l.ai/chapter_preliminaries/autograd.html">自动微分</a> · <a href="https://d2l.ai/chapter_multilayer-perceptrons/backprop.html">前向/反向传播与计算图</a> · <a href="https://zh.d2l.ai/chapter_preliminaries/autograd.html">中文版</a></td>
+<td>用可执行代码讲清计算图、<code>requires_grad</code>/<code>backward</code>、以及前向与反向传播的对应关系</td>
+<td>唯一能一边读一边改代码验证「梯度到底算对没有」的入门材料；中文版术语对照便于写中文笔记</td>
+<td>2 节 Notebook 章节；免费在线 HTML ✓ + 中文版 ✓</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：数学系学生的短板通常不在链式法则，而在<strong>向量化记号（雅可比/张量求导）与形状推理</strong>：先用 <strong>#18 + #19 + #20</strong> 把「矩阵对矩阵求导」的写法固定下来，再用 <strong>#28（或 #26 + #21）</strong> 在代码里验证。自动微分原理走 <strong>#3（直觉）→ #22（权威综述）→ #23（最简正确构造）→ #15（100 行实现）</strong> 这条线；<strong>#25 Matrix Cookbook</strong> 只当速查，不要通读。</p>
+</blockquote>
+<h3 id="进阶理论泛化双下降ntk隐式正则">4.6 进阶理论（泛化、双下降、NTK、隐式正则）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>29</td>
+<td><strong>Reconciling modern machine learning practice and the bias–variance trade-off</strong>（Mikhail Belkin、Daniel Hsu、Siyuan Ma、Soumik Mandal；PNAS 2019）📄</td>
+<td><a href="https://arxiv.org/abs/1812.11118">arXiv:1812.11118</a></td>
+<td>提出「双下降（double descent）」曲线，把经典 U 形偏差-方差权衡与「过参数化反而更好」统一到一条曲线</td>
+<td>「为什么深度学习不按统计学习理论出牌」的原始文献；数学系学生读统计/ML 理论最容易卡住的点就在这里</td>
+<td>论文一篇（PNAS 版 DOI: 10.1073/pnas.1903070116）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>30</td>
+<td><strong>Deep Double Descent: Where Bigger Models and More Data Hurt</strong>（Preetum Nakkiran、Gal Kaplun、Yamini Bansal、Tristan Yang、Boaz Barak、Ilya Sutskever）📄</td>
+<td><a href="https://arxiv.org/abs/1912.02292">arXiv:1912.02292</a></td>
+<td>用大量实验展示双下降不仅随模型规模出现，也随训练轮数出现，并提出「有效模型复杂度」刻画</td>
+<td>与 #29 互补：#29 给理论与现象，这篇给「模型越大/数据越多反而更差」的实验证据与可检验猜想</td>
+<td>论文一篇（含大量实验图）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>31</td>
+<td><strong>Fit without fear: remarkable mathematical phenomena of deep learning through the prism of interpolation</strong>（Mikhail Belkin）📄</td>
+<td><a href="https://arxiv.org/abs/2105.14368">arXiv:2105.14368</a></td>
+<td>以「插值」为线索综述深度学习中反直觉的数学现象（含双下降）的讲义式综述</td>
+<td>想要一篇能顺畅读完的双下降/过参数化综述，这是最合适的一篇：作者本人是提出者，讲得比论文更体系化</td>
+<td>综述一篇；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>32</td>
+<td><strong>Neural Tangent Kernel: Convergence and Generalization in Neural Networks</strong>（Arthur Jacot、Franck Gabriel、Clément Hongler；NeurIPS 2018）📄</td>
+<td><a href="https://arxiv.org/abs/1806.07572">arXiv:1806.07572</a></td>
+<td>证明无限宽网络在梯度下降下的训练动力学由一个确定的核（NTK）描述，从而把网络训练化为核方法</td>
+<td>「深度学习的可解极限」的奠基论文：训练过程变成线性 ODE 与核梯度流，是数学系学生最容易切入 DL 理论的一篇</td>
+<td>论文一篇（NeurIPS 2018, pp. 8571–8580）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>33</td>
+<td><strong>Neural Tangent Kernel: A Survey</strong>（Eugene Golikov、Eduard Pokonechnyy、Vladimir Korviakov）📄</td>
+<td><a href="https://arxiv.org/abs/2208.13614">arXiv:2208.13614</a></td>
+<td>NTK 方向 47 页的综述：宽度趋于无穷时的核收敛、有限宽修正、应用与局限</td>
+<td>直接读 NTK 原始论文容易被技术细节淹没；这份综述把结论、条件和反例整理成可检索的框架</td>
+<td>47 页、8 图；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>34</td>
+<td><strong>On Lazy Training in Differentiable Programming</strong>（Lénaïc Chizat、Edouard Oyallon、Francis Bach；NeurIPS 2019）📄</td>
+<td><a href="https://arxiv.org/abs/1812.07956">arXiv:1812.07956</a></td>
+<td>指出「lazy training」（参数几乎不动、模型等价于在初始化处线性化）并非过参数化网络特有，而是缩放选择造成的；并给出 CV 中 lazy 区域性能反而下降的实验</td>
+<td>是 NTK 结果的批判性补充：读完 #32/#33 再读它，才知道核极限在什么意义上不能解释深度学习的成功</td>
+<td>论文一篇（NeurIPS 2019）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>35</td>
+<td><strong>In Search of the Real Inductive Bias: On the Role of Implicit Regularization in Deep Learning</strong>（Behnam Neyshabur、Ryota Tomioka、Nathan Srebro；ICLR 2015 workshop）📄</td>
+<td><a href="https://arxiv.org/abs/1412.6614">arXiv:1412.6614</a></td>
+<td>最早系统提出「隐式正则化」问题的文章之一：显式容量控制失效后，究竟是优化算法的什么偏好带来了泛化</td>
+<td>隐式正则化方向的开篇文献，篇幅短、问题陈述清晰，适合作为进入该方向的第一篇</td>
+<td>论文一篇；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>36</td>
+<td><strong>The Implicit Bias of Gradient Descent on Separable Data</strong>（Daniel Soudry、Elad Hoffer、Mor Shpigel Nacson、Suriya Gunasekar、Nathan Srebro；JMLR 2018）📄</td>
+<td><a href="https://arxiv.org/abs/1710.10345">arXiv:1710.10345</a></td>
+<td>证明在可分数据上梯度下降隐式地收敛到最大间隔（SVM 型）解，给出隐式偏差的严格刻画</td>
+<td>隐式偏差方向最经典的可证结论，所用工具（凸分析、渐近分析）对数学系学生完全友好</td>
+<td>论文一篇（JMLR 2018）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>37</td>
+<td><strong>Gradient Descent Maximizes the Margin of Homogeneous Neural Networks</strong>（Kaifeng Lyu、Jian Li；ICLR 2020）📄</td>
+<td><a href="https://arxiv.org/abs/1906.05890">arXiv:1906.05890</a></td>
+<td>把最大间隔隐式偏差从线性模型推广到齐次网络（ReLU 全连接/卷积），并给出收敛到 KKT 点的定量结果</td>
+<td>想看到「隐式正则化」在真神经网络上成立的定理，这篇是标准引用；52 页含完整证明与 MNIST/CIFAR 实验</td>
+<td>52 页、9 图（ICLR 2020）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>38</td>
+<td><strong>Implicit Regularization in Deep Matrix Factorization</strong>（Sanjeev Arora、Nadav Cohen、Wei Hu、Yuping Luo；NeurIPS 2019）📄</td>
+<td><a href="https://arxiv.org/abs/1905.13655">arXiv:1905.13655</a></td>
+<td>在深度矩阵分解这一可分析模型上刻画梯度下降的隐式正则（偏好低秩解），并联系到深度网络的低秩偏置</td>
+<td>提供了「隐式正则 = 低秩/简单解偏好」的可证原型，是理解深度线性网络理论的标准模型</td>
+<td>论文一篇（NeurIPS 2019）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>39</td>
+<td><strong>Understanding deep learning requires rethinking generalization</strong>（Chiyuan Zhang、Samy Bengio、Moritz Hardt、Benjamin Recht、Oriol Vinyals；ICLR 2017）📄</td>
+<td><a href="https://arxiv.org/abs/1611.03530">arXiv:1611.03530</a></td>
+<td>用随机标签实验证明网络可以完美记住随机标签，从而说明经典容量/正则化解释不了泛化</td>
+<td>与 #29–#31 同属「教科书结论失效」系列，是被引用最多的那篇；读它才能理解后面整套理论为什么长这样</td>
+<td>论文一篇（ICLR 2017）；免费 arXiv PDF ✓</td>
+</tr>
+<tr>
+<td>40</td>
+<td><strong>The Modern Mathematics of Deep Learning</strong>（Julius Berner、Philipp Grohs、Gitta Kutyniok、Philipp Petersen）📄</td>
+<td><a href="https://arxiv.org/abs/2105.04026">arXiv:2105.04026</a></td>
+<td>综述性长文，把深度学习的数学分成逼近、优化、泛化三大块，并系统梳理过参数化、NTK、隐式偏差等结果</td>
+<td>本小节的路线图：读完它可以把 #29–#39 各篇放进正确位置，而不是孤立地看单篇</td>
+<td>综述长文（含完整文献脉络）；免费 arXiv PDF ✓</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：这一层是数学系的主场，但<strong>入口要选对</strong>：先用 <strong>#39</strong> 建立问题动机（经典理论为什么不够用），再进 <strong>#29 + #30</strong>（现象）→ <strong>#32 NTK</strong>（可解极限）→ <strong>#34 lazy training</strong>（对 NTK 的批判与边界）→ <strong>#35–#38 隐式正则</strong>（优化算法自身的偏好）。<strong>#40</strong> 是总览，#31/#33 分别给双下降与 NTK 的综述。<strong>#12 PDLT</strong> 是把这些结果串成体系的教材，读不动论文时可先读它。</p>
+</blockquote>
+<h3 id="未能核实的条目不要引用">4.7 未能核实的条目（不要引用）</h3>
+<p>以下条目在本环境中<strong>无法确认可达性或已确认失效</strong>，因此未列入上表，也未给出猜测的 URL：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>条目</th>
+<th>情况</th>
+<th>处理建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Andrej Karpathy, “Yes you should understand backprop”（Medium 文章，CS224n 阅读列表推荐）</td>
+<td>请求返回 <strong>HTTP 403</strong>（Medium 对自动化请求的拦截），无法确认内容与可达性</td>
+<td>如需引用请手动在浏览器打开 <a href="https://medium.com/@karpathy/yes-you-should-understand-backprop-e2f06eab496b" class="uri">https://medium.com/@karpathy/yes-you-should-understand-backprop-e2f06eab496b</a> 确认；其核心观点在 #14 的 “Becoming a Backprop Ninja” 一集中有更完整的版本</td>
+</tr>
+<tr>
+<td>CMU 11-785 官方课程笔记书（<em>Introduction to Deep Learning</em>，Rita Singh 的 IDLbook 页面）</td>
+<td>官方页面给出的链接 <code>mlsp.cs.cmu.edu/people/rsingh/IDLbook.html</code> 返回 <strong>HTTP 404</strong>；11-785 站内该区块已被注释掉（页面源码标注 “Removed because of broken link”）</td>
+<td>不要引用；11-785 的等价内容以各讲 slides PDF 与公开录像形式提供（见 #8）</td>
+</tr>
+<tr>
+<td>Berkeley CS182 Spring 2021 的 HW2 代码仓 <code>github.com/cs182sp21/cs182_hw2_student</code></td>
+<td>返回 <strong>HTTP 404</strong>（仓库已删除或改名）</td>
+<td>若要做 HW2，改用 Spring 2022 的仓库 <a href="https://github.com/cs182sp22/cs182_hw2_student" class="uri">https://github.com/cs182sp22/cs182_hw2_student</a>（已核实 200）</td>
+</tr>
+<tr>
+<td>UMich EECS 498-007 / 598-005: Deep Learning for Computer Vision（Justin Johnson）课程主页</td>
+<td>常见路径（<code>web.eecs.umich.edu/~justincj/teaching/eecs498/</code>、<code>.../FA2020/</code>）在本环境均返回 <strong>HTTP 404</strong>，无法确认当前有效 URL</td>
+<td>未列入清单。该课与 CS231n 同源（同一讲者），如需要请在浏览器中手动确认后再补入</td>
+</tr>
+<tr>
+<td>“PDF 版 Deep Learning（Goodfellow 等）”</td>
+<td>作者官网 FAQ 明确写明因与 MIT Press 的合同<strong>不允许分发电子版 PDF</strong></td>
+<td>不要寻找/传播第三方 PDF；使用官方免费 HTML 全文（#9）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>未列入本节的任何链接均未经过核实，请勿直接采信；扩充条目时建议沿用同样流程（HTTP 200 + 标题/内容比对，PDF 另查 <code>%PDF</code> 文件头）。</p>
+</blockquote>
+<hr />
+<h2 id="五大语言模型">五、大语言模型</h2>
+<blockquote>
+<p><strong>核验说明</strong>：本节 104 条资料、约 140 个链接均在 <strong>2026-09-28</strong> 用 HTTP 请求实际打开确认（HTML 核对 200 + 页面标题；PDF / zip 核对 200 + 内容类型；arXiv 核对 abs 页标题）。📄 = 有免费合法 PDF 或在线 HTML；🧪 = 有公开作业与代码框架。 表内编号在本节内连续（1–104），按<strong>由浅入深</strong>的依赖顺序排列，不涉及时间安排。</p>
+</blockquote>
+<h3 id="先建立直觉transformer-到底是什么">5.1 先建立直觉（Transformer 到底是什么）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Attention Is All You Need</strong>（Vaswani 等，Google，2017）📄</td>
+<td><a href="https://arxiv.org/abs/1706.03762">arXiv:1706.03762</a></td>
+<td>Transformer 原始论文</td>
+<td>一切的起点；先读它，后面所有架构改动才知道改的是什么</td>
+<td>15 页、5 图（NeurIPS 2017，v7 修订于 2023）；<strong>免费 arXiv PDF + HTML</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>The Illustrated Transformer</strong>（Jay Alammar，2018）📄</td>
+<td><a href="https://jalammar.github.io/illustrated-transformer/">jalammar.github.io/illustrated-transformer</a></td>
+<td>用逐层动图与矩阵示意图拆解 Transformer 的长文</td>
+<td>无公式门槛地建立「Q/K/V、多头、位置编码」的形状直觉；被 <strong>CS224N 官方阅读列表</strong>收录</td>
+<td>单篇长文（30+ 张图）；免费 HTML（CC BY-NC-SA 4.0）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>The Annotated Transformer</strong>（Harvard NLP，Alexander Rush 等）📄🧪</td>
+<td><a href="https://nlp.seas.harvard.edu/annotated-transformer/">nlp.seas.harvard.edu/annotated-transformer</a> · <a href="https://github.com/harvardnlp/annotated-transformer">代码</a></td>
+<td>逐段注释论文、并把整个模型写成可运行 PyTorch 代码的经典 notebook</td>
+<td>「论文每一句 ↔︎ 一段能跑的代码」，是论文到实现之间最直接的桥</td>
+<td>带注释全文 + 单文件 PyTorch 实现；<strong>公开代码 ✓</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Transformer Explainer</strong>（Georgia Tech Polo Club）📄🧪</td>
+<td><a href="https://poloclub.github.io/transformer-explainer/">poloclub.github.io/transformer-explainer</a></td>
+<td>在浏览器里<strong>实时运行</strong>的 GPT-2 可视化解释器</td>
+<td>可以一边输入文本一边看注意力权重与输出概率如何变化，是「看懂」最快的方式</td>
+<td>交互式网页（内置 GPT-2）；开源 ✓</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>A Mathematical Framework for Transformer Circuits</strong>（Anthropic，2021）📄</td>
+<td><a href="https://transformer-circuits.pub/2021/framework/index.html">transformer-circuits.pub/2021/framework</a></td>
+<td>用线性代数把注意力头与残差流写成可分析的对象（QK / OV 电路、归纳头）</td>
+<td>从机制可解释性角度理解 Transformer 的第一篇；写法对数学系最友好</td>
+<td>长文一篇；免费 HTML</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Layer Normalization</strong>（Ba、Kiros、Hinton，2016）📄</td>
+<td><a href="https://arxiv.org/abs/1607.06450">arXiv:1607.06450</a></td>
+<td>Transformer 每个子层后都用的归一化层</td>
+<td>原论文只写了一句「we employ layer normalization」，细节与动机在这里</td>
+<td>论文一篇；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Let’s build GPT: from scratch, in code, spelled out</strong>（Andrej Karpathy）📄🧪</td>
+<td><a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">YouTube</a></td>
+<td>约 2 小时，从零手写一个 GPT 并训练它</td>
+<td>一个视频把自注意力、残差、LayerNorm、训练循环全部落地成代码</td>
+<td>1 集（约 1 小时 56 分）；配套代码公开</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Let’s build the GPT Tokenizer</strong>（Andrej Karpathy）📄🧪</td>
+<td><a href="https://www.youtube.com/watch?v=zduSFxRajkE">YouTube</a></td>
+<td>约 2 小时专门讲 BPE 分词器，并现场从零实现</td>
+<td><strong>CS336 作业 1 的第一个任务就是 tokenizer</strong>，这条视频是最省力的入口</td>
+<td>1 集（约 2 小时 13 分）；配套 <code>minbpe</code> 代码公开</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Neural Networks: Zero To Hero</strong>（Andrej Karpathy）📄🧪</td>
+<td><a href="https://karpathy.ai/zero-to-hero.html">karpathy.ai/zero-to-hero.html</a></td>
+<td>从 micrograd 一路做到 GPT 与 Tokenizer 的视频系列</td>
+<td>全套免费、由浅入深，是把数学式子变成代码的最短路径</td>
+<td>8 个视频、约 13 小时；页面标注 ongoing</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>nanoGPT</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/nanoGPT">github.com/karpathy/nanoGPT</a></td>
+<td>约 300 行训练 / 微调 GPT-2 的极简仓库</td>
+<td>单机复现 GPT-2 最干净的参照实现</td>
+<td><code>train.py</code> + <code>model.py</code> 两个核心文件；作者已在 README 标注 <strong>deprecated，建议改用 nanochat（#11）</strong></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>nanochat</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/nanochat">github.com/karpathy/nanochat</a></td>
+<td>「100 美元能买到的最好 ChatGPT」：从分词到 SFT / RL 的全流程极简实现</td>
+<td>nanoGPT 的后继，覆盖到对齐阶段，是「完整走一遍」的现代版本</td>
+<td>完整 pipeline 代码；开源 ✓</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>build-nanogpt</strong>（Andrej Karpathy）🧪</td>
+<td><a href="https://github.com/karpathy/build-nanogpt">github.com/karpathy/build-nanogpt</a></td>
+<td>「Let’s reproduce GPT-2」视频的配套代码仓库</td>
+<td>视频 + 代码一一对应，按 commit 逐步推进，比只看视频更好跟</td>
+<td>仓库含逐文件提交记录</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：先读 <strong>#1 + #2</strong>（论文 + 图解），再用 <strong>#3 或 #4</strong> 把「公式 ↔︎ 代码 / 交互」对上；<strong>#5</strong> 是从数学角度切入 Transformer 的最佳一篇；<strong>#7–#12</strong> 是把前面所有概念变成可运行代码的一组，其中 <strong>#8 tokenizer</strong> 与 CS336 作业 1 直接对应，<strong>#11 nanochat</strong> 是最新的完整参考。</p>
+</blockquote>
+<h3 id="从零训练-llm-的硬课cs336-为主线">5.2 从零训练 LLM 的硬课（CS336 为主线）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13</td>
+<td><strong>Stanford CS336: Language Modeling from Scratch</strong>（Stanford，Tatsunori Hashimoto / Percy Liang）📄🧪</td>
+<td><a href="https://cs336.stanford.edu/">cs336.stanford.edu</a></td>
+<td>从零训练语言模型的硬课主页：讲义、作业、日程、自学算力建议</td>
+<td>本清单的<strong>主线</strong>：一门课把数据、架构、系统、scaling law、对齐全部串起来</td>
+<td>官网为 <strong>Spring 2026</strong>；19 个讲次（含 2 次客座讲座）；<strong>5 次作业</strong>；讲义与可执行讲义全公开；💻 每周一 / 周三 15:00–16:20，Skilling Auditorium</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>CS336 Spring 2025 归档站</strong> 📄🧪</td>
+<td><a href="https://cs336.stanford.edu/spring2025/">cs336.stanford.edu/spring2025</a></td>
+<td>2025 学期的完整课程页归档</td>
+<td>2025 版与 2026 版的讲次编号和作业内容有差异；对照可确认自己跟的是哪一版</td>
+<td>与 #13 同规模（2025 版）</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>CS336 讲义与代码仓库</strong> 📄</td>
+<td><a href="https://github.com/stanford-cs336/lectures">github.com/stanford-cs336/lectures</a></td>
+<td>全部讲义（PDF 与可执行的 <code>lecture_XX.py</code> 形式）</td>
+<td>唯一的官方讲义来源；<code>.py</code> 讲义可逐行执行，对自学者尤其友好</td>
+<td>19 讲材料；公开 ✓</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>CS336 官方录像（Spring 2026）</strong> 📄</td>
+<td><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rMqXOcazWaTUHhq-yembLCV">YouTube 播放列表</a></td>
+<td>官方 YouTube 播放列表</td>
+<td>免费全套录像，与讲义同源</td>
+<td>播放列表标题核实为 “Stanford CS336: Language Modeling from Scratch | Spring 2026”</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>CS336 Lecture 1 单集入口</strong> 📄</td>
+<td><a href="https://www.youtube.com/watch?v=JuoVZkPBiKk">YouTube</a></td>
+<td>第一讲 Overview, Tokenization</td>
+<td>先试听一讲再决定是否投入，从这里开始</td>
+<td>1 集</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>CS336 2025 版录像</strong> 📄</td>
+<td><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_">YouTube 播放列表</a></td>
+<td>Spring 2025 的录像播放列表</td>
+<td>2025 版作业（尤其 A1 / A5）与 2025 录像的对应关系更好</td>
+<td>播放列表标题核实为 “Stanford CS336 Language Modeling from Scratch I 2025”</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>CS336 Assignment 1: Basics</strong> 🧪📄</td>
+<td><a href="https://github.com/stanford-cs336/assignment1-basics">github.com/stanford-cs336/assignment1-basics</a></td>
+<td>实现训练一个标准 Transformer 语言模型所需的<strong>全部组件</strong>：tokenizer、模型架构、优化器，并训练一个最小语言模型</td>
+<td>从 BPE 到注意力到 AdamW 全部自己写；是「最小脚手架」的典型作业</td>
+<td>仓库含 handout <code>cs336_assignment1_basics.pdf</code>、单元测试与 <code>tests/adapters.py</code>（初始全部 <code>NotImplementedError</code>）；用 <code>uv</code> 管环境；README 标注 <strong>Spring 2025</strong></td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>CS336 Assignment 2: Systems</strong> 🧪📄</td>
+<td><a href="https://github.com/stanford-cs336/assignment2-systems">github.com/stanford-cs336/assignment2-systems</a></td>
+<td>用 profiling / benchmarking 工具分析 A1 的模型与层；<strong>用 Triton 自己实现 FlashAttention2</strong>；构建内存高效的分布式训练版本</td>
+<td>这一份作业等于把「FlashAttention + 分布式训练」亲手做一遍</td>
+<td>handout <code>cs336_assignment2_systems.pdf</code>；公开 ✓</td>
+</tr>
+<tr>
+<td>21</td>
+<td><strong>CS336 Assignment 3: Scaling</strong> 🧪📄</td>
+<td><a href="https://github.com/stanford-cs336/assignment3-scaling">github.com/stanford-cs336/assignment3-scaling</a></td>
+<td>理解 Transformer 每个组件的作用；调用训练 API 拟合 scaling law 并外推模型规模</td>
+<td>把 Chinchilla 式 scaling law 从「读论文」变成「自己拟合一遍」</td>
+<td>handout <code>cs336_assignment3_scaling.pdf</code>；公开 ✓</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>CS336 Assignment 4: Data</strong> 🧪📄</td>
+<td><a href="https://github.com/stanford-cs336/assignment4-data">github.com/stanford-cs336/assignment4-data</a></td>
+<td>把原始 Common Crawl 数据转成可用的预训练语料；做过滤与去重以提升模型表现</td>
+<td>数据这一环几乎没有公开课系统讲，这是少见的完整作业</td>
+<td>handout <code>cs336_assignment4_data.pdf</code>；公开 ✓</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>CS336 Assignment 5: Alignment and Reasoning RL</strong> 🧪📄</td>
+<td><a href="https://github.com/stanford-cs336/assignment5-alignment">github.com/stanford-cs336/assignment5-alignment</a></td>
+<td>用监督微调 + 强化学习训练模型解数学题；<strong>可选第二部分</strong>实现 DPO 等安全对齐方法</td>
+<td>与本仓库 RL 主线（PPO / GRPO / DPO）<strong>直接接上</strong></td>
+<td>handout <code>cs336_spring2026_assignment5_alignment.pdf</code>；可选补充讲义 <a href="https://github.com/stanford-cs336/assignment5-alignment/blob/main/cs336_spring2026_assignment5_supplement_safety_rlhf.pdf"><code>cs336_spring2026_assignment5_supplement_safety_rlhf.pdf</code></a>（已核实可达）；需 <code>flash-attn</code>，用 <code>uv sync</code> 装环境</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>Stanford CS224N: NLP with Deep Learning</strong>（Stanford，Diyi Yang / Yejin Choi）📄🧪</td>
+<td><a href="https://web.stanford.edu/class/cs224n/">web.stanford.edu/class/cs224n</a></td>
+<td>NLP 方向的深度学习主课：词向量 → 神经网络 → 注意力 → 预训练 → 后训练 → 评测 → 推理</td>
+<td>覆盖 LLM 全流程且<strong>作业与 handout 全部公开</strong>；作业 2 专门练张量求导</td>
+<td>官网为 <strong>Winter 2026</strong>；约 19 讲；<strong>4 次作业</strong>（A1 词向量 6%、A2 神经网络基础 + 张量求导 + 依存句法 14%、A3 自注意力与 Transformer 14%、A4 大模型基准与评测 14%）+ 期末项目 49% + 参与 3%</td>
+</tr>
+<tr>
+<td>25</td>
+<td><strong>CS224N 公开录像（Spring 2024）</strong> 📄</td>
+<td><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D">YouTube 播放列表</a></td>
+<td>完整公开的 CS224N 录像</td>
+<td>官方明确说明<strong>当学期录像只对注册学生开放</strong>，2024 版才是免费合法的那一套</td>
+<td>播放列表标题核实为 “…Spring 2024 I Professor Christopher Manning”</td>
+</tr>
+<tr>
+<td>26</td>
+<td><strong>CS224N 作业代码与 handout（Winter 2026）</strong> 🧪📄</td>
+<td>见 <a href="https://web.stanford.edu/class/cs224n/">课程页 Schedule</a></td>
+<td>四次作业的代码包与讲义：A1 <code>a1.zip</code>；A2 <code>a2.zip</code> + <code>a2.pdf</code> + LaTeX 模板；A3 <code>a3.zip</code> + <code>a3.pdf</code>；A4 <code>a4.zip</code> + <code>a4.pdf</code></td>
+<td>代码框架与讲义可直接下载、无需注册；A4 就是「大模型评测」的实操</td>
+<td>4 次作业；全部下载链接已逐条核实可达</td>
+</tr>
+<tr>
+<td>27</td>
+<td><strong>CS224N 默认期末项目：Build GPT-2</strong> 📄🧪</td>
+<td><a href="https://web.stanford.edu/class/cs224n/project_w25/CS_224n__Default_Final_Project__Build_GPT_2.pdf">handout PDF</a></td>
+<td>用 PyTorch 实现 GPT-2 的各部分，并在 3 个下游任务上使用它</td>
+<td>与 CS336 A1 互补：一个偏「训练系统」，一个偏「下游应用」</td>
+<td>handout 一篇（已核实可达）；官方说明这是 2024 版 BERT 项目之后的新版</td>
+</tr>
+<tr>
+<td>28</td>
+<td><strong>Stanford CS25: Transformers United</strong>（Stanford，Steven Feng / Karan Singh / Michael C. Frank / Christopher Manning）📄</td>
+<td><a href="https://web.stanford.edu/class/cs25/">web.stanford.edu/class/cs25</a></td>
+<td>关于 Transformer 的讲座课（当前为第 6 期 V6）</td>
+<td>讲者阵容极强（Hinton、Vaswani、Karpathy、Albert Gu、Nathan Lambert 等），且官方明确<strong>任何人都可免费旁听，无需注册或 Stanford 身份</strong></td>
+<td>9 讲（V6，4/2–5/28，每周四 16:30–17:50，Skilling Auditorium）；<strong>唯一的作业是每周出席</strong></td>
+</tr>
+<tr>
+<td>29</td>
+<td><strong>CS25 录像页</strong> 📄</td>
+<td><a href="https://web.stanford.edu/class/cs25/recordings/">web.stanford.edu/class/cs25/recordings</a></td>
+<td>精选往期讲次录像（含 Karpathy 的 Introduction to Transformers、Hinton、Albert Gu 等）</td>
+<td>按讲者 / 主题挑着看，比顺序刷整门课效率高</td>
+<td>页面列出 8 讲以上并逐条给出 YouTube 链接</td>
+</tr>
+<tr>
+<td>30</td>
+<td><strong>CS25 完整播放列表</strong> 📄</td>
+<td><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM">YouTube 播放列表</a></td>
+<td>CS25 全部讲次（V1–V6）</td>
+<td>累积数百万播放；新录像会在讲座后 1–2 周内上传</td>
+<td>播放列表标题核实为 “Stanford CS25 - Transformers United”</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>CS336 的门槛要说清楚</strong>：官方先修里<strong>明确要求 Machine Learning</strong>（原文列举 “e.g. CS221, CS229, CS230, CS124, CS224N”，并要求 “comfortable with the basics of machine learning and deep learning”）。除此之外还要求 Python 熟练、有深度学习与系统优化经验、微积分 / 线代 / 概率。 官方同时警告：<strong>“Note that this is a 5-unit class. This is a very implementation-heavy class, so please allocate enough time for it.”</strong>（这是一门 5 学分的课，实现量极大，请预留足够时间。） 并且：<strong>“Unlike most other AI classes, students will be given minimal scaffolding. The amount of code you will write will be at least an order of magnitude greater than for other classes.”</strong>（与多数 AI 课不同，脚手架极少；要写的代码量<strong>比其他课多一个数量级</strong>。） <strong>结论：CS336 不是零基础可以直接上的课。</strong> 它的合理前置是「机器学习 + 深度学习 + PyTorch」已经过关（对应本页第四节），数学底子好并不能替代这些。</p>
+</blockquote>
+<blockquote>
+<p>💻 <strong>CS336 官方给自学者的算力方案</strong>（原文见课程页 “GPU compute for self-study”）：官方 sponsor 是 <a href="https://modal.com">Modal</a>，页面同时列出 Lambda、RunPod、Nebius、Together 等云厂商供自学者租用 GPU 完成作业，并给出各家单卡 B200 的公开报价（页面标注为 2026-03-28 的价格，<strong>会变动，以官网为准</strong>）。 官方还特别建议：<strong>先在 CPU 上把实现的正确性调通，再上 GPU</strong> 跑训练（A1 / A4 / A5）或做算子基准测试（A2）——这样最省钱。 📌 对自学者这条很关键：<strong>CS336 的作业不需要自己买卡</strong>，但确实需要按小时租卡。</p>
+</blockquote>
+<blockquote>
+<p>📌 <strong>判断</strong>：CS336 是「训练侧」的主线（数据 → 架构 → 系统 → scaling → 对齐），CS224N 是「NLP 应用侧」的主线（含从零实现 GPT-2 的项目），CS25 是「前沿讲座」的补充。三者不冲突：<strong>CS336 的 5 次作业是这门清单里唯一能让你完整走一遍预训练流程的材料</strong>；若时间有限，优先 CS336 的 A1 + A2。</p>
+</blockquote>
+<h3 id="教材与开源教程">5.3 教材与开源教程</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31</td>
+<td><strong>Hugging Face LLM Course</strong>（Hugging Face）📄🧪</td>
+<td><a href="https://huggingface.co/learn/llm-course">huggingface.co/learn/llm-course</a></td>
+<td>官方免费 LLM 课程：Transformer 基础 → 微调 → 对齐 → Agent</td>
+<td>覆盖面最广的免费「应用向」课程，全部 notebook 可直接跑，多语言（含中文）</td>
+<td>分章课程 + notebook；有配套认证</td>
+</tr>
+<tr>
+<td>32</td>
+<td><strong>Build a Large Language Model (From Scratch)</strong>（Sebastian Raschka；Manning，2024）📄🧪</td>
+<td><a href="https://github.com/rasbt/LLMs-from-scratch">github.com/rasbt/LLMs-from-scratch</a></td>
+<td>同名书的官方代码仓库：从注意力写到一个完整 GPT，再做分类微调与指令微调</td>
+<td>逐章 notebook、每章都有 <code>exercise-solutions</code>；附录含 <strong>DPO 从零实现</strong>、KV cache、GQA / MLA / MoE 等专题</td>
+<td>7 章 + 附录 A–E；代码可在普通笔记本上跑；配套 17 小时视频课（付费）；另有继作 <em>Build A Reasoning Model (From Scratch)</em></td>
+</tr>
+<tr>
+<td>33</td>
+<td><strong>mlabonne/llm-course</strong> 📄🧪</td>
+<td><a href="https://github.com/mlabonne/llm-course">github.com/mlabonne/llm-course</a></td>
+<td>带路线图与 Colab notebook 的 LLM 课程仓库</td>
+<td>把「LLM 科学家 / LLM 工程师」两条路线的资料按依赖排好，适合当索引用</td>
+<td>三大板块（基础 / 科学家 / 工程师）+ 大量 Colab</td>
+</tr>
+<tr>
+<td>34</td>
+<td><strong>Hannibal046/Awesome-LLM</strong> 📄</td>
+<td><a href="https://github.com/Hannibal046/Awesome-LLM">github.com/Hannibal046/Awesome-LLM</a></td>
+<td>被引用最多的 LLM 资源清单</td>
+<td>找论文 / 模型 / 课程的检索入口，当「总目录」用，不要通读</td>
+<td>持续更新的清单</td>
+</tr>
+<tr>
+<td>35</td>
+<td><strong>ai-course-notes（中文讲义合集）</strong>（hqhq1025）📄🧪</td>
+<td><a href="https://github.com/hqhq1025/ai-course-notes">仓库</a> · <a href="https://hqhq1025.github.io/ai-course-notes/"><strong>在线阅读站</strong></a></td>
+<td>由公开课字幕 / slides / 访谈整理的中文讲义合集，LaTeX 为源、可编译 PDF、并有全文搜索的网页站</td>
+<td><strong>中文语境下最系统的讲义合集</strong>：含 CS336 全程 17 讲、CS336 Spring 2026 18 讲、CS224N 17 讲、CS25 全 41 讲、CS25 V6 9 讲，另有 CS224R / CS329A / Berkeley LLM Agents 等</td>
+<td>仓库自述 <strong>370 份讲义</strong>（GitHub 仓库简介处的数字为 303，未同步）；在线阅读站已核实可达；许可 CC BY-NC-SA 4.0</td>
+</tr>
+<tr>
+<td>36</td>
+<td><strong>happy-llm：从零开始构建大模型</strong>（Datawhale，中文）📄🧪</td>
+<td><a href="https://github.com/datawhalechina/happy-llm">github.com/datawhalechina/happy-llm</a></td>
+<td>中文开源教程，从 Transformer 原理讲到动手训练</td>
+<td>中文、成体系、原理与代码并重</td>
+<td>章节式教程 + 代码</td>
+</tr>
+<tr>
+<td>37</td>
+<td><strong>self-llm：开源大模型食用指南</strong>（Datawhale，中文）📄🧪</td>
+<td><a href="https://github.com/datawhalechina/self-llm">github.com/datawhalechina/self-llm</a></td>
+<td>在 Linux 环境下部署与微调（全参 / LoRA）国内外开源 LLM 与多模态模型的教程</td>
+<td>讲的是「怎么在一张卡上真的跑起来」，工程落地向</td>
+<td>按模型 / 方法分册的教程</td>
+</tr>
+<tr>
+<td>38</td>
+<td><strong>llm-cookbook</strong>（Datawhale，中文）📄🧪</td>
+<td><a href="https://github.com/datawhalechina/llm-cookbook">github.com/datawhalechina/llm-cookbook</a></td>
+<td>吴恩达大模型系列课程的中文版教程</td>
+<td>面向开发者：提示工程 → RAG → Agent 的中文实操路径</td>
+<td>章节 + notebook</td>
+</tr>
+<tr>
+<td>39</td>
+<td><strong>llm-universe</strong>（Datawhale，中文）📄🧪</td>
+<td><a href="https://github.com/datawhalechina/llm-universe">github.com/datawhalechina/llm-universe</a></td>
+<td>面向小白开发者的大模型应用开发教程（含在线阅读版）</td>
+<td>若目标是「用 LLM 做东西」而非「训练 LLM」，这是最省力的中文入口</td>
+<td>在线阅读站 + 代码</td>
+</tr>
+<tr>
+<td>40</td>
+<td><strong>so-large-lm：大模型基础</strong>（Datawhale，中文）📄</td>
+<td><a href="https://github.com/datawhalechina/so-large-lm">github.com/datawhalechina/so-large-lm</a></td>
+<td>中文开源教材，讲大模型基础知识</td>
+<td>中文材料里少见的<strong>讲原理</strong>而非只讲应用的一本</td>
+<td>章节式在线书</td>
+</tr>
+<tr>
+<td>41</td>
+<td><strong>tiny-universe：大模型白盒子构建指南</strong>（Datawhale，中文）📄🧪</td>
+<td><a href="https://github.com/datawhalechina/tiny-universe">github.com/datawhalechina/tiny-universe</a></td>
+<td>手搓 tiny 版大模型各组件的「白盒子」教程</td>
+<td>每个组件都自己实现一遍，与数学系「想看穿机制」的口味相符</td>
+<td>多个 tiny 实现（如 tiny-llama）</td>
+</tr>
+<tr>
+<td>42</td>
+<td><strong>llm-action</strong>（中文）📄🧪</td>
+<td><a href="https://github.com/liguodongiot/llm-action">github.com/liguodongiot/llm-action</a></td>
+<td>大模型技术原理与工程落地的资料汇总</td>
+<td>工程侧（训练 / 推理 / 部署 / 微调）索引，偏实战</td>
+<td>大量文章与代码</td>
+</tr>
+<tr>
+<td>43</td>
+<td><strong>llm_interview_note</strong>（中文）📄</td>
+<td><a href="https://github.com/wdndev/llm_interview_note">github.com/wdndev/llm_interview_note</a></td>
+<td>大模型算法工程师的知识整理与面试题</td>
+<td>用来<strong>自检盲区</strong>很有效：每个知识点都有简明答案</td>
+<td>分主题的问答式文档</td>
+</tr>
+<tr>
+<td>44</td>
+<td><strong>InternLM/tutorial</strong>（上海 AI Lab，中文）📄🧪</td>
+<td><a href="https://github.com/InternLM/tutorial">github.com/InternLM/tutorial</a></td>
+<td>LLM &amp; VLM 实战营教程</td>
+<td>从环境、微调到部署的完整中文动手课，含配套算力活动</td>
+<td>分阶段课程 + 作业</td>
+</tr>
+<tr>
+<td>45</td>
+<td><strong>generative-ai-for-beginners</strong>（Microsoft）📄🧪</td>
+<td><a href="https://github.com/microsoft/generative-ai-for-beginners">github.com/microsoft/generative-ai-for-beginners</a></td>
+<td>21 讲的生成式 AI 入门课</td>
+<td>每讲配视频与代码，适合快速建立应用层认知</td>
+<td>21 讲</td>
+</tr>
+<tr>
+<td>46</td>
+<td><strong>《大语言模型》</strong>（中国人民大学，赵鑫等，中文）📄</td>
+<td><a href="https://llmbook-zh.github.io/">llmbook-zh.github.io</a></td>
+<td>中文大语言模型教材（免费在线）</td>
+<td>中文教材里结构最完整的一本：预训练 / 微调 / 对齐 / 评测均有专章</td>
+<td>在线 HTML（另提供 PDF）</td>
+</tr>
+<tr>
+<td>47</td>
+<td><strong>RUCAIBox/LLMSurvey</strong> 📄</td>
+<td><a href="https://github.com/RUCAIBox/LLMSurvey">github.com/RUCAIBox/LLMSurvey</a></td>
+<td>综述 <em>A Survey of Large Language Models</em> 的官方仓库（含中文版）</td>
+<td>想用<strong>一篇</strong>综述拿到 LLM 全局地图与文献索引，用这一篇</td>
+<td>综述论文 + 资源清单</td>
+</tr>
+<tr>
+<td>48</td>
+<td><strong>Speech and Language Processing</strong>（Dan Jurafsky &amp; James H. Martin）📄</td>
+<td><a href="https://web.stanford.edu/~jurafsky/slp3/">web.stanford.edu/~jurafsky/slp3</a></td>
+<td>NLP 经典教材第三版（在线草稿）</td>
+<td><strong>CS224N 官方参考书</strong>；Transformer 与 LLM 相关章节可直接当讲义读</td>
+<td>分章 PDF 免费下载</td>
+</tr>
+<tr>
+<td>49</td>
+<td><strong>Dive into Deep Learning（d2l.ai）</strong> 📄🧪</td>
+<td><a href="https://d2l.ai/">d2l.ai</a> · <a href="https://zh.d2l.ai/">中文版</a></td>
+<td>可执行的深度学习教材（含注意力与 Transformer 章节）</td>
+<td>与深度学习主线衔接的对照读本；中文版术语对照便于写中文笔记</td>
+<td>在线 HTML + 官方 PDF + 多框架实现</td>
+</tr>
+<tr>
+<td>50</td>
+<td><strong>ml-engineering</strong>（Stas Bekman）📄</td>
+<td><a href="https://github.com/stas00/ml-engineering">github.com/stas00/ml-engineering</a></td>
+<td>机器学习工程的开放书</td>
+<td>讲论文里不写的东西：显存、通信、并行、调试、复现</td>
+<td>开放书（多章）</td>
+</tr>
+<tr>
+<td>51</td>
+<td><strong>tuning_playbook</strong>（Google Research）📄</td>
+<td><a href="https://github.com/google-research/tuning_playbook">github.com/google-research/tuning_playbook</a></td>
+<td>系统化的超参调优手册</td>
+<td>把「玄学调参」变成有顺序的实验设计</td>
+<td>单篇长文手册</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：中文起步用 <strong>#35 ai-course-notes</strong>（讲义式、可搜索、覆盖 CS336 / CS224N / CS25 全量）+ <strong>#36 happy-llm 或 #46《大语言模型》</strong>；英文系统课用 <strong>#31 Hugging Face LLM Course</strong>；想要「一本书 + 完整代码」用 <strong>#32 rasbt</strong>。<strong>#34 Awesome-LLM 与 #33 llm-course 只当索引用，不要当教材读。</strong></p>
+</blockquote>
+<h3 id="系统与工程显存并行推理加速">5.4 系统与工程（显存、并行、推理加速）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>52</td>
+<td><strong>FlashAttention</strong>（Dao 等，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2205.14135">arXiv:2205.14135</a></td>
+<td>IO-aware 的精确注意力：用分块（tiling）与重计算把注意力做成显存友好</td>
+<td>现代 LLM 训练的默认组件；<strong>CS336 作业 2 要求自己用 Triton 写一遍</strong></td>
+<td>论文一篇（NeurIPS 2022）；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>53</td>
+<td><strong>FlashAttention-2</strong>（Dao，2023）📄</td>
+<td><a href="https://arxiv.org/abs/2307.08691">arXiv:2307.08691</a></td>
+<td>改进并行与工作划分，进一步提升利用率</td>
+<td>训练 / 推理里真正在广泛使用的版本</td>
+<td>论文一篇；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>54</td>
+<td><strong>Dao-AILab/flash-attention</strong> 🧪</td>
+<td><a href="https://github.com/Dao-AILab/flash-attention">github.com/Dao-AILab/flash-attention</a></td>
+<td>官方 CUDA 实现仓库</td>
+<td>想看 kernel 级实现、支持的 GPU 型号与版本要求，从这里入手</td>
+<td>开源代码</td>
+</tr>
+<tr>
+<td>55</td>
+<td><strong>vLLM（含官方文档）</strong> 🧪</td>
+<td><a href="https://github.com/vllm-project/vllm">github.com/vllm-project/vllm</a> · <a href="https://docs.vllm.ai/">docs.vllm.ai</a></td>
+<td>高吞吐、显存高效的 LLM 推理与服务引擎</td>
+<td>推理侧事实标准；文档中关于 KV cache 管理与并行的章节相当于一份系统课</td>
+<td>开源项目 + 完整文档</td>
+</tr>
+<tr>
+<td>56</td>
+<td><strong>PagedAttention / vLLM 论文</strong>（Kwon 等，SOSP 2023）📄</td>
+<td><a href="https://arxiv.org/abs/2309.06180">arXiv:2309.06180</a></td>
+<td>用操作系统虚拟内存分页的思想管理 KV cache</td>
+<td>解释了 vLLM 为什么快，也是<strong>理解 KV cache 管理</strong>的最佳入门</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>57</td>
+<td><strong>Efficiently Scaling Transformer Inference</strong>（Google，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2211.05102">arXiv:2211.05102</a></td>
+<td>从算力 / 显存 / 带宽权衡（roofline 视角）分析推理如何扩展</td>
+<td>把「推理为什么难」量化，推导清晰，数学系读起来很舒服</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>58</td>
+<td><strong>Fast Inference from Transformers via Speculative Decoding</strong>（Leviathan 等，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2211.17192">arXiv:2211.17192</a></td>
+<td><strong>投机解码</strong>原始论文：用草稿模型生成、目标模型并行验证</td>
+<td>投机解码的起点，理解「无损加速」这一经典构造</td>
+<td>论文一篇（ICML 2023）；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>59</td>
+<td><strong>Sequoia: Scalable, Robust, and Hardware-aware Speculative Decoding</strong> 📄</td>
+<td><a href="https://arxiv.org/abs/2402.12374">arXiv:2402.12374</a></td>
+<td>把投机解码扩展到更硬件感知、更鲁棒的方案</td>
+<td>想看投机解码的后续进展与工程细节，这是代表性工作</td>
+<td>论文一篇（NeurIPS 2024）</td>
+</tr>
+<tr>
+<td>60</td>
+<td><strong>Mixed Precision Training</strong>（Micikevicius 等，2017）📄</td>
+<td><a href="https://arxiv.org/abs/1710.03740">arXiv:1710.03740</a></td>
+<td>混合精度训练（fp16 + loss scaling）原始论文</td>
+<td>显存与速度优化的第一课；CS336 作业 2 会实际用到</td>
+<td>论文一篇（ICLR 2018）</td>
+</tr>
+<tr>
+<td>61</td>
+<td><strong>A Study of BFLOAT16 for Deep Learning Training</strong>（Intel，2019）📄</td>
+<td><a href="https://arxiv.org/abs/1905.12322">arXiv:1905.12322</a></td>
+<td>bf16 数值特性的系统研究</td>
+<td>解释了为什么现在主流用 bf16 而不是 fp16</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>62</td>
+<td><strong>Megatron-LM（论文 + 官方实现）</strong> 📄🧪</td>
+<td><a href="https://arxiv.org/abs/1909.08053">arXiv:1909.08053</a> · <a href="https://github.com/NVIDIA/Megatron-LM">github.com/NVIDIA/Megatron-LM</a></td>
+<td><strong>张量并行</strong>（模型并行）的开创性工作与工业级实现</td>
+<td>张量并行的标准参考，也是大规模训练框架的原型</td>
+<td>论文一篇 + 开源项目</td>
+</tr>
+<tr>
+<td>63</td>
+<td><strong>GPipe</strong>（Huang 等，2018）📄</td>
+<td><a href="https://arxiv.org/abs/1811.06965">arXiv:1811.06965</a></td>
+<td><strong>流水线并行</strong>原始论文，提出 micro-batch 切分</td>
+<td>流水并行的起点，理解 bubble 与调度问题的来源</td>
+<td>论文一篇（NeurIPS 2019）</td>
+</tr>
+<tr>
+<td>64</td>
+<td><strong>ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</strong>（Microsoft，2019）📄</td>
+<td><a href="https://arxiv.org/abs/1910.02054">arXiv:1910.02054</a></td>
+<td>把优化器状态 / 梯度 / 参数分片，消除数据并行中的显存冗余</td>
+<td>数据并行显存优化的标准方案，DeepSpeed 的核心</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>65</td>
+<td><strong>DeepSpeed</strong>（Microsoft）🧪</td>
+<td><a href="https://github.com/microsoft/DeepSpeed">github.com/microsoft/DeepSpeed</a></td>
+<td>分布式训练与推理优化库</td>
+<td>想实践 ZeRO 与各类显存优化，这是官方实现</td>
+<td>开源项目（<strong>注意：该 URL 现已重定向到 <code>deepspeedai/DeepSpeed</code></strong>）</td>
+</tr>
+<tr>
+<td>66</td>
+<td><strong>PyTorch FSDP 文档</strong> 📄</td>
+<td><a href="https://pytorch.org/docs/stable/fsdp.html">pytorch.org/docs/stable/fsdp.html</a></td>
+<td>PyTorch 原生分片数据并行（Fully Sharded Data Parallel）文档</td>
+<td>不想引入 DeepSpeed 时的标准选择；CS336 作业 2 会涉及</td>
+<td>官方文档（现重定向到 <code>docs.pytorch.org/docs/stable/fsdp.html</code>）</td>
+</tr>
+<tr>
+<td>67</td>
+<td><strong>The Ultra-Scale Playbook</strong>（Hugging Face）📄</td>
+<td><a href="https://huggingface.co/spaces/nanotron/ultrascale-playbook">huggingface.co/spaces/nanotron/ultrascale-playbook</a></td>
+<td>5D 并行与大规模训练的实战手册，基于 4000+ 组实验</td>
+<td>目前最好的一份「该选哪种并行」综述式材料，含大量实测曲线</td>
+<td>交互式在线书；作者为 Nanotron 开发者</td>
+</tr>
+<tr>
+<td>68</td>
+<td><strong>How To Scale Your Model</strong>（Google DeepMind）📄</td>
+<td><a href="https://jax-ml.github.io/scaling-book/">jax-ml.github.io/scaling-book</a></td>
+<td>从 roofline 出发推导并行策略、通信开销与显存占用</td>
+<td>用第一性原理算「该用哪种并行、代价多少」，推导完整</td>
+<td>在线书（多章）</td>
+</tr>
+<tr>
+<td>69</td>
+<td><strong>torchtitan</strong>（PyTorch 官方）🧪</td>
+<td><a href="https://github.com/pytorch/torchtitan">github.com/pytorch/torchtitan</a></td>
+<td>PyTorch 原生的大模型训练平台</td>
+<td>官方给出的「最小可用」大规模训练配方，代码比 Megatron 好读得多</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>70</td>
+<td><strong>Triton</strong> 📄🧪</td>
+<td><a href="https://triton-lang.org/">triton-lang.org</a></td>
+<td>用 Python 写 GPU kernel 的 DSL</td>
+<td><strong>CS336 作业 2 要用它写 FlashAttention2</strong>；比 CUDA 好上手得多</td>
+<td>官方文档 + 教程（现重定向到 <code>/main/index.html</code>）</td>
+</tr>
+<tr>
+<td>71</td>
+<td><strong>Large Transformer Model Inference Optimization</strong>（Lilian Weng）📄</td>
+<td><a href="https://lilianweng.github.io/posts/2023-01-10-inference-optimization/">lilianweng.github.io</a></td>
+<td>推理优化综述：KV cache、稀疏化、量化、蒸馏、并行、投机解码</td>
+<td>一篇把推理侧所有优化串起来的综述，<strong>正好补齐 KV cache 这一块</strong></td>
+<td>长文综述；免费 HTML</td>
+</tr>
+<tr>
+<td>72</td>
+<td><strong>How to Train Really Large Models on Many GPUs?</strong>（Lilian Weng）📄</td>
+<td><a href="https://lilianweng.github.io/posts/2021-09-25-train-large/">lilianweng.github.io</a></td>
+<td>训练侧并行与显存优化综述</td>
+<td>与 #71 配对：一个讲训练、一个讲推理，两篇覆盖系统工程全景</td>
+<td>长文综述；免费 HTML</td>
+</tr>
+<tr>
+<td>73</td>
+<td><strong>Transformers 推理优化官方文档</strong>（Hugging Face）📄</td>
+<td><a href="https://huggingface.co/docs/transformers/en/perf_infer_gpu_one">perf_infer_gpu_one</a></td>
+<td>GPU 推理优化文档（量化、KV cache、batch 等）</td>
+<td>工程落地时的第一手参考</td>
+<td>官方文档（<strong>该页现重定向到新版 <code>optimization_overview</code>，内容对应但标题已变为 “Overview”</strong>）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：显存与并行这一块，<strong>先读 #71 + #72 两篇综述拿到全景</strong>（KV cache 与投机解码都在里面），再按需下钻：注意力算子读 <strong>#52 / #53</strong>，KV cache 管理读 <strong>#56</strong>，并行读 <strong>#62（张量）+ #63（流水）+ #64（数据）</strong>，实战读 <strong>#67 Ultra-Scale Playbook</strong>。<strong>#68</strong> 是唯一把「该选哪种并行」用第一性原理算给你看的一份。要动手就直接跟 <strong>CS336 作业 2</strong>（#20）。</p>
+</blockquote>
+<h3 id="对齐与-rl与已有-rl-主线接上">5.5 对齐与 RL（与已有 RL 主线接上）</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>74</td>
+<td><strong>InstructGPT / RLHF 原始论文</strong>：<em>Training language models to follow instructions with human feedback</em>（OpenAI，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2203.02155">arXiv:2203.02155</a></td>
+<td>用人类反馈把 GPT-3 对齐成会听指令的模型</td>
+<td>把 GPT-3 变成 ChatGPT 的那一步；<strong>RLHF 三阶段（SFT → RM → PPO）的标准定义</strong></td>
+<td>论文一篇（NeurIPS 2022）；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>75</td>
+<td><strong>Deep Reinforcement Learning from Human Preferences</strong>（Christiano 等，2017）📄</td>
+<td><a href="https://arxiv.org/abs/1706.03741">arXiv:1706.03741</a></td>
+<td>用人类成对偏好训练奖励模型，再用 RL 优化</td>
+<td>RLHF 的<strong>思想源头</strong>；读完才知道 InstructGPT 的 reward model 从哪来</td>
+<td>论文一篇（NeurIPS 2017）</td>
+</tr>
+<tr>
+<td>76</td>
+<td><strong>HH-RLHF</strong>：<em>Training a Helpful and Harmless Assistant with RLHF</em>（Anthropic，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2204.05862">arXiv:2204.05862</a></td>
+<td>与 InstructGPT 并列的另一条 RLHF 实践路线</td>
+<td>含公开的偏好数据集与「有用性 vs 无害性」权衡的实验分析</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>77</td>
+<td><strong>DPO</strong>：<em>Direct Preference Optimization: Your Language Model is Secretly a Reward Model</em>（Stanford，2023）📄</td>
+<td><a href="https://arxiv.org/abs/2305.18290">arXiv:2305.18290</a></td>
+<td>把 RLHF 化归成一个简单的分类式损失，<strong>免去奖励模型与 PPO</strong></td>
+<td>当前最常用的对齐方法之一；数学上很干净（隐式奖励的重新参数化）</td>
+<td>论文一篇（NeurIPS 2023）；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>78</td>
+<td><strong>DeepSeek-R1</strong>（DeepSeek，2025）📄</td>
+<td><a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a></td>
+<td>用纯 RL（GRPO / RLVR）激发推理能力</td>
+<td>与本仓库 RL 主线（GRPO / DAPO）<strong>直接对应</strong>；也是 CS224N 第 12 讲的必读</td>
+<td>论文一篇；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>79</td>
+<td><strong>Llama 2</strong>（Meta，2023）📄</td>
+<td><a href="https://arxiv.org/abs/2307.09288">arXiv:2307.09288</a></td>
+<td>开源模型的对齐全流程技术报告（预训练 → SFT → RLHF → 安全）</td>
+<td>少见的把对齐细节与数据规模写清楚的工业报告</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>80</td>
+<td><strong>LoRA</strong>：<em>Low-Rank Adaptation of Large Language Models</em>（Microsoft，2021）📄</td>
+<td><a href="https://arxiv.org/abs/2106.09685">arXiv:2106.09685</a></td>
+<td>冻结主干、只训练低秩增量矩阵的参数高效微调</td>
+<td>数学上就是低秩分解，读起来很快；也是 PEFT 的标准方法</td>
+<td>论文一篇（ICLR 2022）；免费 arXiv PDF</td>
+</tr>
+<tr>
+<td>81</td>
+<td><strong>Illustrating RLHF</strong>（Hugging Face）📄</td>
+<td><a href="https://huggingface.co/blog/rlhf">huggingface.co/blog/rlhf</a></td>
+<td>用图解方式讲 RLHF 三阶段</td>
+<td>若 #74 读起来抽象，先用这篇建立流程图与术语</td>
+<td>博客一篇；免费 HTML</td>
+</tr>
+<tr>
+<td>82</td>
+<td><strong>alignment-handbook</strong>（Hugging Face）🧪</td>
+<td><a href="https://github.com/huggingface/alignment-handbook">github.com/huggingface/alignment-handbook</a></td>
+<td>可复现的对齐配方（SFT / DPO / ORPO 等）与训练脚本</td>
+<td>从论文到「真的跑一遍」的落地材料，含数据与超参</td>
+<td>开源配方 + 脚本</td>
+</tr>
+<tr>
+<td>83</td>
+<td><strong>TRL</strong>（Hugging Face）🧪</td>
+<td><a href="https://github.com/huggingface/trl">github.com/huggingface/trl</a></td>
+<td>用强化学习训练 Transformer 语言模型的官方库（SFT / DPO / PPO / GRPO 等）</td>
+<td>对齐实验的事实标准工具，API 与 HF 生态无缝</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>84</td>
+<td><strong>verl</strong>（字节跳动，HybridFlow）🧪</td>
+<td><a href="https://github.com/volcengine/verl">github.com/volcengine/verl</a></td>
+<td>灵活高效的 RL 后训练框架</td>
+<td>大规模 RLHF / RLVR 训练的主流框架之一</td>
+<td>开源项目（<strong>该 URL 现已重定向到 <code>verl-project/verl</code></strong>）</td>
+</tr>
+<tr>
+<td>85</td>
+<td><strong>smol-course</strong>（Hugging Face）📄🧪</td>
+<td><a href="https://github.com/huggingface/smol-course">github.com/huggingface/smol-course</a></td>
+<td>面向小模型的对齐实操课程</td>
+<td>用消费级显卡就能把「SFT → DPO」整套流程做完</td>
+<td>章节式课程 + notebook</td>
+</tr>
+<tr>
+<td>86</td>
+<td><strong>Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</strong>（Google，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2201.11903">arXiv:2201.11903</a></td>
+<td>思维链提示</td>
+<td>「推理」这条线的起点；读 R1（#78）之前先读它</td>
+<td>论文一篇（NeurIPS 2022）</td>
+</tr>
+<tr>
+<td>87</td>
+<td><strong>RAG</strong>：<em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>（Facebook AI，2020）📄</td>
+<td><a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></td>
+<td>检索增强生成原始论文</td>
+<td>不训练模型也能注入知识的标准方案；CS224N 有对应讲次</td>
+<td>论文一篇（NeurIPS 2020）</td>
+</tr>
+<tr>
+<td>88</td>
+<td><strong>ReAct</strong>：<em>Synergizing Reasoning and Acting in Language Models</em>（Princeton / Google，2022）📄</td>
+<td><a href="https://arxiv.org/abs/2210.03629">arXiv:2210.03629</a></td>
+<td>推理与行动交替的 Agent 范式</td>
+<td>Agent 方向的起点文献；也是 CS224N 第 10 讲的必读</td>
+<td>论文一篇（ICLR 2023）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：对齐这条线的<strong>最小闭环</strong>是 <strong>#75（思想源头）→ #74（RLHF 标准流程）→ #77（DPO，去掉 RM 与 PPO）→ #78（RLVR / GRPO，推理版）</strong>；线上实现读 <strong>#82 / #83 / #84</strong>。<strong>#78 与本仓库 RL 主线的 PPO / GRPO / DAPO 完全重合</strong>，是两条线正式汇合的地方；CS336 作业 5（#23）就是把这条线动手做一遍。<strong>#86 / #88 是「推理」与「Agent」两个后续方向各自的起点</strong>，按兴趣选读。</p>
+</blockquote>
+<h3 id="评估与基准">5.6 评估与基准</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>资料</th>
+<th>官方链接</th>
+<th>是什么</th>
+<th>为什么值得读</th>
+<th>规模/作业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>89</td>
+<td><strong>MMLU</strong>（Hendrycks 等，2020；论文 + 代码）📄🧪</td>
+<td><a href="https://arxiv.org/abs/2009.03300">arXiv:2009.03300</a> · <a href="https://github.com/hendrycks/test">github.com/hendrycks/test</a></td>
+<td>大规模多任务语言理解基准：57 个学科的选择题</td>
+<td>被引用最多的能力基准；也是「基准被刷爆」的经典案例</td>
+<td>论文一篇（ICLR 2021）+ 开源题库代码</td>
+</tr>
+<tr>
+<td>90</td>
+<td><strong>HELM</strong>：<em>Holistic Evaluation of Language Models</em>（Stanford CRFM）📄</td>
+<td><a href="https://arxiv.org/abs/2211.09110">arXiv:2211.09110</a> · <a href="https://crfm.stanford.edu/helm/">crfm.stanford.edu/helm</a></td>
+<td>多场景、多指标的整体评测框架与持续榜单</td>
+<td>想系统理解「评测该测什么、要报告哪些指标」，这是最重要的框架性工作</td>
+<td>论文一篇 + 持续更新的在线榜单</td>
+</tr>
+<tr>
+<td>91</td>
+<td><strong>BIG-bench</strong>（Google 等，200 余个任务；论文 + 代码）📄🧪</td>
+<td><a href="https://arxiv.org/abs/2206.04615">arXiv:2206.04615</a> · <a href="https://github.com/google/BIG-bench">github.com/google/BIG-bench</a></td>
+<td>大规模协作基准，任务数 200+</td>
+<td>任务定义可读、覆盖极广，适合学习「如何设计一个评测任务」</td>
+<td>论文一篇 + 开源任务集</td>
+</tr>
+<tr>
+<td>92</td>
+<td><strong>Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</strong>（LMSYS，2023）📄</td>
+<td><a href="https://arxiv.org/abs/2306.05685">arXiv:2306.05685</a></td>
+<td>用强模型当裁判 + 众包对战排名</td>
+<td><strong>LLM-as-a-judge 与 Arena 式评测的标准参考</strong>，并系统分析了裁判偏差</td>
+<td>论文一篇（NeurIPS 2023）</td>
+</tr>
+<tr>
+<td>93</td>
+<td><strong>AlpacaEval</strong>（Stanford Tatsu-lab）📄🧪</td>
+<td><a href="https://tatsu-lab.github.io/alpaca_eval/">tatsu-lab.github.io/alpaca_eval</a></td>
+<td>自动评测器 + 排行榜（用 LLM 裁判对比指令遵循能力）</td>
+<td>便宜、可复现的指令遵循评测，做对齐实验时最常用</td>
+<td>在线榜单 + 代码</td>
+</tr>
+<tr>
+<td>94</td>
+<td><strong>LMArena</strong> 📄</td>
+<td><a href="https://lmarena.ai/">lmarena.ai</a></td>
+<td>人类盲测对战排行榜</td>
+<td>目前影响力最大的人类偏好榜</td>
+<td>在线榜单（<strong>注意：该域名现已重定向到 <code>arena.ai</code>，页面标题为 “Arena AI: The Official AI Ranking &amp; LLM Leaderboard”</strong>）</td>
+</tr>
+<tr>
+<td>95</td>
+<td><strong>Open LLM Leaderboard</strong>（Hugging Face）📄</td>
+<td><a href="https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard">huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard</a></td>
+<td>开源模型的统一评测榜单</td>
+<td>想横向比较开源模型，看这一个就够</td>
+<td>在线榜单</td>
+</tr>
+<tr>
+<td>96</td>
+<td><strong>GPQA</strong>（Rein 等，2023）📄</td>
+<td><a href="https://arxiv.org/abs/2311.12022">arXiv:2311.12022</a></td>
+<td>研究生水平的「Google 也搜不到」问答基准</td>
+<td>「难到接近饱和前」的推理基准代表</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>97</td>
+<td><strong>SWE-bench</strong>（Princeton 等；论文 + 代码）📄🧪</td>
+<td><a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a> · <a href="https://github.com/swe-bench/SWE-bench">github.com/swe-bench/SWE-bench</a></td>
+<td>用真实 GitHub issue 评测代码修复能力</td>
+<td>评测从「选择题」转向「真实任务」的代表性工作</td>
+<td>论文一篇（ICLR 2024）+ 开源 harness</td>
+</tr>
+<tr>
+<td>98</td>
+<td><strong>Humanity’s Last Exam</strong>（CAIS / Scale AI，2025）📄</td>
+<td><a href="https://arxiv.org/abs/2501.14249">arXiv:2501.14249</a></td>
+<td>面向领域专家的超难跨学科基准</td>
+<td>了解「基准饱和」之后评测往哪里走</td>
+<td>论文一篇</td>
+</tr>
+<tr>
+<td>99</td>
+<td><strong>A Survey on Evaluation of Large Language Models</strong>（2023）📄</td>
+<td><a href="https://arxiv.org/abs/2307.03109">arXiv:2307.03109</a></td>
+<td>LLM 评测综述：评什么、怎么评、有哪些坑</td>
+<td>一篇综述覆盖评测方法论，是本节的总览</td>
+<td>综述一篇</td>
+</tr>
+<tr>
+<td>100</td>
+<td><strong>lm-evaluation-harness</strong>（EleutherAI）🧪</td>
+<td><a href="https://github.com/EleutherAI/lm-evaluation-harness">github.com/EleutherAI/lm-evaluation-harness</a></td>
+<td>少样本评测的事实标准框架</td>
+<td>自己跑 benchmark 的第一选择；也是 HF Open LLM Leaderboard 的后端</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>101</td>
+<td><strong>OpenAI Evals</strong> 🧪</td>
+<td><a href="https://github.com/openai/evals">github.com/openai/evals</a></td>
+<td>评测框架 + 公开基准注册表</td>
+<td>了解「评测即注册表」的设计，也方便找现成 eval</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>102</td>
+<td><strong>simple-evals</strong>（OpenAI）🧪</td>
+<td><a href="https://github.com/openai/simple-evals">github.com/openai/simple-evals</a></td>
+<td>极简评测脚本集合（MMLU、MATH、GPQA、DROP 等）</td>
+<td>代码短、可读，适合当自己写 eval 的模板</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>103</td>
+<td><strong>Lighteval</strong>（Hugging Face）🧪</td>
+<td><a href="https://github.com/huggingface/lighteval">github.com/huggingface/lighteval</a></td>
+<td>支持多后端的 LLM 评测工具箱</td>
+<td>与 HF 生态结合最紧的评测工具</td>
+<td>开源项目</td>
+</tr>
+<tr>
+<td>104</td>
+<td><strong>Inspect</strong>（UK AI Safety Institute）🧪</td>
+<td><a href="https://github.com/UKGovernmentBEIS/inspect_ai">github.com/UKGovernmentBEIS/inspect_ai</a></td>
+<td>英国 AI 安全研究所的评测框架</td>
+<td>面向<strong>安全与 Agent 评测</strong>的框架，含大量现成 eval</td>
+<td>开源项目</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>判断</strong>：评测分三层——<strong>能力基准</strong>（#89 MMLU、#96 GPQA、#98 HLE）、<strong>偏好 / 对话评测</strong>（#92 MT-Bench、#93 AlpacaEval、#94 LMArena）、<strong>真实任务评测</strong>（#97 SWE-bench）。方法论先用 <strong>#99 综述 + #90 HELM</strong> 建立框架，再挑 <strong>#100 lm-evaluation-harness</strong> 动手跑一遍。<strong>CS224N 作业 4（#26）就是「大模型基准与评测」的实操</strong>，与本小节一一对应。</p>
+</blockquote>
+<h3 id="未能核实的条目不要引用-1">5.7 未能核实的条目（不要引用）</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>条目</th>
+<th>情况</th>
+<th>处理建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CS336 作业 5 的可选「安全对齐」补充讲义（课程主页给出的链接）</strong></td>
+<td>课程主页在 A5 处链接的文件名为 <code>cs336_spring2025_assignment5_supplement_safety_rlhf.pdf</code>，实测返回 <strong>HTTP 404</strong>（文件不存在）。仓库中实际存在的是 <code>cs336_spring2026_assignment5_supplement_safety_rlhf.pdf</code>（已核实 <strong>200</strong>）</td>
+<td>引用时<strong>必须</strong>用 2026 版文件名（见 #23 给出的链接）；课程主页该链接是失效的</td>
+</tr>
+<tr>
+<td><strong>CS336 的官方公开作业解答 / 参考实现</strong></td>
+<td><strong>不存在</strong>。课程荣誉准则原文：<em>“Implementations for many of the things you will implement exist online. The handouts we’ll give will be self-contained… Thus, you should not look at any existing code unless when otherwise specified in the handouts.”</em> 官方只公开 handout 与脚手架（测试 + <code>tests/adapters.py</code>），不公开解答</td>
+<td>不要期待官方解答。第三方解答仓库确实存在（例如 <code>github.com/thepowerfuldeez/cs336_solutions</code>，实测 <strong>200</strong>），但它与课程的荣誉准则直接冲突（准则明确禁止参考任何现有代码），<strong>本清单不作为推荐资料列出</strong></td>
+</tr>
+<tr>
+<td><strong>CS336 各作业仓库对应的学期版本</strong></td>
+<td>无法核实「仓库内容 = 官网当前学期」。可核实的事实是：<code>assignment1-basics</code> 的 README 标题写 <strong>“CS336 Spring 2025 Assignment 1”</strong>，而 <code>assignment5-alignment</code> 的 README 标题写 <strong>“CS336 Spring 2026 Assignment 5”</strong>；A3 / A4 仓库页标题未标注学期</td>
+<td>做作业前先读仓库 README 自己确认版本，不要假定与官网页面的学期一致；同一作业在不同学期可能有差异</td>
+</tr>
+<tr>
+<td><strong>CS224N 当学期（Winter 2026）的讲座录像</strong></td>
+<td>官方明确说明：<em>“Lecture videos for enrolled students… requires login… Unfortunately, it is not possible to make these videos viewable by non-enrolled students.”</em> 因此<strong>无法</strong>核实当学期录像的公开可达性</td>
+<td>公开可用的是 Spring 2024 版录像（#25）；讲者与讲次安排已变（Winter 2026 由 Diyi Yang / Yejin Choi 授课），看旧录像时注意与新课纲的差异</td>
+</tr>
+<tr>
+<td><strong><code>ai-course-notes</code>（#35）的讲义总数</strong></td>
+<td>两个口径不一致：GitHub 仓库简介写 <strong>303 份</strong>，仓库 README 与在线阅读站写 <strong>370 份</strong>（统计口径为仓库内 <code>*-notes.tex</code> 源文件）。无法核实哪个是当前准确值</td>
+<td>引用具体份数时以「数百份（README 称 370 份）」表述，或直接说明口径</td>
+</tr>
+<tr>
+<td><strong>若干链接已发生重定向（可达但地址变了）</strong></td>
+<td>实测：<code>lmarena.ai</code> → <code>arena.ai</code>；<code>github.com/microsoft/DeepSpeed</code> → <code>github.com/deepspeedai/DeepSpeed</code>；<code>github.com/volcengine/verl</code> → <code>github.com/verl-project/verl</code>；<code>pytorch.org/docs/stable/fsdp.html</code> → <code>docs.pytorch.org/...</code>；<code>triton-lang.org</code> → <code>/main/index.html</code>；HF <code>perf_infer_gpu_one</code> → <code>optimization_overview</code>（标题变为 “Overview”）</td>
+<td>这些链接<strong>仍可正常访问</strong>（表中已注明），但写进公开材料时建议留意：若日后重定向失效，改用表中注明的目标地址</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>除上表所列外，本节所有链接均已逐条实际打开核对。扩充条目时建议沿用同样流程（HTML 核对 200 + 标题，PDF / zip 另查内容类型，arXiv 核对 abs 页标题）。</p>
+</blockquote>
+<hr />
+<h2 id="六强化学习基础与理论cs285-之前-并行">六、强化学习基础与理论（CS285 之前 / 并行）</h2>
+<p>本节只收录 <strong>CS285 之前与周边</strong>的材料——CS285 本身的讲次/作业/项目全表已在上面<strong>第二节</strong>列全，本节不重复。 所有链接均逐条实际打开核实（返回 200 且标题相符）。标 📄 的有免费合法 PDF，标 🧪 的有公开习题或代码。 阅读顺序：<strong>6.1 先修要求 → 6.2 RL 基础 → 6.3 RL 理论 → 6.4 动手环境</strong>，由浅入深。</p>
+<hr />
+<h3 id="cs285-官方先修要求原文-翻译">6.1 CS285 官方先修要求（原文 + 翻译）</h3>
+<p><strong>核实来源</strong>：<a href="https://rail.eecs.berkeley.edu/deeprlcourse/syllabus">CS 185/285 Syllabus</a>（课程代号 CS 185/285，即 CS285）</p>
+<p><strong>原文摘录（Prerequisites 一节，逐字；仅把已失效的链接换成现行地址，见下方说明）</strong>：</p>
+<blockquote>
+<p><a href="https://eecs189.org/">CS189</a> or equivalent is a prerequisite for the course. This course will assume some familiarity with reinforcement learning, numerical optimization, and machine learning. For introductory material on RL and MDPs, see the <a href="https://inst.eecs.berkeley.edu/~cs188/archive/sp24/">CS188 EdX course</a>, starting with <em>Markov Decision Processes I</em>, as well as Chapters 3 and 4 of <a href="http://incompleteideas.net/book/the-book-2nd.html">Sutton &amp; Barto</a>.</p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>syllabus 自身的两个链接是坏的</strong>（实测）：<code>webdocs.cs.ualberta.ca/~sutton/book/the-book.html</code> → <strong>404</strong>； <code>ai.berkeley.edu</code> 旧子路径 → <strong>404</strong>。上方已换成官网现行地址。 另外 syllabus 点名的 “CS188 EdX course / <em>Markov Decision Processes I</em>”，<strong>edX 课程页本环境连不上，无法核实</strong>—— 所以这里给的是 <strong>CS188 现行讲义里的 MDP 两讲</strong>（见 6.2 表），这是能实际打开、且内容对应的替代品。</p>
+</blockquote>
+<p><strong>翻译</strong>：</p>
+<blockquote>
+<p><strong>CS189 或同等课程</strong>是本课的先修要求。本课将假定你对<strong>强化学习、数值优化、机器学习</strong>三者都有一定熟悉度。关于 RL 与 MDP 的入门材料，见 <strong>CS188 EdX 课程</strong>（从 <em>Markov Decision Processes I</em> 开始），以及 <strong>Sutton &amp; Barto 的第 3 章和第 4 章</strong>。</p>
+</blockquote>
+<p><strong>同一页面 Materials 一节（原文 + 翻译）</strong>：</p>
+<blockquote>
+<p><strong>Homeworks</strong>: There will be five homeworks. For each homework, we will post a PDF on the front page and starter code on <a href="https://github.com/berkeleydeeprlcourse/homework_spring2026">Github</a>.</p>
+</blockquote>
+<blockquote>
+<p><strong>作业</strong>：共 <strong>5 次</strong>。每次作业我们会在主页发布 PDF，并在 GitHub 发布起始代码。</p>
+</blockquote>
+<h4 id="一条比-cs189-更详细的先修清单来自-cs285-的前身-cs294-112">一条比 CS189 更详细的先修清单（来自 CS285 的前身 CS294-112）</h4>
+<p>CS285 的 syllabus 只给了一句话，但它 2017 年的前身 <strong>CS294-112</strong> 把 “familiarity” 具体展开了。这份清单更能定位一个数学系学生缺什么，原文摘录（<a href="http://rail.eecs.berkeley.edu/deeprlcourse-fa17/index.html">CS294-112 Fall 2017</a> 的 Prerequisites 一节）：</p>
+<blockquote>
+<p>CS189 or equivalent is a prerequisite for the course. This course will assume some familiarity with reinforcement learning, numerical optimization and machine learning. Students who are not familiar with the concepts below are encouraged to brush up using the references provided right below this list. We’ll review this material in class, but it will be rather cursory.</p>
+<ul>
+<li><strong>Reinforcement learning and MDPs</strong>
+<ul>
+<li>Definition of MDPs</li>
+<li>Exact algorithms: policy and value iteration</li>
+<li>Search algorithms</li>
+</ul></li>
+<li><strong>Numerical Optimization</strong>
+<ul>
+<li>gradient descent, stochastic gradient descent</li>
+<li>backpropagation algorithm</li>
+</ul></li>
+<li><strong>Machine Learning</strong>
+<ul>
+<li>Classification and regression problems: what loss functions are used, how to fit linear and nonlinear models</li>
+<li>Training/test error, overfitting.</li>
+</ul></li>
+</ul>
+</blockquote>
+<p><strong>翻译</strong>：</p>
+<blockquote>
+<p>CS189 或同等课程是先修。本课假定你对强化学习、数值优化、机器学习有一定熟悉度。不熟悉下列概念的同学，请用本清单正下方给出的参考资料补课。我们会在课上复习这些内容，但会相当简略。</p>
+<ul>
+<li><strong>强化学习与 MDP</strong>
+<ul>
+<li>MDP 的定义</li>
+<li>精确算法：策略迭代与值迭代</li>
+<li>搜索算法</li>
+</ul></li>
+<li><strong>数值优化</strong>
+<ul>
+<li>梯度下降、随机梯度下降</li>
+<li>反向传播算法</li>
+</ul></li>
+<li><strong>机器学习</strong>
+<ul>
+<li>分类与回归问题：用什么损失函数、如何拟合线性与非线性模型</li>
+<li>训练/测试误差、过拟合</li>
+</ul></li>
+</ul>
+</blockquote>
+<p><strong>对照你的背景，缺口在哪里</strong>：</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>先修项</th>
+<th>你的状态</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数值优化：梯度下降 / SGD</td>
+<td>✅ 已具备</td>
+<td>直接过</td>
+</tr>
+<tr>
+<td>MDP 定义、值迭代 / 策略迭代</td>
+<td>⚠️ 待补</td>
+<td><strong>但这是你的强项区</strong>——它是压缩映射与不动点理论，见 6.3</td>
+</tr>
+<tr>
+<td>搜索算法</td>
+<td>❌ 缺</td>
+<td>只在 6.2（CS188）里顺带看，不是重点</td>
+</tr>
+<tr>
+<td>反向传播</td>
+<td>❌ 缺</td>
+<td>在「深度学习」那一节补，不在本节</td>
+</tr>
+<tr>
+<td>分类/回归、损失函数、过拟合、偏差-方差</td>
+<td>❌ <strong>缺，且是真正的门槛</strong></td>
+<td>在「机器学习基础」那一节补</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>关键判断</strong>：CS285 要的是<strong>机器学习底子</strong>，不是数学底子。上面这张表里，<strong>唯一”数学系天然占优”的一行是 MDP/Bellman/DP</strong>； 其余缺口（反向传播、损失函数、过拟合、偏差-方差）都在机器学习与深度学习那两层，不在本节能解决的范围。 所以正确策略是：<strong>用 6.3 把 MDP 理论一次性打穿（这里你能读得比 CS285 要求得更深），同时并行补机器学习基础。</strong></p>
+</blockquote>
+<hr />
+<h3 id="rl-基础cs285-之前">6.2 RL 基础（CS285 之前）</h3>
+<p><strong>主教材 Sutton &amp; Barto 的核实链接见本节末的表格</strong>（本书已有专节列出，此处不重复）。</p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>名称</th>
+<th>作者 / 机构</th>
+<th>官方 URL</th>
+<th>是什么（一句话）</th>
+<th>为什么值得读（一句话）</th>
+<th>规模</th>
+<th style="text-align: center;">标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td><strong>Reinforcement Learning: An Introduction（第 2 版）</strong></td>
+<td>Richard S. Sutton &amp; Andrew G. Barto，MIT Press 2018</td>
+<td><a href="http://incompleteideas.net/book/the-book-2nd.html">incompleteideas.net/book/the-book-2nd.html</a></td>
+<td>RL 领域的标准教科书，作者官网免费提供全文。</td>
+<td>CS285 官方指定的入门材料，用来建立术语与直觉（值函数、Bellman 算子、GPI、TD 误差）。</td>
+<td>17 章正文 + 参考文献，约 550 页</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>CS188 Introduction to AI —— MDP 与 RL 讲义</strong></td>
+<td>UC Berkeley（CS188 教学团队）</td>
+<td><a href="https://inst.eecs.berkeley.edu/~cs188/sp24/">CS188 SP24 主页</a></td>
+<td>Berkeley 本科 AI 课的公开讲义、笔记、讨论课与作业。</td>
+<td>这是 <strong>CS285 官方点名的 MDP 入门</strong>（对应 <em>Markov Decision Processes I</em>），讲解最轻，适合先把 MDP 语言过一遍。</td>
+<td>4 讲讲义 + 2 讲讨论课，PDF 共约 12 MB</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td><strong>UCL / DeepMind 强化学习课程（David Silver）</strong></td>
+<td>David Silver，UCL &amp; DeepMind</td>
+<td><a href="https://davidstarsilver.wordpress.com/teaching/">davidstarsilver.wordpress.com/teaching</a></td>
+<td>10 讲经典 RL 视频课 + 讲义，另有编程作业 Easy21。</td>
+<td>从 MDP 到策略梯度、探索与利用的最紧凑一条主线，<strong>第 7 讲（策略梯度）与第 9 讲（探索）</strong>正好补 CS285 的理论空隙。</td>
+<td>10 讲视频（每讲约 1.5 小时）+ 10 份 PDF 讲义</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td><strong>CS294-112 Deep Reinforcement Learning（CS285 的前身）</strong></td>
+<td>Sergey Levine，UC Berkeley（Fall 2017）</td>
+<td><a href="http://rail.eecs.berkeley.edu/deeprlcourse-fa17/index.html">rail.eecs.berkeley.edu/deeprlcourse-fa17</a></td>
+<td>CS285 2017 年的版本，全部讲义 PDF 与作业仍公开。</td>
+<td>讲义比现在简略、更贴近数学推导，且<strong>探索（Exploration）与迁移学习</strong>两讲是当前版覆盖较薄的部分。</td>
+<td>约 25 份讲义 PDF + 4 次作业</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td><strong>CS285 官方 Resources 页</strong></td>
+<td>UC Berkeley RAIL</td>
+<td><a href="https://rail.eecs.berkeley.edu/deeprlcourse/resources/">rail.eecs.berkeley.edu/deeprlcourse/resources</a></td>
+<td>CS285 自己的”周边材料”索引页。</td>
+<td>官方推荐的教材与往期版本都在这——包括 Szepesvári、Bertsekas、Puterman 三本理论书（见 6.3）。</td>
+<td>1 页索引</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td><strong>CS234 Reinforcement Learning 讲义（精选讲次）</strong></td>
+<td>Stanford，Emma Brunskill 等</td>
+<td><a href="https://web.stanford.edu/class/cs234/">CS234 主页</a></td>
+<td>Stanford 研究生 RL 课的公开 slides。</td>
+<td>写法比 CS188 更接近数学课：Bellman 方程与<strong>策略梯度定理</strong>是从头推的，正好补上 6.3 要的”更严格的讲义”。</td>
+<td>完整一学期 slides，单份 3–5 MB</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td><strong>Spinning Up in Deep RL —— Introduction to RL</strong></td>
+<td>OpenAI</td>
+<td><a href="https://spinningup.openai.com/en/latest/">spinningup.openai.com</a></td>
+<td>面向新人的深度 RL 入门文档，含三部分导论。</td>
+<td><strong>Part 3「Intro to Policy Optimization」</strong>从零把策略梯度推一遍（含 Expected Grad-Log-Prob 引理与基线），是 Sutton &amp; Barto 第 13 章的最佳配套。</td>
+<td>3 篇导论文档，约 40 页</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CS188 里对应的具体材料</strong>（均已核实）：第 17 讲 <a href="https://inst.eecs.berkeley.edu/~cs188/sp24/assets/lectures/cs188-sp24-lec17.pdf">MDPs: States, Values, Policies, Q-values</a>、第 18 讲 <a href="https://inst.eecs.berkeley.edu/~cs188/sp24/assets/lectures/cs188-sp24-lec18.pdf">MDPs: Dynamic Programming</a>、第 24–25 讲 <a href="https://inst.eecs.berkeley.edu/~cs188/sp24/assets/lectures/cs188-sp24-lec24.pdf">Reinforcement Learning I/II</a>、讨论课 9 <a href="https://inst.eecs.berkeley.edu/~cs188/sp24/assets/discussions/disc09-regular.pdf">MDPs</a>、笔记 24 <a href="https://inst.eecs.berkeley.edu/~cs188/sp24/assets/notes/cs188-sp24-note24.pdf">Reinforcement Learning</a>。</p>
+<p><strong>David Silver 课程的具体 PDF</strong>（均已核实，另有 <a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/easy21-assignment.pdf">Easy21 编程作业</a>）：<a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/intro_rl.pdf">Lec 1 导论</a> ｜ <a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-2-mdp.pdf">Lec 2 MDP</a> ｜ <a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-3-planning-by-dynamic-programming-.pdf">Lec 3 动态规划</a> ｜ <a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-7-policy-gradient-methods.pdf">Lec 7 策略梯度</a> ｜ <a href="https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-9-exploration-and-exploitation.pdf">Lec 9 探索与利用</a>。视频播放列表：<a href="https://www.youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ">DeepMind x UCL 2015</a>。</p>
+<p><strong>Sutton &amp; Barto 章节结构（哪些必读、哪些可跳）</strong>：</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>部分</th>
+<th style="text-align: center;">章</th>
+<th>主题</th>
+<th>对你的建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I 表格型解法</td>
+<td style="text-align: center;">1</td>
+<td>导论（RL 问题、示例、局限）</td>
+<td>速读，建立问题意识</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;"><strong>2</strong></td>
+<td><strong>多臂老虎机</strong>（ε-greedy、UCB、梯度老虎机、关联搜索）</td>
+<td><strong>必读</strong>——你所学的 regret 分析在这里第一次出现，是 6.3 的入口</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;"><strong>3</strong></td>
+<td><strong>有限 MDP</strong>（回报、策略、值函数、Bellman 最优方程）</td>
+<td><strong>必读，CS285 官方指定</strong>。这一章的记号是后面所有内容的基础</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;"><strong>4</strong></td>
+<td><strong>动态规划</strong>（策略评估/改进/迭代、值迭代）</td>
+<td><strong>必读，CS285 官方指定</strong>。压缩映射与收敛性在这章，数学系重点</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">5</td>
+<td>蒙特卡洛方法</td>
+<td>必读（与 6 章对照，理解 bootstrapping）</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">6</td>
+<td>时序差分学习（TD(0)、Sarsa、Q-learning、最大化偏差）</td>
+<td>必读（TD 是 RL 区别于 DP 的核心）</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">7</td>
+<td>n 步自举（n-step TD、资格迹）</td>
+<td>选读</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">8</td>
+<td>表格型方法的规划与学习（Dyna、优先级扫描）</td>
+<td>选读</td>
+</tr>
+<tr>
+<td>II 近似解法</td>
+<td style="text-align: center;">9</td>
+<td>同策略预测与函数逼近（线性方法、误差界）</td>
+<td>数学系可读，含逼近误差界</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">10</td>
+<td>同策略控制与函数逼近</td>
+<td>较难，可跳</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">11</td>
+<td>离策略方法与致命三要素</td>
+<td><strong>建议读</strong>——CS285 的 Offline RL 一讲（Lec 17–18）建立在此</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;"><strong>12</strong></td>
+<td><strong>资格迹</strong>（λ-回报、TD(λ)、true online）</td>
+<td>可跳（理论繁琐、CS285 几乎不用）</td>
+</tr>
+<tr>
+<td>III 延伸</td>
+<td style="text-align: center;"><strong>13</strong></td>
+<td><strong>策略梯度方法</strong>（策略梯度定理、REINFORCE、Actor-Critic）</td>
+<td><strong>必读</strong>——全书的重点章，直接对接 CS285 Lec 5–6</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">14</td>
+<td>近似策略梯度</td>
+<td>选读</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">15</td>
+<td>神经网络的适用性与稳定性（<strong>致命三要素</strong>）</td>
+<td>建议读</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">16</td>
+<td>案例研究：RL 在游戏与机器人中的应用</td>
+<td>可跳</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: center;">17</td>
+<td>前沿（多智能体、探索、元学习等方向概览）</td>
+<td>当索引翻，不必精读</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="rl-理论数学系的主场">6.3 RL 理论（数学系的主场）</h3>
+<blockquote>
+<p><strong>本节是你的主场。</strong> RL 的理论核心——Bellman 算子的压缩性、随机逼近的收敛性、策略梯度定理、regret 与 sample complexity——全都是你已经学过的语言（泛函分析、概率论、随机过程、最优化）直接落到一个具体问题上。其他人在这里要补数学，你只需要补”这套数学在 RL 里叫什么”。</p>
+</blockquote>
+<h4 id="与你数学背景直接对接的四块">与你数学背景直接对接的四块</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>你的数学背景</th>
+<th>在 RL 里的对应</th>
+<th>在哪份材料里系统学</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>压缩映射 / Banach 不动点定理</td>
+<td><strong>Bellman 算子是 γ-压缩</strong>，因此值迭代线性收敛、<span class="math">V^\pi</span> 是唯一不动点；策略迭代的单调性与有限步收敛</td>
+<td>#11 Szepesvári 附录 A、#12 Bertsekas、#13 Puterman 第 6 章</td>
+</tr>
+<tr>
+<td>随机逼近 / Robbins-Monro 算法</td>
+<td><strong>TD(0)、Q-learning、SGD</strong> 都是随机逼近格式 <span class="math">x_{t+1}=x_t+\alpha_t(f(x_t)+\epsilon_t)</span>；收敛靠步长条件 <span class="math">\sum\alpha_t=\infty,\ \sum\alpha_t^2<\infty</span> 与 ODE 方法</td>
+<td>#16 随机逼近讲义、#11 Szepesvári 第 2 章、#12 Bertsekas 第 4 章</td>
+</tr>
+<tr>
+<td>概率论 / 集中不等式</td>
+<td><strong>regret bound 与 sample complexity</strong> 的推导：Hoeffding、Bernstein、Azuma、覆盖数、鞅</td>
+<td>#14 RL Theory 书、#15 Cornell CS6787</td>
+</tr>
+<tr>
+<td>最优化中的梯度 / 信赖域</td>
+<td><strong>策略梯度定理</strong> <span class="math">\nabla_\theta J(\theta)=\mathbb{E}[\nabla_\theta\log\pi_\theta(a\mid s)\,Q^{\pi_\theta}(s,a)]</span>，以及自然梯度 / TRPO 的 KL 约束</td>
+<td>#17 策略梯度定理证明、#18–#20</td>
+</tr>
+</tbody>
+</table>
+<h4 id="资料表">资料表</h4>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>名称</th>
+<th>作者 / 机构</th>
+<th>官方 URL</th>
+<th>是什么（一句话）</th>
+<th>为什么值得读（一句话）</th>
+<th>规模</th>
+<th style="text-align: center;">标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">11</td>
+<td><strong>Algorithms for Reinforcement Learning</strong></td>
+<td>Csaba Szepesvári（U. Alberta），Morgan &amp; Claypool 2010</td>
+<td><a href="https://sites.ualberta.ca/~szepesva/rlbook.html">作者官网（含免费 PDF）</a></td>
+<td>一本薄而硬的理论书，按算法组织的 RL 理论导论。</td>
+<td><strong>CS285 官方 Resources 页推荐</strong>；附录 A「Theory of Discounted MDPs」把压缩性与 Banach 不动点定理讲透，正是你要的收敛性证明。</td>
+<td>约 125 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td><strong>A Course in Reinforcement Learning（第 2 版）+ 全套讲义</strong></td>
+<td>Dimitri P. Bertsekas，MIT / ASU</td>
+<td><a href="https://www.mit.edu/~dimitrib/RLbook.html">mit.edu/~dimitrib/RLbook.html</a></td>
+<td>Bertsekas 的 RL 教材与 ASU 课程录像、slides，官网免费提供多本 PDF。</td>
+<td>把 DP 的严谨理论（<strong>Abstract DP</strong>、半压缩模型、策略迭代收敛）与近似方法统一起来，是”数学系口味”最正的一支。</td>
+<td>教材约 500 页；13 讲 slides + 录像</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td><strong>Markov Decision Processes: Discrete Stochastic Dynamic Programming（第 2 版）</strong></td>
+<td>Martin L. Puterman，Wiley 2014</td>
+<td><a href="https://www.wiley.com/en-us/Markov+Decision+Processes%3A+Discrete+Stochastic+Dynamic+Programming%2C+2nd+Edition-p-9780471727828">Wiley 官方页</a></td>
+<td>MDP 领域的权威专著（经典参考书，<strong>非免费</strong>）。</td>
+<td>值迭代 / 策略迭代 / 修正策略迭代的<strong>收敛率与最优性证明</strong>的标准出处，做严格工作时引用它。</td>
+<td>约 680 页</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td><strong>Reinforcement Learning: Theory and Algorithms</strong></td>
+<td>Alekh Agarwal, Kianté Brantley, Nan Jiang, Sham Kakade, Wen Sun</td>
+<td><a href="https://rltheorybook.github.io/">rltheorybook.github.io</a></td>
+<td>现代 RL 理论的免费教科书，配套 Harvard CS2824 课程。</td>
+<td><strong>你要的三件事——sample complexity、regret bound、exploration——这本书是系统出处</strong>，且含从多臂老虎机到线性 MDP 的完整证明。</td>
+<td>约 300 页（持续更新）</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td><strong>CS6787: Advanced Machine Learning for RL / Bandits</strong></td>
+<td>Cornell（Thorsten Joachims 等）</td>
+<td><a href="https://www.cs.cornell.edu/courses/cs6787/2021fa/">cs.cornell.edu/courses/cs6787/2021fa</a></td>
+<td>研究生级 RL 理论课，讲义与作业公开。</td>
+<td>以<strong>定理—证明</strong>的方式讲 regret 与 sample complexity，能当 #14 的课程版配套（有作业可做）。</td>
+<td>一学期，约 25 讲</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td><strong>随机逼近 / Robbins-Monro 讲义</strong></td>
+<td>Vivek Borkar（ICTS 讲稿）；VU Amsterdam 课程讲义</td>
+<td><a href="https://www.icts.res.in/sites/default/files/seminar%20doc%20files/Borkar%20V_0.pdf">Borkar 讲稿</a> ｜ <a href="https://obp.math.vu.nl/edu/so/notes.pdf">VU Amsterdam 讲义</a></td>
+<td>随机逼近的经典讲稿与课程讲义。</td>
+<td><strong>这是你数学背景直接对接 RL 的最佳跳板</strong>：Robbins-Monro 格式、步长条件、ODE 方法——TD 与 Q-learning 的收敛性就是它的特例。</td>
+<td>讲稿约 30 页；VU 讲义约 60 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">17</td>
+<td><strong>策略梯度定理的完整推导</strong></td>
+<td>Richard S. Sutton 等（NIPS 1999 / JAIR 2000）；Stanford CS234</td>
+<td><a href="http://incompleteideas.net/papers/SMSM-NIPS99-submitted.pdf">原始论文 PDF</a> ｜ <a href="https://web.stanford.edu/class/cs234/slides/lecture6post.pdf">CS234 讲义</a></td>
+<td>策略梯度定理的原始论文 + 一份严格的研究生讲义。</td>
+<td>与 <strong>Sutton &amp; Barto 第 13 章</strong>配套：原著给直觉与结论，原始论文给完整证明，CS234 讲义给课堂版推导——三份合起来是完整的严格链条。</td>
+<td>论文约 8 页；讲义约 60 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">18</td>
+<td><strong>PPO: Proximal Policy Optimization Algorithms</strong></td>
+<td>John Schulman 等，OpenAI（arXiv 2017）</td>
+<td><a href="https://arxiv.org/abs/1707.06347">arXiv:1707.06347</a></td>
+<td>PPO 的原始论文（当前 LLM RL 最主流的算法）。</td>
+<td>你已在学 PPO 这条线，这里给原始出处——CS285 Lec 9–10 与 HW2 直接依赖它。</td>
+<td>约 12 页</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">19</td>
+<td><strong>TRPO: Trust Region Policy Optimization</strong></td>
+<td>John Schulman 等，UC Berkeley（arXiv 2015 / ICML 2015）</td>
+<td><a href="https://arxiv.org/abs/1502.05477">arXiv:1502.05477</a></td>
+<td>用 KL 约束构造单调改进下界的信赖域策略优化。</td>
+<td>PPO 的前身，也是「策略改进的单调性证明」的标准范本——数学系读这一篇收获最大。</td>
+<td>约 20 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td><strong>GAE: High-Dimensional Continuous Control Using Generalized Advantage Estimation</strong></td>
+<td>John Schulman 等，UC Berkeley（arXiv 2015 / ICLR 2016）</td>
+<td><a href="https://arxiv.org/abs/1506.02438">arXiv:1506.02438</a></td>
+<td>提出广义优势估计（GAE），偏差-方差权衡的经典分析。</td>
+<td>PPO/TRPO 实现中 λ-优势的实际来源，把「偏差-方差权衡」写成了可调的 λ。</td>
+<td>约 14 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">21</td>
+<td><strong>LLM 时代的 RL 入门（指令微调线）</strong></td>
+<td>OpenAI（InstructGPT, arXiv 2022）</td>
+<td><a href="https://arxiv.org/abs/2203.02155">arXiv:2203.02155</a></td>
+<td>把 RLHF（SFT → RM → PPO）用于对齐语言模型的奠基性工作。</td>
+<td>你已有 PPO/GRPO/DPO 的材料，这一篇补齐「RL 怎么进到 LLM 里」的原始叙事，与 <strong>CS285 Lec 14 + HW4</strong> 同一主题。</td>
+<td>约 30 页</td>
+<td style="text-align: center;">📄</td>
+</tr>
+<tr>
+<td style="text-align: center;">22</td>
+<td><strong>Spinning Up 的 RL 理论论文清单（Bonus 节）</strong></td>
+<td>OpenAI</td>
+<td><a href="https://spinningup.openai.com/en/latest/spinningup/keypapers.html">Key Papers in Deep RL</a></td>
+<td>按 13 个主题分类的深度 RL 关键论文索引。</td>
+<td>其 <strong>“Bonus: Classic Papers in RL Theory or Review”</strong> 一节直接给出理论与综述的经典论文入口，可当延伸阅读地图。</td>
+<td>1 页索引（约 100 篇论文）</td>
+<td style="text-align: center;">📄</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="动手环境与练习">6.4 动手环境与练习</h3>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>名称</th>
+<th>作者 / 机构</th>
+<th>官方 URL</th>
+<th>定位（一句话）</th>
+<th>与 CS285 的关系</th>
+<th>规模</th>
+<th style="text-align: center;">标记</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">23</td>
+<td><strong>Gymnasium</strong></td>
+<td>Farama Foundation</td>
+<td><a href="https://gymnasium.farama.org/">gymnasium.farama.org</a></td>
+<td>RL 环境的标准 API（OpenAI Gym 的官方维护后继）。</td>
+<td>CS285 作业的环境接口基于它；自带 tabular Q-learning 教程，可从 FrozenLake 起步验证 Bellman 更新。</td>
+<td>文档含 6 类环境 + 8 个教程</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">24</td>
+<td><strong>CleanRL</strong></td>
+<td>Chris Lu 等（社区维护）</td>
+<td><a href="https://docs.cleanrl.dev/">docs.cleanrl.dev</a> ｜ <a href="https://github.com/vwxyzjn/cleanrl">GitHub</a></td>
+<td><strong>单文件</strong>深度 RL 实现集，每个算法一个独立脚本。</td>
+<td>学完 CS285 Lec 5–10 后对照读：PPO / SAC / DQN 各一个文件，把讲义公式逐行对上代码。</td>
+<td>约 20 个单文件算法实现</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">25</td>
+<td><strong>Spinning Up in Deep RL</strong></td>
+<td>OpenAI</td>
+<td><a href="https://spinningup.openai.com/en/latest/">spinningup.openai.com</a></td>
+<td>教学导向的深度 RL 代码库 + 文档 + 习题。</td>
+<td><strong>最适合与 CS285 并行</strong>：算法实现比 CS285 作业简单，但结构与讲义一一对应（VPG/TRPO/PPO/DDPG/TD3/SAC）。</td>
+<td>6 个算法实现 + 2 组习题</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">26</td>
+<td><strong>Stable-Baselines3</strong></td>
+<td>DLR-RM（德国航天中心）</td>
+<td><a href="https://github.com/DLR-RM/stable-baselines3">GitHub</a></td>
+<td>生产级 PyTorch RL 算法库（文档完善、可复现）。</td>
+<td>当”参考实现”用：自己写的 PPO 不收敛时，用它对照超参与实现细节。</td>
+<td>7 个算法 + 完整文档</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+<tr>
+<td style="text-align: center;">27</td>
+<td><strong>PettingZoo</strong></td>
+<td>Farama Foundation</td>
+<td><a href="https://pettingzoo.farama.org/">pettingzoo.farama.org</a></td>
+<td>多智能体 RL 环境 API（Gymnasium 的多智能体对应物）。</td>
+<td>属于 CS285 之后的延伸方向（多任务 / 多智能体 RL），现在不必动。</td>
+<td>文档含 4 类多智能体环境</td>
+<td style="text-align: center;">📄🧪</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Spinning Up 的两组公开习题</strong>（可直接当练习）：<a href="https://spinningup.openai.com/en/latest/spinningup/exercises.html">Exercises</a> —— Problem Set 1「实现基础」、Problem Set 2「算法失效模式」。</p>
+<h4 id="未能核实的条目">未能核实的条目</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>条目</th>
+<th>情况</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>https://www.davidsilver.uk/teaching/</code></td>
+<td>会跨域 301 跳转到 <code>davidstarsilver.wordpress.com</code>，直接抓取报 cross-origin 错误</td>
+<td>表格中改用<strong>跳转后的真实地址</strong> <code>https://davidstarsilver.wordpress.com/teaching/</code>（已核实 200，标题 “Teaching – David Silver”）</td>
+</tr>
+<tr>
+<td><code>http://www0.cs.ucl.ac.uk/staff/D.Silver/web/Teaching.html</code>（UCL 旧地址，CS285 与 CS294-112 页面仍在引用）</td>
+<td>服务器返回 200，但页面无标题、已停止维护</td>
+<td><strong>不作为主链接</strong>；Silver 课程一律用上面的 WordPress 新地址</td>
+</tr>
+<tr>
+<td><code>http://ai.berkeley.edu/</code>（CS285 syllabus 原文引用）</td>
+<td>根域可访问（200），但 <code>/home.html</code>、<code>/lecture_videos.html</code>、<code>/reinforcement.html</code> 等旧子路径全部 404</td>
+<td>指向 CS188 的链接一律改用现行站点 <code>https://inst.eecs.berkeley.edu/~cs188/sp24/</code></td>
+</tr>
+<tr>
+<td><code>https://www.edx.org/course/cs188-berkeleyx-artificial-intelligence</code>（syllabus 所称 “CS188 EdX course”）</td>
+<td>连接被重置，无法核实该 edX 课程页是否仍在线</td>
+<td><strong>标为未核实</strong>。syllabus 所指的 “Markov Decision Processes I” 内容，用 CS188 现行讲义 Lec 17–18 完全覆盖（已核实）</td>
+</tr>
+<tr>
+<td><code>https://github.com/cs294-112/fa18</code></td>
+<td>连接被意外关闭，未核实</td>
+<td>改列<strong>已核实</strong>的 <a href="http://rail.eecs.berkeley.edu/deeprlcourse-fa17/index.html">CS294-112 Fall 2017 官方页</a></td>
+</tr>
+<tr>
+<td><code>http://www.ualberta.ca/~szepesva/RLAlgsInMDPs.pdf</code></td>
+<td>跨域跳转到 <code>sztaki.hun-ren.hu</code>，直接抓取失败</td>
+<td>主链接改用<strong>已核实</strong>的作者官网书目页（<code>sites.ualberta.ca/~szepesva/rlbook.html</code>），该页自身提供免费 PDF</td>
+</tr>
+<tr>
+<td><code>https://adp.princeton.edu/</code>（Powell, Approximate Dynamic Programming，CS285 Resources 页推荐）</td>
+<td>连接被关闭，未核实</td>
+<td><strong>标为未核实</strong>，未列入表格</td>
+</tr>
+<tr>
+<td><code>http://www.athenasc.com/dpbook.html</code>（Bertsekas, DP and Optimal Control）</td>
+<td>页面可访问（200，标题 “Textbook: Dynamic Programming and Optimal Control”），但为<strong>商业购买页、无免费 PDF</strong></td>
+<td>未单列条目；Bertsekas 的免费材料以 #12 为准</td>
+</tr>
+<tr>
+<td>Puterman 一书的免费 PDF</td>
+<td>未找到合法的免费全文（Wiley 版权书）</td>
+<td>表格中已标注<strong>非免费</strong>，只给官方出版页</td>
+</tr>
+<tr>
+<td>CS234 具体讲次编号</td>
+<td>讲义 PDF 均可访问（已核实 200），但未逐份打开确认每份的讲次标题</td>
+<td>表格中只给课程主页与讲义目录，<strong>不写死讲次编号</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="已核实的核心底本sutton-barto第-2-版">已核实的核心底本：Sutton &amp; Barto（第 2 版）</h3>
+<p>CS285 官方指定的 RL 入门材料就是这本书的<strong>第 3、4 章</strong>（MDP 与动态规划）。作者官网直接提供全文：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>项目</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>官方主页</td>
+<td><a href="http://incompleteideas.net/book/the-book-2nd.html">incompleteideas.net/book/the-book-2nd.html</a></td>
+</tr>
+<tr>
+<td><strong>全文 PDF</strong> 📄</td>
+<td><a href="http://incompleteideas.net/book/RLbook2020.pdf">RLbook2020.pdf</a>（另有<a href="http://incompleteideas.net/book/RLbook2020trimmed.pdf">去边距版</a>）</td>
+</tr>
+<tr>
+<td>代码</td>
+<td><a href="http://incompleteideas.net/book/code/code2nd.html">示例代码</a></td>
+</tr>
+<tr>
+<td>习题解答</td>
+<td><a href="http://incompleteideas.net/book/solutions.html">Solutions</a>（可提交自己的解答换官方版，目前不完整）</td>
+</tr>
+<tr>
+<td>勘误</td>
+<td><a href="http://incompleteideas.net/book/errata.html">Errata and Notes</a></td>
+</tr>
+<tr>
+<td>教学幻灯片</td>
+<td><a href="https://drive.google.com/open?id=0B3w765rOKuKANmxNbXdwaE1YU1k">Slides and Other Teaching Aids</a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>数学系读这本书的正确姿势</strong>：Sutton &amp; Barto 是<strong>工程写法</strong>——直觉先行、证明从简。 对你来说它不难，但<strong>别指望它给你收敛性证明</strong>。它的价值是<strong>建立术语与直觉</strong>（值函数、Bellman 算子、GP I、TD 误差）。 严格的收敛性放在「RL 理论」那一层去补（见下）。</p>
+</blockquote>
+<hr />
+<h2 id="七与本仓库其他页面的关系">七、与本仓库其他页面的关系</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>你已有的</th>
+<th>与本页的关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="learning-plan.html"><strong>学习与追踪清单</strong></a>（优化器理论 / Scaling Law / 深度学习理论）</td>
+<td>那是<strong>优化器方向的主线</strong>，100 条材料按依赖切成 15 个板块。<strong>本页是它的前置与外围</strong>：先把机器学习/深度学习/RL 的语境建立起来，那条主线才走得动</td>
+</tr>
+<tr>
+<td><a href="survey.html"><strong>优化方法综述精读</strong></a></td>
+<td>一份 72 页综述的逐节讲解，属于优化器主线的深水区，<strong>现在不要读</strong></td>
+</tr>
+<tr>
+<td><strong>笔记</strong>（<code>notes/</code>）</td>
+<td>与学习计划的 15 个板块一一对应</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>两份清单的关系要说清楚</strong>：<code>学习与追踪清单</code> 是<strong>优化器研究方向的路线</strong>（有明确的研究目标：优化器理论、Scaling Law）； 本页是<strong>基础知识的补课路线</strong>（目标是补齐机器学习/深度学习/LLM/RL 的系统知识）。 两者<strong>共用一部分材料</strong>（如 Pandey 的深度学习书、Sutton &amp; Barto、PPO/GRPO），但<strong>目标不同</strong>： 前者面向科研选题，后者面向建立完整知识体系。<strong>先走本页，再回主线。</strong></p>
+</blockquote>
+
+</main>
+</div>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="./assets/render-math.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id);}
+      });
+    });
+  });</script>
+</body>
+</html>

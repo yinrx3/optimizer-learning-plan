@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = process.argv[2] || 'C:\\Users\\yinrx\\optimizer-learning-plan';
-const pages = ['index.html', 'sections.html', 'learning-plan.html', 'survey.html', 'notes/index.html'];
+const pages = ['index.html', 'sections.html', 'learning-plan.html', 'learning-materials.html', 'survey.html', 'notes/index.html'];
 const bad = [];
 const D = String.fromCharCode(36);
 
@@ -51,11 +51,25 @@ if (fs.existsSync(notesDir)) {
 
 console.log('');
 console.log('=== 顶层文件 ===');
-for (const f of ['学习与追踪清单.md', '综述精读-优化方法演化.md', '学习计划索引.md', 'README.md', 'build-web.js', 'build-all.ps1', 'math-to-span.lua']) {
+for (const f of ['学习与追踪清单.md', '学习材料.md', '综述精读-优化方法演化.md', '学习计划索引.md', 'README.md', 'build-web.js', 'build-all.ps1', 'math-to-span.lua']) {
   const p = path.join(ROOT, f);
   console.log('  ' + (fs.existsSync(p) ? '✓' : '✗') + ' ' + f + (fs.existsSync(p) ? '  ' + fs.statSync(p).size + ' B' : ''));
   if (!fs.existsSync(p)) bad.push('缺 ' + f);
 }
+
+console.log('');
+console.log('=== 发布 HTML 是否等于构建产物 web/ ===');
+// 曾出现"推送成功但线上仍是旧版"：这里逐字节比对仓库根目录的 html 与工作区 web/ 的 html
+const SRCWEB = 'C:\\Users\\yinrx\\Desktop\\carefulreading\\web';
+let sameH = 0, totH = 0;
+for (const f of ['index.html', 'sections.html', 'learning-plan.html', 'learning-materials.html', 'survey.html']) {
+  const a = path.join(ROOT, f), b = path.join(SRCWEB, f);
+  totH++;
+  if (!fs.existsSync(b)) { bad.push('工作区缺 web/' + f); continue; }
+  if (fs.readFileSync(a, 'utf8') === fs.readFileSync(b, 'utf8')) sameH++;
+  else bad.push('发布版与构建产物不一致: ' + f);
+}
+console.log('  一致: ' + sameH + '/' + totH);
 
 console.log('');
 console.log(bad.length ? '❌ 问题 ' + bad.length + ' 处:\n  ' + bad.slice(0, 15).join('\n  ') : '✅ 全部通过');

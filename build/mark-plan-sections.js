@@ -31,4 +31,6 @@ if (ap >= 0) lines.splice(ap, 0, '<!--SEC-APPENDIX-->');
 
 fs.writeFileSync(PLAN, lines.join('\n'), 'utf8');
 console.log('插入板块标记 ' + inserted + ' 个（单元格内）+ 附录 ' + (ap >= 0 ? 1 : 0) + ' 个');
-if (inserted !== S.length) console.log('⚠ 期望 ' + S.length + ' 个，实际 ' + inserted);
+// 只对【材料板块】插锚点；sections.json 里 tech:true 的两篇（综述阅读路线、终测）不占材料位置
+const matBlocks = S.filter((s) => !s.tech).length;
+if (inserted !== matBlocks) console.log('⚠ 期望 ' + matBlocks + ' 个材料板块标记，实际 ' + inserted);

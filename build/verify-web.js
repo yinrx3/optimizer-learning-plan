@@ -10,25 +10,29 @@ const count = (s, re) => (s.match(re) || []).length;
 const D = String.fromCharCode(36);
 
 console.log('=== 顶层页面 ===');
-for (const f of ['index.html', 'sections.html', 'learning-plan.html', 'survey.html']) {
+for (const f of ['index.html', 'sections.html', 'learning-plan.html', 'learning-materials.html', 'survey.html']) {
   const p = path.join(WEB, f);
   if (!fs.existsSync(p)) { console.log('  ❌ 缺 ' + f); continue; }
   const x = read(p);
-  console.log('  ' + f.padEnd(20) + (fs.statSync(p).size + ' B').padStart(11)
+  console.log('  ' + f.padEnd(24) + (fs.statSync(p).size + ' B').padStart(11)
     + '  table=' + String(count(x, /<table/g)).padStart(3)
     + '  math=' + String(count(x, /<span class="math/g)).padStart(4)
-    + '  裸$=' + count(x, new RegExp('\\' + D, 'g')));
+    + '  裸$=' + count(x, new RegExp('\\' + D, 'g'))
+    + '  空tbody=' + count(x, /<tbody>\s*<\/tbody>/g)
+    + '  占位符=' + count(x, /<!--SECTION-/g));
 }
 
 console.log('');
 console.log('=== 板块锚点（learning-plan.html）===');
+// tech:true 的条目（综述阅读路线 / 终测）本来就没有材料锚点，不参与锚点检查
+const ANCHORED = S.filter((s) => !s.tech);
 const lp = read(path.join(WEB, 'learning-plan.html'));
 let okAnchor = 0;
-S.forEach((s, i) => {
+ANCHORED.forEach((s, i) => {
   const has = lp.includes('id="sec-' + s.from + '"');
   if (has) okAnchor++; else console.log('  ❌ 缺锚点 sec-' + s.from + '（板块 ' + (i + 1) + '）');
 });
-console.log('  锚点 ' + okAnchor + '/' + S.length);
+console.log('  锚点 ' + okAnchor + '/' + ANCHORED.length + '（另有 tech 条目 ' + (S.length - ANCHORED.length) + ' 个无锚点，属正常）');
 console.log('  板块导航条目 ' + count(lp, /class="p" href="#sec-/g));
 console.log('  附录锚点 ' + (lp.includes('id="sec-appendix"') ? '有' : '❌ 缺'));
 
@@ -51,7 +55,7 @@ console.log('  合订页 ' + (fs.existsSync(ni) ? (fs.statSync(ni).size + ' B') 
 
 console.log('');
 console.log('=== 链接可达性（站内） ===');
-const pages = ['index.html', 'sections.html', 'learning-plan.html', 'survey.html', 'notes/index.html'];
+const pages = ['index.html', 'sections.html', 'learning-plan.html', 'learning-materials.html', 'survey.html', 'notes/index.html'];
 const bad = [];
 for (const f of pages) {
   const dir = path.dirname(path.join(WEB, f));

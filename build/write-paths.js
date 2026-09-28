@@ -8,6 +8,7 @@ const paths = {
   root: ROOT,
   plan: '学习与追踪清单.md',
   survey: '综述精读-优化方法演化.md',
+  materials: '学习材料.md',
   index: '学习计划索引.md',
   luaFilter: 'math-to-span.lua',
   tmp: 'web/.tmp',

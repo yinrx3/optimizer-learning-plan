@@ -237,9 +237,21 @@ fs.writeFileSync(path.join(OUT, 'learning-plan.html'), page({
   masthead: `<div class="masthead">
     <h1>优化器理论学习计划</h1>
     <div class="sub">从零开始 · 优化器理论 / Scaling Law / 深度学习理论</div>
-    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 100 条材料 / 15 个板块 / 20 个检查点 / 235 道自测题</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 100 条材料 / 15 个板块 / 20 个检查点 / 234 道自测题</div>
   </div>`,
   body: injectAnchors(read('plan.body.html')),
+}));
+
+// ---------- 基础知识路线页（新） ----------
+fs.writeFileSync(path.join(OUT, 'learning-materials.html'), page({
+  title: '基础知识（学习材料）— 殷润轩',
+  toc: tocOf('materials.toc.html'),
+  masthead: `<div class="masthead">
+    <h1>基础知识</h1>
+    <div class="sub">学习材料：机器学习 · 深度学习 · 大语言模型 · 强化学习</div>
+    <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海）→ 香港中文大学 SEEM ｜ 机器学习主线 = Stanford CS229（Tengyu Ma 讲义）｜ 链接逐条实测</div>
+  </div>`,
+  body: read('materials.body.html'),
 }));
 
 // ---------- 综述精读页 ----------
@@ -356,22 +368,27 @@ fs.writeFileSync(path.join(OUT, 'index.html'), `<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>殷润轩 — 学习材料</title>
+<title>殷润轩 — 学习总览</title>
 <link rel="stylesheet" href="./katex/katex.min.css">
 <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 <div class="wrap"><main style="margin:0 auto">
 <div class="masthead">
-  <h1>学习材料</h1>
-  <div class="sub">优化器理论 · Scaling Law · 深度学习理论</div>
+  <h1>学习总览</h1>
+  <div class="sub">基础知识（补课材料） · 优化器理论学习计划 · 综述精读 · 笔记</div>
   <div class="meta">殷润轩 ｜ 中山大学数学学院（珠海） ｜ 2026 年 9 月</div>
 </div>
 <div class="cards">
+  <a class="card" href="./learning-materials.html">
+    <h3>基础知识 →</h3>
+    <p>数学系转 AI 的补课路线：机器学习（Stanford CS229 / Tengyu Ma 讲义为主线）→ 深度学习 → 大语言模型 → 强化学习。含依赖关系图、每门课的讲义/作业/代码框架链接，以及 CS285 深度强化学习的完整讲次与作业表。</p>
+    <div class="n">7 个板块 ｜ 链接均经实测核实</div>
+  </a>
   <a class="card" href="./sections.html">
     <h3>按板块浏览（15 个）→</h3>
     <p>把 100 条材料按阅读依赖切成 15 个板块，每个板块给出主题、材料范围、对应检查点与笔记入口。</p>
-    <div class="n">100 条材料 ｜ 20 个检查点 ｜ 235 道自测题</div>
+    <div class="n">100 条材料 ｜ 20 个检查点 ｜ 234 道自测题</div>
   </a>
   <a class="card" href="./learning-plan.html">
     <h3>进入学习计划 →</h3>
@@ -380,8 +397,8 @@ fs.writeFileSync(path.join(OUT, 'index.html'), `<!DOCTYPE html>
   </a>
   <a class="card" href="./notes/index.html">
     <h3>笔记 →</h3>
-    <p>按同样 15 个板块组织的空白笔记，每篇只放该范围的材料清单与自测题。</p>
-    <div class="n">15 篇 ｜ 与计划板块一一对应</div>
+    <p>按同样 15 个板块组织的笔记，每篇只放该范围的材料清单与自测题（题目已按前置材料归位）。</p>
+    <div class="n">15 篇 + 综述阅读路线 + 终测 ｜ 与计划板块一一对应</div>
   </a>
   <a class="card" href="./survey.html">
     <h3>优化方法综述精读 →</h3>

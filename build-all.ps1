@@ -60,6 +60,15 @@ Invoke-Step "plan body" { & pandoc $PLAN @common -o (Join-Path $TMP 'plan.body.h
 Invoke-Step "survey toc" { & pandoc $SURVEY @common -s --toc --toc-depth=3 -o (Join-Path $TMP 'survey.toc.html') }
 Invoke-Step "survey body" { & pandoc $SURVEY @common -o (Join-Path $TMP 'survey.body.html') }
 
+# materials page (path comes from paths.json; no literal CJK in this script)
+$MAT = Join-Path $R $P.materials
+if ($MAT -and (Test-Path -LiteralPath $MAT)) {
+    Invoke-Step "materials toc" { & pandoc $MAT @common -s --toc --toc-depth=2 -o (Join-Path $TMP 'materials.toc.html') }
+    Invoke-Step "materials body" { & pandoc $MAT @common -o (Join-Path $TMP 'materials.body.html') }
+} else {
+    Write-Host ("  - materials page not found at [" + $MAT + "], skipping")
+}
+
 $notesDir = Join-Path $R 'notes'
 Get-ChildItem $notesDir -Filter '*.md' | ForEach-Object {
     $out = Join-Path $TMP ('note-' + $_.BaseName + '.body.html')
