@@ -218,7 +218,7 @@
 
 <div id="18-27" style="scroll-margin-top:20px"></div><h1 id="adamadamw-与收敛性之争">18-27｜Adam、AdamW 与收敛性之争</h1>
 <blockquote>
-<p>材料 18–27　｜　本块题目 35 道</p>
+<p>材料 18–27　｜　本块题目 31 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -288,32 +288,25 @@
 </tbody>
 </table>
 <h2 id="自测">自测</h2>
-<p><strong>检查点 1｜为什么神经网络训练不是经典优化问题</strong></p>
-<ol type="1">
-<li>一个 7B 模型，FP32 训练下参数、Adam 状态各占多少 GB？换成 bf16 混合精度后各占多少？</li>
-<li><strong>面试题</strong>：如果显存是硬约束，你会先砍激活值还是先砍优化器状态？各自的代价是什么？</li>
-</ol>
 <p><strong>检查点 3｜自适应方法的本质</strong></p>
-<ol start="3" type="1">
+<ol type="1">
 <li><strong>面试题</strong>：为什么 Adam 要在分母加 <span class="math">\epsilon</span>？只为了防除零吗？</li>
 <li><strong>面试题</strong>：Adam 与 RMSProp + 动量的区别到底是什么？（提示：差别在”动量作用在哪个量上”）</li>
 <li><strong>延伸</strong>：第 50 行会用”对角 Fisher 近似”再推出一次 Adam——两种推导给出的算法完全一样吗？</li>
 </ol>
 <p><strong>检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</strong></p>
-<ol start="6" type="1">
+<ol start="4" type="1">
 <li>写出 Adam 的完整更新式，标出 <span class="math">m_t</span>、<span class="math">v_t</span>、<span class="math">\hat m_t</span>、<span class="math">\hat v_t</span>。</li>
 <li>从 sign-SGD 出发，把这个推导完整写一遍。</li>
 <li>为什么需要偏差修正？不修正会怎样？</li>
 <li>推一遍 <span class="math">\mathbb{E}[m^t]=(1-\beta_1^t)\,g</span>（假设每步梯度是同一向量的无偏估计）。</li>
 <li><span class="math">\beta_1=0.9</span>、<span class="math">\beta_2=0.999</span>：两者的有效记忆窗口分别是多少步？为什么分母需要更长的记忆？</li>
 <li>如果把 <span class="math">\beta_2</span> 设成 <span class="math">0.9</span>（与 <span class="math">\beta_1</span> 相同），训练会有什么变化？</li>
-<li>Adam 的预条件子 <span class="math">M_t</span> 长什么样？按综述的判据，它属于<strong>一阶</strong>还是<strong>二阶</strong>？为什么？</li>
-<li>K-FAC 的 <span class="math">M_t</span> 属于一阶还是二阶？为什么？（注意：它和 Shampoo 都用了 Kronecker 分解）</li>
-<li>写出二阶预条件子的一般形式 <span class="math">M_t=\hat H_t+\gamma I</span>，并说明阻尼因子 <span class="math">\gamma</span> 的作用。</li>
-<li>自适应学习率的通用分解式 <span class="math">\theta_{t+1}=\theta_t-\eta_t\,\phi(g_{1:t})/\psi(g_{1:t})</span> 中，AdaGrad、RMSprop、Adam 各自的 <span class="math">\phi</span> 与 <span class="math">\psi</span> 是什么？</li>
+<li>一个 7B 模型，FP32 训练下参数本身、Adam 状态（<span class="math">m_t</span> 与 <span class="math">v_t</span>）各占多少 GB？换成 bf16 混合精度后各占多少？</li>
+<li><strong>面试题</strong>：如果显存是硬约束，你会先砍激活值还是先砍优化器状态？各自的代价是什么？</li>
 </ol>
 <p><strong>检查点 5｜面试高频：Adam + L2 与 AdamW 的区别</strong></p>
-<ol start="16" type="1">
+<ol start="12" type="1">
 <li>用公式说清”Adam + L2”与”AdamW”差在哪一项。</li>
 <li>为什么 L2 正则进入 EMA 后，<span class="math">\hat m</span> 与 <span class="math">\hat v</span> 就不再是”纯梯度信息”了？</li>
 <li>AdamW 的衰减项为什么也乘了 <span class="math">\eta_t</span>？</li>
@@ -324,7 +317,7 @@
 <li><strong>延伸</strong>：如果不用 L2 而用 weight decay 的另一种定义（直接乘 <span class="math">(1-\eta\lambda)</span>），与 AdamW 的加法形式在什么条件下等价？</li>
 </ol>
 <p><strong>检查点 6｜一个真实存在的矛盾</strong></p>
-<ol start="24" type="1">
+<ol start="20" type="1">
 <li>复述 Reddi 定理的条件与结论。</li>
 <li>默认超参 <span class="math">0.9/0.999</span> 满足那个条件吗？</li>
 <li>AMSGrad 是怎么修的？</li>
@@ -334,11 +327,11 @@
 <li><strong>延伸</strong>：Défossez 那篇（第 24 行）在<strong>不改更新规则</strong>的前提下证明了收敛——这意味着 Reddi 的反例被推翻了吗？</li>
 </ol>
 <p><strong>检查点 7｜一条可迁移的方法论</strong></p>
-<ol start="31" type="1">
+<ol start="27" type="1">
 <li><strong>动手</strong>：你手写的 Adam 与论文里的算法是否数值完全一致？若不一致，差在哪一项？</li>
 </ol>
 <p><strong>检查点 10｜本计划最关键的一问</strong></p>
-<ol start="32" type="1">
+<ol start="28" type="1">
 <li>从更新式出发，说明为什么 Adam 在 10× lr 下会”结构性崩溃”而 SGD 只是振荡。</li>
 <li>AdamW 在 10× lr 下是 0.2640（约等于随机猜），请解释这个数字为什么如此极端。</li>
 <li><strong>面试题</strong>：如果让你给一个不熟悉优化器的人解释”为什么不能随便放大 Adam 的学习率”，你会用哪个数学事实？</li>
@@ -588,7 +581,7 @@
 
 <div id="47-52" style="scroll-margin-top:20px"></div><h1 id="优化器设计-不同范数下的最速下降">47-52｜优化器设计 = 不同范数下的最速下降</h1>
 <blockquote>
-<p>材料 47–52　｜　本块题目 26 道</p>
+<p>材料 47–52　｜　本块题目 22 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -640,7 +633,7 @@
 <h2 id="自测">自测</h2>
 <p><strong>检查点 3｜自适应方法的本质</strong></p>
 <ol type="1">
-<li><strong>延伸</strong>：如果不用逐元素缩放，而是<strong>对整个梯度向量只做一次归一化</strong>，会得到什么？它和逐元素缩放的本质差别在哪？</li>
+<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
 </ol>
 <p><strong>检查点 11｜全表最重要的检查点</strong></p>
 <ol start="2" type="1">
@@ -668,10 +661,6 @@
 <li><strong>面试题</strong>：如果让你设计一个新优化器，你会先动三问中的哪一问？为什么？</li>
 <li><strong>面试题</strong>：导师问你「综述里最值得做的是哪一个缺口」，你怎么答？（提示：说出「假设不成立」比「现象未理解」更有力）</li>
 <li><strong>延伸（回到检查点 11）</strong>：课程 §4.3 说「Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同，所以两条路汇合」。用三轴语言重新表述这句话，并指出它在什么意义上是极限陈述。</li>
-<li><strong>范数 → 几何 → 优化器</strong>：换最速下降里的范数，依次得到 SGD（<span class="math">\ell_2</span>）、sign-SGD（<span class="math">\ell_\infty</span>）、Muon（谱范数）。第 46-48 行是这个链条的核心。</li>
-<li><strong>Fisher 信息 → 二阶方法</strong>：对角 Fisher 近似给出 Adam（第 50 行）；Kronecker 分解给出 Shampoo（第 50-52 行）；牛顿型重建给出 Newton–Muon（第 69 行）与 Newton Matching（第 90 行）。</li>
-<li><strong>步子该迈多大</strong>：从 <span class="math">\eta_t\le 1/L</span>（第 6 行）→ 调度形状（第 31-37 行）→ 权重范数与有效学习率（第 42-44 行）→ Hyperball 之争（第 59-60 行）；RL 那边是同一个问题的另一种问法（clipping，第 76-82 行）。</li>
-<li><strong>三个正交的设计轴</strong>（检查点 20）：<strong>信息从哪来</strong>（FO / ZO）、<strong>在哪个范数下最速下降</strong>（<span class="math">\ell_2</span> / <span class="math">\ell_\infty</span> / 谱范数）、<strong>参数被约束在什么集合上</strong>（欧氏 / 球面 / 低秩 / Stiefel）。<strong>任何优化器都是这三问的一组答案</strong>；而综述自承的三个缺口，恰好都是两根轴拉扯的产物。</li>
 </ol>
 
 
@@ -1174,7 +1163,7 @@
 
 <div id="91-94" style="scroll-margin-top:20px"></div><h1 id="零阶优化与函数空间的牛顿法">91-94｜零阶优化与函数空间的牛顿法</h1>
 <blockquote>
-<p>材料 91–94　｜　本块题目 2 道</p>
+<p>材料 91–94　｜　本块题目 1 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -1214,12 +1203,8 @@
 </tbody>
 </table>
 <h2 id="自测">自测</h2>
-<p><strong>检查点 1｜为什么神经网络训练不是经典优化问题</strong></p>
-<ol type="1">
-<li>综述把 <strong>ZO 方法的复兴</strong>归因于显存墙。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
-</ol>
 <p><strong>检查点 14｜一个可以迁移到别处的研究套路</strong></p>
-<ol start="2" type="1">
+<ol type="1">
 <li><strong>延伸</strong>：第 90 行 Newton Matching 也用牛顿方向，但它在函数空间——两处的”牛顿”是同一个意思吗？</li>
 </ol>
 

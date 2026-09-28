@@ -16,6 +16,9 @@ let inQ = false;
 for (const line of plan.split(/\r?\n/)) {
   const c = line.match(CP);
   if (c) { cur = +c[1]; inQ = false; continue; }
+  // 遇到 ## 二级标题退出取题状态（检查点 20 之后紧跟 "## 兴趣支线"，
+  // 那里的"三条主线 / 三个设计轴"是编号列表，不是自测题）
+  if (/^##\s/.test(line)) { inQ = false; continue; }
   if (HEAD.test(line)) { inQ = true; continue; }
   if (inQ && OTHER_BOLD.test(line)) { inQ = false; continue; }
   if (inQ && Q.test(line)) inPlan.push(line.replace(/^\d+\.\s/, '').trim());

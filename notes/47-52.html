@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/47-52.md" target="_blank" rel="noopener">47-52.md 源文件</a></div></div>
 <h1 id="优化器设计-不同范数下的最速下降">47-52｜优化器设计 = 不同范数下的最速下降</h1>
 <blockquote>
-<p>材料 47–52　｜　本块题目 26 道</p>
+<p>材料 47–52　｜　本块题目 22 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -73,7 +73,7 @@
 <h2 id="自测">自测</h2>
 <p><strong>检查点 3｜自适应方法的本质</strong></p>
 <ol type="1">
-<li><strong>延伸</strong>：如果不用逐元素缩放，而是<strong>对整个梯度向量只做一次归一化</strong>，会得到什么？它和逐元素缩放的本质差别在哪？</li>
+<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
 </ol>
 <p><strong>检查点 11｜全表最重要的检查点</strong></p>
 <ol start="2" type="1">
@@ -101,10 +101,6 @@
 <li><strong>面试题</strong>：如果让你设计一个新优化器，你会先动三问中的哪一问？为什么？</li>
 <li><strong>面试题</strong>：导师问你「综述里最值得做的是哪一个缺口」，你怎么答？（提示：说出「假设不成立」比「现象未理解」更有力）</li>
 <li><strong>延伸（回到检查点 11）</strong>：课程 §4.3 说「Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同，所以两条路汇合」。用三轴语言重新表述这句话，并指出它在什么意义上是极限陈述。</li>
-<li><strong>范数 → 几何 → 优化器</strong>：换最速下降里的范数，依次得到 SGD（<span class="math">\ell_2</span>）、sign-SGD（<span class="math">\ell_\infty</span>）、Muon（谱范数）。第 46-48 行是这个链条的核心。</li>
-<li><strong>Fisher 信息 → 二阶方法</strong>：对角 Fisher 近似给出 Adam（第 50 行）；Kronecker 分解给出 Shampoo（第 50-52 行）；牛顿型重建给出 Newton–Muon（第 69 行）与 Newton Matching（第 90 行）。</li>
-<li><strong>步子该迈多大</strong>：从 <span class="math">\eta_t\le 1/L</span>（第 6 行）→ 调度形状（第 31-37 行）→ 权重范数与有效学习率（第 42-44 行）→ Hyperball 之争（第 59-60 行）；RL 那边是同一个问题的另一种问法（clipping，第 76-82 行）。</li>
-<li><strong>三个正交的设计轴</strong>（检查点 20）：<strong>信息从哪来</strong>（FO / ZO）、<strong>在哪个范数下最速下降</strong>（<span class="math">\ell_2</span> / <span class="math">\ell_\infty</span> / 谱范数）、<strong>参数被约束在什么集合上</strong>（欧氏 / 球面 / 低秩 / Stiefel）。<strong>任何优化器都是这三问的一组答案</strong>；而综述自承的三个缺口，恰好都是两根轴拉扯的产物。</li>
 </ol>
 
 </main>
