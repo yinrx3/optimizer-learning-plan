@@ -33,17 +33,18 @@ if (fs.existsSync(notesDir)) {
   const md = fs2.filter((f) => f.endsWith('.md'));
   const html = fs2.filter((f) => f.endsWith('.html'));
   console.log('  md ' + md.length + ' 个，html ' + html.length + ' 个（应为 md 数 + 1 个合订页）');
-  // 与工作区对照：数量必须一致，且每个 md 都要有对应 html
-  const src = 'C:\\Users\\yinrx\\Desktop\\carefulreading\\notes';
-  if (fs.existsSync(src)) {
-    const want = fs.readdirSync(src).filter((f) => f.endsWith('.md'));
-    if (want.length !== md.length) bad.push('notes md 数量与工作区不一致：仓库 ' + md.length + ' / 工作区 ' + want.length);
-    const missing = want.filter((f) => !md.includes(f));
-    if (missing.length) bad.push('仓库缺 notes md：' + missing.join(', '));
-    for (const f of want) {
-      const h = f.replace(/\.md$/, '.html');
-      if (!html.includes(h)) bad.push('缺对应 html：' + h);
+  // 内容一致性：仓库里的 notes md 必须与工作区逐字节一致
+  // （曾出现"推送成功但线上仍是旧版"的情况，靠这个校验定位）
+  const srcDir = 'C:\\Users\\yinrx\\Desktop\\carefulreading\\notes';
+  if (fs.existsSync(srcDir)) {
+    let diff = 0;
+    for (const f of md) {
+      const a = path.join(notesDir, f);
+      const b = path.join(srcDir, f);
+      if (!fs.existsSync(b)) { bad.push('工作区缺 ' + f); continue; }
+      if (fs.readFileSync(a, 'utf8') !== fs.readFileSync(b, 'utf8')) { diff++; bad.push('内容不一致: ' + f); }
     }
+    console.log('  与工作区逐字节一致: ' + (md.length - diff) + '/' + md.length);
   }
   if (html.length !== md.length + 1) bad.push('notes html 数量应为 md 数 + 1（合订页），实为 ' + html.length);
 } else bad.push('缺 notes/ 目录');
