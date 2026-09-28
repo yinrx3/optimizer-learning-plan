@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/28-30.md" target="_blank" rel="noopener">28-30.md 源文件</a></div></div>
 <h1 id="三篇待处理的论文综述-adam-动力学-加速-sgd">28-30｜三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</h1>
 <blockquote>
-<p>材料 28–30　｜　本块题目 22 道</p>
+<p>材料 28–30　｜　本块题目 21 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -63,12 +63,11 @@
 <li>课程 §4.1 用光滑性给出 <span class="math">\eta_t\le 1/L</span>；Barakat &amp; Bianchi 用稳定性条件——这两个条件的关系是什么？</li>
 <li>为什么常步长下只能证明”收敛到稳定点”，而递减步长能给出更强的结论？</li>
 <li>条件中心极限定理在这里回答什么问题？（提示：算法末期的波动分布）</li>
-<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 <li>为什么”理论迭代次数更少”不等于”实际更快”？说出这两个量的关系。</li>
 <li><strong>面试题</strong>：给你一个二阶优化器，你怎么判断它的瓶颈在”迭代次数”还是在”每步延迟”？</li>
 </ol>
 <p><strong>检查点 8｜噪声有多大，才谈得上”加速”</strong></p>
-<ol start="11" type="1">
+<ol start="10" type="1">
 <li>写出增长条件的表达式。它与”有界方差”假设的区别在哪？</li>
 <li>为什么说增长条件比有界方差更贴近实际训练？</li>
 <li>论文分析了哪四种加速方法？</li>
@@ -79,11 +78,11 @@
 <li><strong>面试题</strong>：如果有人说”用 Nesterov 加速就能比 SGD 快”，你会追问什么？</li>
 </ol>
 <p><strong>检查点 13｜两篇论文的分歧点在”归因”</strong></p>
-<ol start="19" type="1">
+<ol start="18" type="1">
 <li>综述的<strong>算力成本表（Tab. 8）</strong>本身想论证什么？——约 1073 GPU 小时这个数字，对”如何做公平比较”意味着什么？</li>
 </ol>
 <p><strong>检查点 16｜两篇 scaling law 为什么不矛盾</strong></p>
-<ol start="20" type="1">
+<ol start="19" type="1">
 <li><strong>面试题</strong>：如果目标是”换一个模型宽度也能沿用同一套超参”，你有哪两条完全不同的技术路线？（提示：重参数化 vs 几何约束）</li>
 <li>综述为什么要明确声明 <strong>60M Llama 只是 architectural proxy</strong>？这个声明在方法学上防住了什么批评？</li>
 <li>为什么”<strong>优化器排行榜</strong>”在不指定架构和配方时是一个<strong>不适定问题</strong>？举一个综述里的具体证据。</li>

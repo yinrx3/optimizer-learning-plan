@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/47-52.md" target="_blank" rel="noopener">47-52.md 源文件</a></div></div>
 <h1 id="优化器设计-不同范数下的最速下降">47-52｜优化器设计 = 不同范数下的最速下降</h1>
 <blockquote>
-<p>材料 47–52　｜　本块题目 22 道</p>
+<p>材料 47–52　｜　本块题目 24 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -71,9 +71,9 @@
 </tbody>
 </table>
 <h2 id="自测">自测</h2>
-<p><strong>检查点 3｜自适应方法的本质</strong></p>
+<p><strong>检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</strong></p>
 <ol type="1">
-<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
+<li>K-FAC 的 <span class="math">M_t</span> 属于一阶还是二阶？为什么？（注意：它和 Shampoo 都用了 Kronecker 分解）</li>
 </ol>
 <p><strong>检查点 11｜全表最重要的检查点</strong></p>
 <ol start="2" type="1">
@@ -89,9 +89,11 @@
 <li>为什么 Shampoo 按综述的判据属于”一阶”？它和 Adam 在什么意义上同族？</li>
 <li>“经验 Fisher 捕捉的是梯度方差”——请说明这句话的含义，以及它与”真 Fisher 捕捉曲率”的差别。</li>
 <li><strong>面试题</strong>：如果面试官说”Muon 和 Shampoo 是一回事”，你怎么回应才既准确又不显得抬杠？</li>
+<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
+<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 </ol>
 <p><strong>检查点 20｜三个正交的设计轴：本表与综述的真正接口</strong></p>
-<ol start="14" type="1">
+<ol start="16" type="1">
 <li>用一句话说清「范数轴」与「算子轴」各自回答什么问题。</li>
 <li>一个优化器的完整说明需要回答哪三个问题？</li>
 <li>Muon 在三问中哪一问最强？Shampoo 呢？</li>

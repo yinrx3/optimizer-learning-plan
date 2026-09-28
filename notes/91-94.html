@@ -21,7 +21,7 @@
         <a href="https://github.com/yinrx3/optimizer-learning-plan/blob/main/notes/91-94.md" target="_blank" rel="noopener">91-94.md 源文件</a></div></div>
 <h1 id="零阶优化与函数空间的牛顿法">91-94｜零阶优化与函数空间的牛顿法</h1>
 <blockquote>
-<p>材料 91–94　｜　本块题目 1 道</p>
+<p>材料 91–94　｜　本块题目 7 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -64,6 +64,15 @@
 <p><strong>检查点 14｜一个可以迁移到别处的研究套路</strong></p>
 <ol type="1">
 <li><strong>延伸</strong>：第 90 行 Newton Matching 也用牛顿方向，但它在函数空间——两处的”牛顿”是同一个意思吗？</li>
+</ol>
+<p><strong>检查点 19｜全表终测</strong></p>
+<ol start="2" type="1">
+<li>写出零阶梯度估计式。<span class="math">q</span> 与 <span class="math">\mu</span> 分别控制什么？<span class="math">q=1</span> 时每一步需要几次前向评估？</li>
+<li>MeZO 凭什么做到”优化器显存≈推理显存”？<strong>原地（in-place）扰动</strong>与<strong>同步随机种子</strong>各自解决什么问题？</li>
+<li>ZO 的梯度估计方差大致随什么增长？这带来什么后果——为什么”省显存”是有代价的？</li>
+<li>综述把 ZO 方法的复兴归因于<strong>显存墙</strong>。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
+<li><strong>对照题</strong>：低秩类 ZO 方法（LOZO、TeZO）与稀疏类（Sparse-MeZO、LeZO）分别在哪个维度上做限制？各自丢掉什么信息？</li>
+<li>Newton Matching 把什么当作几何量？它证明的”牛顿方向 = 负 Fisher–Rao 梯度”依赖哪个恒等式？</li>
 </ol>
 
 </main>

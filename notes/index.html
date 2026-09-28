@@ -160,7 +160,7 @@
 
 <div id="14-17" style="scroll-margin-top:20px"></div><h1 id="自适应步长adagrad-sign-sgd-rmsprop">14-17｜自适应步长：AdaGrad / sign-SGD / RMSProp</h1>
 <blockquote>
-<p>材料 14–17　｜　本块题目 9 道</p>
+<p>材料 14–17　｜　本块题目 10 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -211,6 +211,7 @@
 <li>把”自适应”按空间粒度从粗到细排一遍，每一级各举一个算法。</li>
 <li>为什么”换成谱范数”等价于”把适应粒度提到矩阵级”？</li>
 <li>综述说逐层方法假设”层内梯度一致有界”——请构造一个反例场景说明它为什么不成立。</li>
+<li><strong>延伸（接检查点 18）</strong>：如果异质性发生在层内部，LayerClip 能修吗？需要什么粒度的工具？</li>
 </ol>
 
 
@@ -218,7 +219,7 @@
 
 <div id="18-27" style="scroll-margin-top:20px"></div><h1 id="adamadamw-与收敛性之争">18-27｜Adam、AdamW 与收敛性之争</h1>
 <blockquote>
-<p>材料 18–27　｜　本块题目 31 道</p>
+<p>材料 18–27　｜　本块题目 33 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -291,11 +292,10 @@
 <p><strong>检查点 3｜自适应方法的本质</strong></p>
 <ol type="1">
 <li><strong>面试题</strong>：为什么 Adam 要在分母加 <span class="math">\epsilon</span>？只为了防除零吗？</li>
-<li><strong>面试题</strong>：Adam 与 RMSProp + 动量的区别到底是什么？（提示：差别在”动量作用在哪个量上”）</li>
 <li><strong>延伸</strong>：第 50 行会用”对角 Fisher 近似”再推出一次 Adam——两种推导给出的算法完全一样吗？</li>
 </ol>
 <p><strong>检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</strong></p>
-<ol start="4" type="1">
+<ol start="3" type="1">
 <li>写出 Adam 的完整更新式，标出 <span class="math">m_t</span>、<span class="math">v_t</span>、<span class="math">\hat m_t</span>、<span class="math">\hat v_t</span>。</li>
 <li>从 sign-SGD 出发，把这个推导完整写一遍。</li>
 <li>为什么需要偏差修正？不修正会怎样？</li>
@@ -304,9 +304,12 @@
 <li>如果把 <span class="math">\beta_2</span> 设成 <span class="math">0.9</span>（与 <span class="math">\beta_1</span> 相同），训练会有什么变化？</li>
 <li>一个 7B 模型，FP32 训练下参数本身、Adam 状态（<span class="math">m_t</span> 与 <span class="math">v_t</span>）各占多少 GB？换成 bf16 混合精度后各占多少？</li>
 <li><strong>面试题</strong>：如果显存是硬约束，你会先砍激活值还是先砍优化器状态？各自的代价是什么？</li>
+<li>Adam 的预条件子 <span class="math">M_t</span> 长什么样？按综述的判据，它属于<strong>一阶</strong>还是<strong>二阶</strong>？为什么？</li>
+<li>写出二阶预条件子的一般形式 <span class="math">M_t=\hat H_t+\gamma I</span>，并说明阻尼因子 <span class="math">\gamma</span> 的作用。</li>
+<li>自适应学习率的通用分解式 <span class="math">\theta_{t+1}=\theta_t-\eta_t\,\phi(g_{1:t})/\psi(g_{1:t})</span> 中，AdaGrad、RMSprop、Adam 各自的 <span class="math">\phi</span> 与 <span class="math">\psi</span> 是什么？</li>
 </ol>
 <p><strong>检查点 5｜面试高频：Adam + L2 与 AdamW 的区别</strong></p>
-<ol start="12" type="1">
+<ol start="14" type="1">
 <li>用公式说清”Adam + L2”与”AdamW”差在哪一项。</li>
 <li>为什么 L2 正则进入 EMA 后，<span class="math">\hat m</span> 与 <span class="math">\hat v</span> 就不再是”纯梯度信息”了？</li>
 <li>AdamW 的衰减项为什么也乘了 <span class="math">\eta_t</span>？</li>
@@ -317,7 +320,7 @@
 <li><strong>延伸</strong>：如果不用 L2 而用 weight decay 的另一种定义（直接乘 <span class="math">(1-\eta\lambda)</span>），与 AdamW 的加法形式在什么条件下等价？</li>
 </ol>
 <p><strong>检查点 6｜一个真实存在的矛盾</strong></p>
-<ol start="20" type="1">
+<ol start="22" type="1">
 <li>复述 Reddi 定理的条件与结论。</li>
 <li>默认超参 <span class="math">0.9/0.999</span> 满足那个条件吗？</li>
 <li>AMSGrad 是怎么修的？</li>
@@ -327,11 +330,11 @@
 <li><strong>延伸</strong>：Défossez 那篇（第 24 行）在<strong>不改更新规则</strong>的前提下证明了收敛——这意味着 Reddi 的反例被推翻了吗？</li>
 </ol>
 <p><strong>检查点 7｜一条可迁移的方法论</strong></p>
-<ol start="27" type="1">
+<ol start="29" type="1">
 <li><strong>动手</strong>：你手写的 Adam 与论文里的算法是否数值完全一致？若不一致，差在哪一项？</li>
 </ol>
 <p><strong>检查点 10｜本计划最关键的一问</strong></p>
-<ol start="28" type="1">
+<ol start="30" type="1">
 <li>从更新式出发，说明为什么 Adam 在 10× lr 下会”结构性崩溃”而 SGD 只是振荡。</li>
 <li>AdamW 在 10× lr 下是 0.2640（约等于随机猜），请解释这个数字为什么如此极端。</li>
 <li><strong>面试题</strong>：如果让你给一个不熟悉优化器的人解释”为什么不能随便放大 Adam 的学习率”，你会用哪个数学事实？</li>
@@ -343,7 +346,7 @@
 
 <div id="28-30" style="scroll-margin-top:20px"></div><h1 id="三篇待处理的论文综述-adam-动力学-加速-sgd">28-30｜三篇待处理的论文（综述 / Adam 动力学 / 加速 SGD）</h1>
 <blockquote>
-<p>材料 28–30　｜　本块题目 22 道</p>
+<p>材料 28–30　｜　本块题目 21 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -385,12 +388,11 @@
 <li>课程 §4.1 用光滑性给出 <span class="math">\eta_t\le 1/L</span>；Barakat &amp; Bianchi 用稳定性条件——这两个条件的关系是什么？</li>
 <li>为什么常步长下只能证明”收敛到稳定点”，而递减步长能给出更强的结论？</li>
 <li>条件中心极限定理在这里回答什么问题？（提示：算法末期的波动分布）</li>
-<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 <li>为什么”理论迭代次数更少”不等于”实际更快”？说出这两个量的关系。</li>
 <li><strong>面试题</strong>：给你一个二阶优化器，你怎么判断它的瓶颈在”迭代次数”还是在”每步延迟”？</li>
 </ol>
 <p><strong>检查点 8｜噪声有多大，才谈得上”加速”</strong></p>
-<ol start="11" type="1">
+<ol start="10" type="1">
 <li>写出增长条件的表达式。它与”有界方差”假设的区别在哪？</li>
 <li>为什么说增长条件比有界方差更贴近实际训练？</li>
 <li>论文分析了哪四种加速方法？</li>
@@ -401,11 +403,11 @@
 <li><strong>面试题</strong>：如果有人说”用 Nesterov 加速就能比 SGD 快”，你会追问什么？</li>
 </ol>
 <p><strong>检查点 13｜两篇论文的分歧点在”归因”</strong></p>
-<ol start="19" type="1">
+<ol start="18" type="1">
 <li>综述的<strong>算力成本表（Tab. 8）</strong>本身想论证什么？——约 1073 GPU 小时这个数字，对”如何做公平比较”意味着什么？</li>
 </ol>
 <p><strong>检查点 16｜两篇 scaling law 为什么不矛盾</strong></p>
-<ol start="20" type="1">
+<ol start="19" type="1">
 <li><strong>面试题</strong>：如果目标是”换一个模型宽度也能沿用同一套超参”，你有哪两条完全不同的技术路线？（提示：重参数化 vs 几何约束）</li>
 <li>综述为什么要明确声明 <strong>60M Llama 只是 architectural proxy</strong>？这个声明在方法学上防住了什么批评？</li>
 <li>为什么”<strong>优化器排行榜</strong>”在不指定架构和配方时是一个<strong>不适定问题</strong>？举一个综述里的具体证据。</li>
@@ -581,7 +583,7 @@
 
 <div id="47-52" style="scroll-margin-top:20px"></div><h1 id="优化器设计-不同范数下的最速下降">47-52｜优化器设计 = 不同范数下的最速下降</h1>
 <blockquote>
-<p>材料 47–52　｜　本块题目 22 道</p>
+<p>材料 47–52　｜　本块题目 24 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -631,9 +633,9 @@
 </tbody>
 </table>
 <h2 id="自测">自测</h2>
-<p><strong>检查点 3｜自适应方法的本质</strong></p>
+<p><strong>检查点 4｜Adam 的真正来历（理解 Adam 的钥匙）</strong></p>
 <ol type="1">
-<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
+<li>K-FAC 的 <span class="math">M_t</span> 属于一阶还是二阶？为什么？（注意：它和 Shampoo 都用了 Kronecker 分解）</li>
 </ol>
 <p><strong>检查点 11｜全表最重要的检查点</strong></p>
 <ol start="2" type="1">
@@ -649,9 +651,11 @@
 <li>为什么 Shampoo 按综述的判据属于”一阶”？它和 Adam 在什么意义上同族？</li>
 <li>“经验 Fisher 捕捉的是梯度方差”——请说明这句话的含义，以及它与”真 Fisher 捕捉曲率”的差别。</li>
 <li><strong>面试题</strong>：如果面试官说”Muon 和 Shampoo 是一回事”，你怎么回应才既准确又不显得抬杠？</li>
+<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
+<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 </ol>
 <p><strong>检查点 20｜三个正交的设计轴：本表与综述的真正接口</strong></p>
-<ol start="14" type="1">
+<ol start="16" type="1">
 <li>用一句话说清「范数轴」与「算子轴」各自回答什么问题。</li>
 <li>一个优化器的完整说明需要回答哪三个问题？</li>
 <li>Muon 在三问中哪一问最强？Shampoo 呢？</li>
@@ -846,7 +850,7 @@
 
 <div id="66-70" style="scroll-margin-top:20px"></div><h1 id="苏炜杰的两篇与导师论文">66-70｜苏炜杰的两篇与导师论文</h1>
 <blockquote>
-<p>材料 66–70　｜　本块题目 20 道</p>
+<p>材料 66–70　｜　本块题目 21 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -922,6 +926,10 @@
 <li><strong>面试题</strong>：如果有人说”双时间尺度只是工程技巧”，你会怎么反驳？</li>
 <li><strong>进组前必答</strong>：用三句话复述<strong>导师这篇论文做了什么、为什么重要</strong>。（这句话你迟早要能说）</li>
 <li><strong>延伸</strong>：第 69 行 Peyré 那篇也处理”约束/几何”，与这篇的方向有何不同？（Peyré 给形式化语言，这篇给复杂度保证）</li>
+</ol>
+<p><strong>检查点 19｜全表终测</strong></p>
+<ol start="21" type="1">
+<li><strong>延伸</strong>：Newton Matching 与 Newton–Muon 都叫”牛顿”，但一个在参数空间、一个在函数空间——它们的共同点与分歧点各是什么？</li>
 </ol>
 
 
@@ -1138,7 +1146,7 @@
 <h2 id="自测">自测</h2>
 <p><strong>检查点 3｜自适应方法的本质</strong></p>
 <ol type="1">
-<li><strong>延伸（接检查点 18）</strong>：如果异质性发生在层内部，LayerClip 能修吗？需要什么粒度的工具？</li>
+<li><strong>面试题</strong>：Adam 与 RMSProp + 动量的区别到底是什么？（提示：差别在”动量作用在哪个量上”）</li>
 </ol>
 <p><strong>检查点 18｜训练不稳定性：从”玄学”到可观测</strong></p>
 <ol start="2" type="1">
@@ -1163,7 +1171,7 @@
 
 <div id="91-94" style="scroll-margin-top:20px"></div><h1 id="零阶优化与函数空间的牛顿法">91-94｜零阶优化与函数空间的牛顿法</h1>
 <blockquote>
-<p>材料 91–94　｜　本块题目 1 道</p>
+<p>材料 91–94　｜　本块题目 7 道</p>
 </blockquote>
 <h2 id="材料">材料</h2>
 <table>
@@ -1206,6 +1214,15 @@
 <p><strong>检查点 14｜一个可以迁移到别处的研究套路</strong></p>
 <ol type="1">
 <li><strong>延伸</strong>：第 90 行 Newton Matching 也用牛顿方向，但它在函数空间——两处的”牛顿”是同一个意思吗？</li>
+</ol>
+<p><strong>检查点 19｜全表终测</strong></p>
+<ol start="2" type="1">
+<li>写出零阶梯度估计式。<span class="math">q</span> 与 <span class="math">\mu</span> 分别控制什么？<span class="math">q=1</span> 时每一步需要几次前向评估？</li>
+<li>MeZO 凭什么做到”优化器显存≈推理显存”？<strong>原地（in-place）扰动</strong>与<strong>同步随机种子</strong>各自解决什么问题？</li>
+<li>ZO 的梯度估计方差大致随什么增长？这带来什么后果——为什么”省显存”是有代价的？</li>
+<li>综述把 ZO 方法的复兴归因于<strong>显存墙</strong>。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
+<li><strong>对照题</strong>：低秩类 ZO 方法（LOZO、TeZO）与稀疏类（Sparse-MeZO、LeZO）分别在哪个维度上做限制？各自丢掉什么信息？</li>
+<li>Newton Matching 把什么当作几何量？它证明的”牛顿方向 = 负 Fisher–Rao 梯度”依赖哪个恒等式？</li>
 </ol>
 
 </main>

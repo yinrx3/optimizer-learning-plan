@@ -185,7 +185,7 @@
 <p><strong>自测（补充）</strong></p>
 <ol start="8" type="1">
 <li>为什么高维空间里鞍点比局部极小更多？用”随机矩阵的特征值符号”直觉解释。</li>
-<li>“噪声既是约束又是探索机制”——这两个说法在什么意义上不矛盾？ &gt; <strong>延伸（留到材料 91 零阶优化再答）</strong>：综述把 ZO 方法的复兴归因于显存墙——ZO 的代价是什么？为什么这个代价在大模型时代变得可以接受？</li>
+<li>“噪声既是约束又是探索机制”——这两个说法在什么意义上不矛盾？</li>
 </ol>
 <hr />
 <table style="width:100%;">
@@ -316,7 +316,6 @@
 <li>稀疏梯度场景下，AdaGrad 的累积项为什么反而有用？</li>
 <li>把 <span class="math">\beta</span> 调大或调小，分别对应”记忆更长/更短”——各自适合什么训练阶段？</li>
 <li><strong>面试题</strong>：为什么 Adam 要在分母加 <span class="math">\epsilon</span>？只为了防除零吗？</li>
-<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
 </ol>
 <blockquote>
 <p><strong>核心洞察 ④：自适应方法的空间粒度阶梯（综述 Sec 3.2.2）</strong> 综述把”自适应”按<strong>空间粒度</strong>排成一条清晰的阶梯，这比”某个具体算法”有用得多：</p>
@@ -375,7 +374,7 @@
 <p><span class="math">\Rightarrow</span> <strong>这两句话放在一起就是一个矛盾：既然景观高度各向异性，“层内梯度一致有界”凭什么成立？</strong> 这正是检查点 18 里 GradLoc 的 LayerClip 只算”缓解手段”的理论原因——<strong>LayerClip 修的是层的边界，但异质性可能发生在层内部</strong>（比如同一个权重矩阵的不同通道之间）。这个矛盾是本表<strong>唯一一个”综述自己写下假设、自己又用实验推翻”</strong>的位置，值得盯住。</p>
 </blockquote>
 <p><strong>自测（补充）</strong></p>
-<ol start="9" type="1">
+<ol start="8" type="1">
 <li>把”自适应”按空间粒度从粗到细排一遍，每一级各举一个算法。</li>
 <li>为什么”换成谱范数”等价于”把适应粒度提到矩阵级”？</li>
 <li>综述说逐层方法假设”层内梯度一致有界”——请构造一个反例场景说明它为什么不成立。</li>
@@ -686,7 +685,6 @@
 </blockquote>
 <p><strong>自测（补充）</strong></p>
 <ol start="9" type="1">
-<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 <li>为什么”理论迭代次数更少”不等于”实际更快”？说出这两个量的关系。</li>
 <li><strong>面试题</strong>：给你一个二阶优化器，你怎么判断它的瓶颈在”迭代次数”还是在”每步延迟”？</li>
 </ol>
@@ -1126,6 +1124,8 @@
 <li>“经验 Fisher 捕捉的是梯度方差”——请说明这句话的含义，以及它与”真 Fisher 捕捉曲率”的差别。</li>
 <li><strong>面试题</strong>：如果面试官说”Muon 和 Shampoo 是一回事”，你怎么回应才既准确又不显得抬杠？</li>
 <li><strong>延伸（接检查点 16 与 18）</strong>：综述说 Kronecker 类方法的补救方向是”用 model-distribution sampling 估真 Fisher + 结构化预条件子”。这个方向与第 66 行苏炜杰的”代理模型”路线是同一类做法吗？</li>
+<li><strong>延伸</strong>：AdaGrad/RMSProp 是<strong>逐坐标</strong>缩放；如果改成<strong>对整个梯度向量只做一次归一化</strong>（用它的整体长度去缩放全部坐标），会发生什么？它和逐坐标缩放的本质差别在哪？</li>
+<li>Eq.(7) 与课程 §4.3 的范数视角，都是”统一框架”，它们的能力差别在哪？</li>
 </ol>
 <blockquote>
 <p><strong>这四问答得出来，课程第 4 章的核心就拿到了。</strong></p>
@@ -2032,7 +2032,16 @@
 </tr>
 </tbody>
 </table>
-<p><strong>核心验收标准</strong></p>
+<p><strong>自测（材料 91–94：零阶优化与函数空间的牛顿法）</strong></p>
+<ol type="1">
+<li>写出零阶梯度估计式。<span class="math">q</span> 与 <span class="math">\mu</span> 分别控制什么？<span class="math">q=1</span> 时每一步需要几次前向评估？</li>
+<li>MeZO 凭什么做到”优化器显存≈推理显存”？<strong>原地（in-place）扰动</strong>与<strong>同步随机种子</strong>各自解决什么问题？</li>
+<li>ZO 的梯度估计方差大致随什么增长？这带来什么后果——为什么”省显存”是有代价的？</li>
+<li>综述把 ZO 方法的复兴归因于<strong>显存墙</strong>。ZO 的代价是什么？为什么这个代价在大模型时代变得<strong>可以接受</strong>？</li>
+<li><strong>对照题</strong>：低秩类 ZO 方法（LOZO、TeZO）与稀疏类（Sparse-MeZO、LeZO）分别在哪个维度上做限制？各自丢掉什么信息？</li>
+<li>Newton Matching 把什么当作几何量？它证明的”牛顿方向 = 负 Fisher–Rao 梯度”依赖哪个恒等式？</li>
+<li><strong>延伸</strong>：Newton Matching 与 Newton–Muon 都叫”牛顿”，但一个在参数空间、一个在函数空间——它们的共同点与分歧点各是什么？ <strong>核心验收标准</strong></li>
+</ol>
 <blockquote>
 <p><strong>能画出第 46-50 行那条”换范数就换优化器”的链条。</strong> <span class="math display">\ell_2\to\text{SGD},\qquad \ell_\infty\to\text{sign-SGD},\qquad \text{谱范数}\to\text{Muon}</span> 以及另一条：<strong>对角 Fisher <span class="math">\to</span> Adam，Kronecker <span class="math">\to</span> Shampoo</strong>，而 Muon 与 Shampoo 在 <span class="math">\beta=0</span> 时相同。</p>
 </blockquote>

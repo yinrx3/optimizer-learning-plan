@@ -5,10 +5,16 @@ const ROOT = 'C:\\Users\\yinrx\\Desktop\\carefulreading';
 const NOTES = path.join(ROOT, 'notes');
 const plan = fs.readFileSync(path.join(ROOT, '学习与追踪清单.md'), 'utf8').replace(/^\uFEFF/, '');
 
-// 1) md 里的题（排除检查点 19 的"三条主线"散列项：它们不是题）
+// 1) md 里的题
+// 状态机与 rebuild-notes-v2.js 保持一致：
+//   · 自测类粗体小标题 → 进入取题状态
+//   · 明确收尾标签（核心验收标准 / 三条主线 / 只记一句 / 动手清单）→ 退出
+//   · 其它粗体小标题（"显存算术""关于预条件子"）→ 不改变状态
+//   · ## 二级标题 → 退出
 const CP = /^###\s*⛳\s*检查点\s*(\d+)[｜|]/;
-const HEAD = /^\*\*(自测|面试级问题|进阶自测|必须能回答的一问|关于 MaxRL 的追加自测)[^*]*\*\*\s*$/;
-const OTHER_BOLD = /^\*\*[^*]+\*\*\s*$/;
+const BOLD = /^\*\*/;
+const QUIZ_HEAD = /自测|面试|必须能回答的一问/;
+const TAIL_HEAD = /核心验收标准|三条贯穿全表的主线|如果只能记住一句话|最后：动手清单自检/;
 const Q = /^\d+\.\s+\S/;
 const inPlan = [];
 let cur = null;
@@ -16,11 +22,12 @@ let inQ = false;
 for (const line of plan.split(/\r?\n/)) {
   const c = line.match(CP);
   if (c) { cur = +c[1]; inQ = false; continue; }
-  // 遇到 ## 二级标题退出取题状态（检查点 20 之后紧跟 "## 兴趣支线"，
-  // 那里的"三条主线 / 三个设计轴"是编号列表，不是自测题）
   if (/^##\s/.test(line)) { inQ = false; continue; }
-  if (HEAD.test(line)) { inQ = true; continue; }
-  if (inQ && OTHER_BOLD.test(line)) { inQ = false; continue; }
+  if (BOLD.test(line)) {
+    if (QUIZ_HEAD.test(line)) inQ = true;
+    else if (TAIL_HEAD.test(line)) inQ = false;
+    continue;
+  }
   if (inQ && Q.test(line)) inPlan.push(line.replace(/^\d+\.\s/, '').trim());
 }
 // 2) notes 里的题
